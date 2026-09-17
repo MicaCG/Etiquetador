@@ -510,114 +510,116 @@
       word-break: break-word;
     }
 
-    /* ==========================================================================
-       FORZADO AUTOMÁTICO EN HORIZONTAL Y MEDIDA REAL 15x10 CM (150mm x 100mm)
-       ========================================================================== */
-   /* =======================================================
-   REGLA DE PÁGINA: Tamaño físico real 100x150 mm
-   ======================================================= */
-@page {
-  size: 100mm 150mm;
-  margin: 0;
-}
+    /* =======================================================
+       REGLA DE PÁGINA E IMPRESIÓN CON MARGEN DE SEGURIDAD (4 mm)
+       ======================================================= */
+    @page {
+      size: 150mm 100mm;
+      margin: 0;
+    }
 
-@media print {
-  html, body {
-    width: 100mm !important;
-    height: 150mm !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: #ffffff !important;
-  }
+    @media print {
+      html, body {
+        width: 150mm !important;
+        height: 100mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        overflow: hidden !important;
+      }
 
-  /* Ocultar interfaz completa */
-  .top-announcement,
-  .brand-header,
-  .control-card,
-  .preview-tagline,
-  .zebra-info-box {
-    display: none !important;
-  }
+      /* Ocultar elementos de la interfaz */
+      .top-announcement,
+      .brand-header,
+      .control-card,
+      .preview-tagline,
+      .preview-dimensions,
+      .zebra-info-box {
+        display: none !important;
+      }
 
-  .main-wrapper,
-  .preview-card,
-  .print-stage {
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: none !important;
-    box-shadow: none !important;
-    background: transparent !important;
-    max-width: 100% !important;
-  }
+      .main-wrapper,
+      .preview-card,
+      .print-stage {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        max-width: 100% !important;
+      }
 
-  /* Etiqueta adaptada al 100% del sticker físico (100x150 mm) */
-  .zebra-label {
-    width: 100mm !important;
-    height: 150mm !important;
-    max-width: none !important;
-    max-height: none !important;
-    box-shadow: none !important;
-    border: none !important;
-    margin: 0 !important;
-    padding: 4mm !important; /* Margen de seguridad contra los bordes */
-    box-sizing: border-box !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 3mm !important;
-    page-break-after: always !important;
-    break-after: page !important;
-  }
+      /* Contenedor: 142x92 mm con 4 mm de margen exacto perimetral */
+      .zebra-label {
+        width: 142mm !important;
+        height: 92mm !important;
+        max-width: 142mm !important;
+        max-height: 92mm !important;
+        margin: 4mm auto !important; /* 4 mm de margen a los 4 lados */
+        padding: 0 !important;
+        box-sizing: border-box !important;
+        box-shadow: none !important;
+        border: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        gap: 3mm !important;
+        overflow: hidden !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
 
-  /* Recuadro Superior (SKU): aprox. 48 mm de alto */
-  .box-sku {
-    border: 3px solid #000000 !important;
-    height: 48mm !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 2mm !important;
-    box-sizing: border-box !important;
-    overflow: hidden !important;
-  }
+      /* Recuadro SKU: 30 mm de alto */
+      .box-sku {
+        border: 3px solid #000000 !important;
+        height: 30mm !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 2mm !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+      }
 
-  /* Tipografía SKU grande que ocupa el recuadro (como en la muestra 1) */
-  .sku-text {
-    font-size: 52pt !important;
-    font-weight: 900 !important;
-    color: #000000 !important;
-    line-height: 1 !important;
-    letter-spacing: 1px !important;
-    text-align: center !important;
-    white-space: nowrap !important;
-  }
+      .sku-text {
+        font-size: 42pt !important;
+        font-weight: 900 !important;
+        color: #000000 !important;
+        line-height: 1 !important;
+        letter-spacing: 1.5px !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+      }
 
-  /* Recuadro Inferior (Descripción): ocupa el resto del largo (~90 mm) */
-  .box-name {
-    border: 3px solid #000000 !important;
-    flex: 1 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 4mm 6mm !important;
-    box-sizing: border-box !important;
-    overflow: hidden !important;
-  }
+      /* Recuadro Nombre: 59 mm de alto (30 + 3 + 59 = 92 mm) */
+      .box-name {
+        border: 3px solid #000000 !important;
+        height: 55mm !important;
+        flex: none !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 3mm 3mm !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+      }
 
-  /* Tipografía del Nombre proporcional a la etiqueta grande */
-  .name-text {
-    font-size: 22pt !important;
-    font-weight: 700 !important;
-    color: #000000 !important;
-    line-height: 1.3 !important;
-    text-align: center !important;
-    text-transform: uppercase !important;
-    white-space: pre-line !important;
-    word-break: break-word !important;
-  }
-}
+      .name-text {
+        font-size: 18pt !important;
+        font-weight: 700 !important;
+        color: #000000 !important;
+        line-height: 1.25 !important;
+        text-align: center !important;
+        text-transform: uppercase !important;
+        white-space: pre-line !important;
+        word-break: break-word !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -687,20 +689,12 @@
         </button>
       </div>
 
-      <!-- Recuadro en verde característico de la tienda -->
-      <div class="zebra-info-box">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-        <div>
-    
-      </div>
     </section>
 
     <!-- COLUMNA DERECHA: VISTA PREVIA AL MISMO NIVEL -->
     <section class="preview-card">
       <div class="preview-tagline">Vista Previa de Etiqueta</div> 
-
-
-      <div class="preview-dimensions"></div>
+      <div class="preview-dimensions">15 x 10 cm (Horizontal)</div>
       <div class="print-stage" id="print-stage">
         <div class="zebra-label">
           <div class="box-sku">
