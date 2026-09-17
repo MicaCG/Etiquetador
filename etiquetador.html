@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tomas Oberti® Tattoo Supplies | Generador de Etiquetas Zebra</title>
+  
+  <!-- Enlace a la base de datos local en la misma carpeta -->
+  <script src="productos.js"></script>
+
+  <!-- Tipografía Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --to-black: #000000;
+      --to-dark: #121212;
+      --to-gray-900: #1a1a1a;
+      --to-gray-800: #262626;
+      --to-gray-700: #404040;
+      --to-gray-300: #d4d4d4;
+      --to-gray-200: #e5e5e5;
+      --to-gray-100: #f5f5f5;
+      --to-white: #ffffff;
+      /* Verde característico de la web (descuentos, envíos, WhatsApp y acentos) */
+      --to-green: #00a650;
+      --to-green-hover: #008f45;
+      --to-green-light: #f0fdf4;
+      --to-green-border: #86efac;
+      --to-green-dark: #14532d;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #f8f8f8;
+      color: var(--to-dark);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* BARRA SUPERIOR */
+    .top-announcement {
+      background-color: var(--to-black);
+      color: var(--to-white);
+      width: 100%;
+      text-align: center;
+      padding: 7px 16px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-bottom: 1px solid #222;
+    }
+
+    /* ENCABEZADO TOMAS OBERTI */
+    .brand-header {
+      background-color: var(--to-black);
+      width: 100%;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 2px solid var(--to-dark);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+    .brand-container {
+      max-width: 1040px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-logo-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      color: var(--to-white);
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin: 0;
+    }
+
+    .brand-title span {
+      color: #999999;
+      font-weight: 400;
+      font-size: 0.95rem;
+    }
+
+    .brand-subtitle {
+      color: #888888;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    .store-tag {
+      background: #181818;
+      border: 1px solid #333333;
+      color: var(--to-white);
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Letras de +STORE en el color verde exacto de la web */
+    .store-tag strong {
+      color: var(--to-green);
+      font-weight: 900;
+    }
+
+    /* CONTENEDOR PRINCIPAL: 2 COLUMNAS AL MISMO NIVEL */
+    .main-wrapper {
+      width: 100%;
+      max-width: 1040px;
+      padding: 28px 20px 40px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .main-wrapper {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* TARJETA DE CONTROL (Izquierda) */
+    .control-card {
+      background: var(--to-white);
+      border: 1px solid var(--to-gray-200);
+      border-radius: 8px;
+      padding: 24px 26px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .card-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--to-gray-100);
+    }
+
+    .card-heading h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--to-black);
+    }
+
+    .counter-pill {
+      background-color: var(--to-gray-100);
+      color: var(--to-gray-700);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--to-gray-200);
+    }
+
+    /* BUSCADOR */
+    .search-section {
+      position: relative;
+      margin-bottom: 18px;
+    }
+
+    .search-bar-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      color: #737373;
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 13px 16px 13px 44px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--to-black);
+      background: var(--to-gray-100);
+      border: 1.5px solid transparent;
+      border-radius: 6px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+      background: var(--to-white);
+      border-color: var(--to-black);
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .search-input::placeholder {
+      color: #8c8c8c;
+      font-weight: 400;
+    }
+
+    /* MENÚ DE RESULTADOS */
+    .results-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background: var(--to-white);
+      border: 1px solid var(--to-gray-300);
+      border-radius: 6px;
+      max-height: 290px;
+      overflow-y: auto;
+      z-index: 100;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      display: none;
+    }
+
+    .result-row {
+      padding: 10px 14px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--to-gray-100);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      transition: background 0.15s;
+    }
+
+    .result-row:last-child {
+      border-bottom: none;
+    }
+
+    .result-row:hover, .result-row.selected {
+      background-color: var(--to-gray-100);
+      border-left: 4px solid var(--to-green);
+      padding-left: 10px;
+    }
+
+    .res-sku {
+      background: var(--to-black);
+      color: var(--to-white);
+      padding: 3px 7px;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .res-name {
+      color: var(--to-gray-800);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-align: right;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    /* FORMULARIO */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 110px;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .field-label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--to-gray-700);
+      margin-bottom: 5px;
+    }
+
+    .custom-input {
+      padding: 9px 12px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      border: 1.5px solid var(--to-gray-300);
+      border-radius: 6px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .custom-input:focus {
+      border-color: var(--to-black);
+    }
+
+    textarea.custom-input {
+      resize: vertical;
+      min-height: 54px;
+      font-family: inherit;
+    }
+
+    /* BOTONES */
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .btn-main {
+      background-color: var(--to-black);
+      color: var(--to-white);
+      border: 2px solid var(--to-black);
+      padding: 13px 20px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex: 2;
+      transition: all 0.2s;
+    }
+
+    .btn-main:hover {
+      background-color: #222222;
+      border-color: #222222;
+      transform: translateY(-1px);
+    }
+
+    .btn-clean {
+      background-color: transparent;
+      color: var(--to-gray-700);
+      border: 1.5px solid var(--to-gray-300);
+      padding: 13px 16px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      flex: 1;
+      transition: all 0.2s;
+    }
+
+    .btn-clean:hover {
+      background-color: var(--to-gray-100);
+      color: var(--to-black);
+    }
+
+    /* RECUADRO DE INFO ZEBRA EN VERDE OFICIAL TOMAS OBERTI */
+    .zebra-info-box {
+      margin-top: 16px;
+      padding: 12px 14px;
+      background: var(--to-green-light);
+      border: 1.5px solid var(--to-green-border);
+      border-left: 5px solid var(--to-green);
+      border-radius: 6px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: var(--to-green-dark);
+      line-height: 1.45;
+    }
+
+    .zebra-info-box strong {
+      color: #044e23;
+    }
+
+    .zebra-info-box svg {
+      flex-shrink: 0;
+      margin-top: 1px;
+      color: var(--to-green);
+    }
+
+    /* TARJETA DE VISTA PREVIA (Derecha, al mismo nivel) */
+    .preview-card {
+      background: var(--to-white);
+      border: 1px solid var(--to-gray-200);
+      border-radius: 8px;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      position: sticky;
+      top: 20px;
+    }
+
+    .preview-tagline {
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--to-gray-700);
+      margin-bottom: 18px;
+    }
+
+    .print-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+    }
+
+    /* FORMATO EXACTO DE LA ETIQUETA ZEBRA (Impresión Térmica) */
+    .zebra-label {
+      background: #ffffff;
+      width: 360px;
+      height: 240px;
+      padding: 14px 16px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-sizing: border-box;
+      border: 1px solid #cbd5e1;
+    }
+
+    .box-sku {
+      border: 2px solid #000000;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 6px;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .sku-text {
+      font-size: 36px;
+      font-weight: 900;
+      color: #000000;
+      letter-spacing: 0.5px;
+      text-align: center;
+      line-height: 1;
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    .box-name {
+      border: 2px solid #000000;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 12px;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .name-text {
+      font-size: 14px;
+      font-weight: 700;
+      color: #000000;
+      text-align: center;
+      line-height: 1.35;
+      text-transform: uppercase;
+      white-space: pre-line;
+      word-break: break-word;
+    }
+
+    /* IMPRESIÓN ZEBRA (Escala 90%) */
+    @media print {
+      html, body {
+        background: #ffffff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: auto !important;
+      }
+
+      .top-announcement,
+      .brand-header,
+      .control-card,
+      .preview-tagline {
+        display: none !important;
+      }
+
+      .main-wrapper,
+      .preview-card {
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        display: block !important;
+        max-width: 100% !important;
+      }
+
+      .print-stage {
+        gap: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .zebra-label {
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 auto !important;
+        width: 100% !important;
+        max-width: 380px !important;
+        height: 255px !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .zebra-label:not(:last-child) {
+        page-break-after: always !important;
+        break-after: page !important;
+      }
+
+      @page {
+        margin: 0;
+        size: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-announcement">
+    Tomas Oberti® Tattoo Supplies • Sistema de Etiquetado para Depósito
+  </div>
+
+  <header class="brand-header">
+    <div class="brand-container">
+      <div class="brand-logo-wrap">
+        <h1 class="brand-title">TOMAS OBERTI<span>®</span></h1>
+        <div class="brand-subtitle">• Tattoo Supplies • </div>
+      </div>
+      <div class="store-tag">
+        <strong>+STORE</strong> Depósito
+      </div>
+    </div>
+  </header>
+
+  <main class="main-wrapper">
+    <!-- COLUMNA IZQUIERDA: INFORMACIÓN Y BÚSQUEDA -->
+    <section class="control-card">
+      <div class="card-heading">
+        <h2>Buscador de Insumos</h2>
+        <span class="counter-pill" id="total-badge">1.738 Productos</span>
+      </div>
+
+      <div class="search-section">
+        <div class="search-bar-wrapper">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input 
+            type="text" 
+            id="search-input" 
+            class="search-input" 
+            placeholder="Buscar por SKU, máquina, aguja, cartucho o marca..." 
+            autocomplete="off" 
+            autofocus
+          >
+        </div>
+        <div id="dropdown" class="results-dropdown"></div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field-group">
+          <label class="field-label" for="sku-val">SKU (Recuadro Superior)</label>
+          <input type="text" id="sku-val" class="custom-input" value="PMU-056-4">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="copies-val">Copias</label>
+          <input type="number" id="copies-val" class="custom-input" min="1" max="100" value="1">
+        </div>
+      </div>
+
+      <div class="field-group" style="margin-bottom: 12px;">
+        <label class="field-label" for="name-val">Descripción / Título (Recuadro Inferior)</label>
+        <textarea id="name-val" class="custom-input">KIT PMU POPU PROFESIONAL&#10;3.0 MM BLACK</textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn-main" onclick="imprimirEtiquetas()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          Imprimir 
+        </button>
+        <button class="btn-clean" onclick="reiniciarCampos()">
+          Borrar
+        </button>
+      </div>
+
+      <!-- Recuadro en verde característico de la tienda -->
+      <div class="zebra-info-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        <div>
+          <strong>Configuración de Impresión Zebra:</strong><br>
+          </strong> ajustar escala en <strong>90%</strong>.
+        </div>
+      </div>
+    </section>
+
+    <!-- COLUMNA DERECHA: VISTA PREVIA AL MISMO NIVEL -->
+    <section class="preview-card">
+      <div class="preview-tagline">Vista Previa de Etiqueta</div>
+      <div class="print-stage" id="print-stage">
+        <div class="zebra-label">
+          <div class="box-sku">
+            <div class="sku-text" id="lbl-sku">PMU-056-4</div>
+          </div>
+          <div class="box-name">
+            <div class="name-text" id="lbl-name">KIT PMU POPU PROFESIONAL&#10;3.0 MM BLACK</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    let CATALOGO = [];
+    if (typeof CATALOGO_PRODUCTOS !== 'undefined' && Array.isArray(CATALOGO_PRODUCTOS)) {
+      CATALOGO = CATALOGO_PRODUCTOS;
+      document.getElementById('total-badge').textContent = `${CATALOGO.length} Productos`;
+    } else {
+      document.getElementById('total-badge').textContent = "Error al cargar productos.js";
+      document.getElementById('total-badge').style.color = "#dc2626";
+    }
+
+    const searchInput = document.getElementById('search-input');
+    const dropdown = document.getElementById('dropdown');
+    const inputSku = document.getElementById('sku-val');
+    const inputName = document.getElementById('name-val');
+    const inputCopies = document.getElementById('copies-val');
+    const labelSku = document.getElementById('lbl-sku');
+    const labelName = document.getElementById('lbl-name');
+
+    let itemActivo = -1;
+    let coincidencias = [];
+
+    // Búsqueda en tiempo real por tokens (multi-palabra)
+    searchInput.addEventListener('input', function() {
+      const q = this.value.trim().toLowerCase();
+      if (!q) {
+        dropdown.style.display = 'none';
+        return;
+      }
+
+      const palabras = q.split(/\s+/);
+      coincidencias = CATALOGO.filter(p => {
+        const texto = (p.sku + " " + p.name).toLowerCase();
+        return palabras.every(palabra => texto.includes(palabra));
+      }).slice(0, 25);
+
+      if (coincidencias.length === 0) {
+        dropdown.innerHTML = '<div style="padding: 14px; text-align: center; color: #888; font-size: 0.85rem;">No se encontraron productos coincidentes</div>';
+      } else {
+        dropdown.innerHTML = coincidencias.map((item, idx) => `
+          <div class="result-row ${idx === itemActivo ? 'selected' : ''}" onclick="elegirProducto(${idx})">
+            <span class="res-sku">${escapar(item.sku)}</span>
+            <span class="res-name">${escapar(item.name)}</span>
+          </div>
+        `).join('');
+      }
+      dropdown.style.display = 'block';
+      itemActivo = -1;
+    });
+
+    // Navegación por teclado (Flechas y Enter)
+    searchInput.addEventListener('keydown', function(e) {
+      const rows = dropdown.querySelectorAll('.result-row');
+      if (!rows.length || dropdown.style.display === 'none') return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        itemActivo = (itemActivo + 1) % rows.length;
+        focoItem(rows);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        itemActivo = (itemActivo - 1 + rows.length) % rows.length;
+        focoItem(rows);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (itemActivo >= 0 && itemActivo < coincidencias.length) {
+          elegirProducto(itemActivo);
+        } else if (coincidencias.length > 0) {
+          elegirProducto(0);
+        }
+      } else if (e.key === 'Escape') {
+        dropdown.style.display = 'none';
+      }
+    });
+
+    function focoItem(rows) {
+      rows.forEach((r, i) => {
+        if (i === itemActivo) {
+          r.classList.add('selected');
+          r.scrollIntoView({ block: 'nearest' });
+        } else {
+          r.classList.remove('selected');
+        }
+      });
+    }
+
+    function elegirProducto(idx) {
+      const item = coincidencias[idx];
+      if (!item) return;
+
+      inputSku.value = item.sku;
+      inputName.value = formatoTextoInteligente(item.name);
+      refrescarEtiqueta();
+
+      searchInput.value = `${item.sku} - ${item.name}`;
+      dropdown.style.display = 'none';
+    }
+
+    function formatoTextoInteligente(str) {
+      str = str.trim().toUpperCase();
+      if (str.length > 24 && !str.includes('\n')) {
+        const parts = str.split(' ');
+        let m = Math.ceil(parts.length / 2);
+        return parts.slice(0, m).join(' ') + '\n' + parts.slice(m).join(' ');
+      }
+      return str;
+    }
+
+    inputSku.addEventListener('input', refrescarEtiqueta);
+    inputName.addEventListener('input', refrescarEtiqueta);
+
+    function refrescarEtiqueta() {
+      const sku = inputSku.value.trim() || 'SKU';
+      const name = inputName.value.trim() || 'NOMBRE DEL PRODUCTO';
+
+      labelSku.textContent = sku;
+      labelName.textContent = name;
+
+      // Auto-escalado de fuente para códigos largos
+      if (sku.length > 13) {
+        labelSku.style.fontSize = '24px';
+      } else if (sku.length > 10) {
+        labelSku.style.fontSize = '30px';
+      } else {
+        labelSku.style.fontSize = '36px';
+      }
+
+      if (name.length > 70) {
+        labelName.style.fontSize = '12px';
+      } else if (name.length > 45) {
+        labelName.style.fontSize = '13.5px';
+      } else {
+        labelName.style.fontSize = '14px';
+      }
+    }
+
+    document.addEventListener('click', function(e) {
+      if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
+
+    function imprimirEtiquetas() {
+      refrescarEtiqueta();
+      const cant = parseInt(inputCopies.value) || 1;
+      const stage = document.getElementById('print-stage');
+
+      const template = stage.firstElementChild.cloneNode(true);
+      stage.innerHTML = '';
+      for (let i = 0; i < cant; i++) {
+        stage.appendChild(template.cloneNode(true));
+      }
+
+      window.print();
+
+      setTimeout(() => {
+        stage.innerHTML = '';
+        stage.appendChild(template);
+      }, 500);
+    }
+
+    function reiniciarCampos() {
+      searchInput.value = '';
+      inputSku.value = 'PMU-056-4';
+      inputName.value = 'KIT PMU POPU PROFESIONAL\n3.0 MM BLACK';
+      inputCopies.value = '1';
+      dropdown.style.display = 'none';
+      refrescarEtiqueta();
+      searchInput.focus();
+    }
+
+    function escapar(t) {
+      const d = document.createElement('div');
+      d.textContent = t;
+      return d.innerHTML;
+    }
+
+    refrescarEtiqueta();
+  </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+# Requerimientos: Etiquetador de Productos para Zebra
+
+## Resumen
+Herramienta visual e interactiva sin dependencias de servidor ni terminal, diseñada para buscar repuestos y productos por SKU o palabras clave y generar etiquetas listas para imprimir en impresoras térmicas Zebra en escala 90%.
+
+---
+
+## 1. Requisitos Técnicos
+* **Entorno de ejecución:** Cualquier navegador web moderno (Google Chrome, Microsoft Edge, Mozilla Firefox).
+* **Dependencias:** Ninguna (0 instalaciones). No requiere Python, Node.js ni terminal.
+* **Modo de uso:** Doble clic sobre el archivo `etiquetador_zebra.html`. Funciona 100% offline (sin conexión a internet).
+
+---
+
+## 2. Estructura de Datos
+El catálogo contiene **1,738 productos** integrados directamente en el archivo HTML, con la siguiente estructura:
+* `SKU`: Código único identificador del repuesto o insumo.
+* `Nombre`: Título o descripción del producto con variantes, medidas y especificaciones.
+
+---
+
+## 3. Lógica de Búsqueda (Comparativa con Bot Escobar)
+
+### En el Bot de Escobar (Python / Pandas):
+```python
+palabras = busqueda.split()
+mascara = pd.Series([True] * len(df))
+for palabra in palabras:
+    coincide_sku = df['SKU'].str.contains(palabra, case=False, na=False)
+    coincide_titulo = df['titulo'].str.contains(palabra, case=False, na=False)
+    mascara = mascara & (coincide_sku | coincide_titulo)
+resultado = df[mascara]
+```
+
+### En el Etiquetador Web (JavaScript):
+```javascript
+// 1. Separar la búsqueda del usuario en términos individuales
+const palabras = query.trim().toLowerCase().split(/\s+/);
+
+// 2. Comprobar que cada palabra coincida con el SKU o Nombre
+const coincidencias = CATALOGO.filter(item => {
+  const texto = (item.sku + " " + item.name).toLowerCase();
+  return palabras.every(p => texto.includes(p));
+});
+
+// 3. Tomar el producto y poblar los recuadros de la etiqueta
+labelSku.textContent = itemSeleccionado.sku;
+labelName.textContent = itemSeleccionado.name;
+```
+
+---
+
+## 4. Especificaciones Visuales de la Etiqueta
+* **Recuadro Superior:** Borde negro de 2px, texto centrado, sans-serif en negrita extra grande (38px con reducción automática para códigos largos).
+* **Recuadro Inferior:** Borde negro de 2px, texto centrado en mayúsculas, sans-serif (15px, autoajustable a 2 líneas).
+* **Manejo de saltos de línea:** El operador puede presionar `Enter` en el campo de texto si desea partir la descripción en renglones específicos antes de imprimir.
+
+---
+
+## 5. Parámetros de Impresión en Zebra
+1. Abrir `etiquetador_zebra.html` en el navegador.
+2. Buscar el producto y seleccionarlo con un clic o con `Enter`.
+3. Indicar el número de copias si se necesita más de una.
+4. Presionar el botón "Imprimir en Zebra"(o `Ctrl + P`).
+5. En el cuadro de diálogo de Chrome / Edge:
+   * Destino: Impresora Zebra.
+   * Márgenes: *Ninguno* (None).
+   * **Opciones:** Desmarcar *Encabezados y pies de página*.
+   * **Escala:** *Personalizada* -> **90%**.
