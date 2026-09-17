@@ -511,7 +511,7 @@
     }
 
     /* =======================================================
-       REGLA DE PÁGINA E IMPRESIÓN CON MARGEN DE SEGURIDAD (4 mm)
+       REGLA DE PÁGINA E IMPRESIÓN MULTIPÁGINA
        ======================================================= */
     @page {
       size: 150mm 100mm;
@@ -521,11 +521,11 @@
     @media print {
       html, body {
         width: 150mm !important;
-        height: 100mm !important;
+        height: auto !important; /* Permite que el documento crezca a múltiples páginas */
         margin: 0 !important;
         padding: 0 !important;
         background: #ffffff !important;
-        overflow: hidden !important;
+        overflow: visible !important; /* Habilita la paginación de Chrome */
       }
 
       /* Ocultar elementos de la interfaz */
@@ -543,7 +543,7 @@
       .print-stage {
         display: block !important;
         width: 100% !important;
-        height: 100% !important;
+        height: auto !important; /* Permite contener todas las copias */
         padding: 0 !important;
         margin: 0 !important;
         border: none !important;
@@ -558,7 +558,7 @@
         height: 92mm !important;
         max-width: 142mm !important;
         max-height: 92mm !important;
-        margin: 4mm auto !important; /* 4 mm de margen a los 4 lados */
+        margin: 4mm auto !important; /* 4 mm de margen perimetral */
         padding: 0 !important;
         box-sizing: border-box !important;
         box-shadow: none !important;
@@ -568,10 +568,14 @@
         justify-content: space-between !important;
         gap: 3mm !important;
         overflow: hidden !important;
-        page-break-after: always !important;
-        break-after: page !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
+      }
+
+      /* Salto de página entre cada copia (evita hoja en blanco al final) */
+      .zebra-label:not(:last-child) {
+        page-break-after: always !important;
+        break-after: page !important;
       }
 
       /* Recuadro SKU: 30 mm de alto */
@@ -596,7 +600,7 @@
         white-space: nowrap !important;
       }
 
-      /* Recuadro Nombre: 59 mm de alto (30 + 3 + 59 = 92 mm) */
+      /* Recuadro Nombre: 55 mm de alto */
       .box-name {
         border: 3px solid #000000 !important;
         height: 55mm !important;
@@ -688,7 +692,6 @@
           Borrar
         </button>
       </div>
-
     </section>
 
     <!-- COLUMNA DERECHA: VISTA PREVIA AL MISMO NIVEL -->
@@ -849,23 +852,31 @@
       }
     });
 
+    /* FUNCIÓN DE IMPRESIÓN CORREGIDA */
     function imprimirEtiquetas() {
       refrescarEtiqueta();
       const cant = parseInt(inputCopies.value) || 1;
       const stage = document.getElementById('print-stage');
 
+      // Guardar el molde original
       const template = stage.firstElementChild.cloneNode(true);
+
+      // Restaurar la vista previa original una vez que se cierra el diálogo de impresión
+      const restaurar = () => {
+        stage.innerHTML = '';
+        stage.appendChild(template);
+        window.removeEventListener('afterprint', restaurar);
+      };
+      window.addEventListener('afterprint', restaurar);
+
+      // Duplicar las etiquetas según la cantidad de copias solicitadas
       stage.innerHTML = '';
       for (let i = 0; i < cant; i++) {
         stage.appendChild(template.cloneNode(true));
       }
 
+      // Disparar la impresión
       window.print();
-
-      setTimeout(() => {
-        stage.innerHTML = '';
-        stage.appendChild(template);
-      }, 500);
     }
 
     function reiniciarCampos() {
