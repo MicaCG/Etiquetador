@@ -1,0 +1,2 @@
+# Etiquetador
+Generador de etiquetas
