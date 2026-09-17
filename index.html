@@ -382,33 +382,7 @@
       color: var(--to-black);
     }
 
-    /* RECUADRO VERDE DE INFO */
-    .zebra-info-box {
-      margin-top: 16px;
-      padding: 12px 14px;
-      background: var(--to-green-light);
-      border: 1.5px solid var(--to-green-border);
-      border-left: 5px solid var(--to-green);
-      border-radius: 6px;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      font-size: 0.8rem;
-      color: var(--to-green-dark);
-      line-height: 1.45;
-    }
-
-    .zebra-info-box strong {
-      color: #044e23;
-    }
-
-    .zebra-info-box svg {
-      flex-shrink: 0;
-      margin-top: 1px;
-      color: var(--to-green);
-    }
-
-    /* VISTA PREVIA HORIZONTAL 15x10 CM */
+    /* VISTA PREVIA HORIZONTAL 15x10 CM (PANTALLA) */
     .preview-card {
       background: var(--to-white);
       border: 1px solid var(--to-gray-200);
@@ -431,25 +405,14 @@
       margin-bottom: 6px;
     }
 
-    .preview-dimensions {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: #888888;
-      margin-bottom: 14px;
-      background: var(--to-gray-100);
-      padding: 3px 10px;
-      border-radius: 12px;
-    }
-
     .print-stage {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 16px;
       width: 100%;
     }
 
-    /* Formato horizontal proporcional (15 : 10) en pantalla */
+    /* Formato horizontal proporcional en pantalla */
     .zebra-label {
       background: #ffffff;
       width: 100%;
@@ -464,7 +427,6 @@
       border: 1px solid #cbd5e1;
     }
 
-    /* Recuadro SKU en pantalla */
     .box-sku {
       border: 3px solid #000000;
       flex: 0 0 36%;
@@ -487,7 +449,6 @@
       text-transform: uppercase;
     }
 
-    /* Recuadro Nombre en pantalla */
     .box-name {
       border: 3px solid #000000;
       flex: 1;
@@ -510,8 +471,13 @@
       word-break: break-word;
     }
 
+    /* OCULTAR EL CONTENEDOR DE IMPRESIÓN EN PANTALLA */
+    #print-area {
+      display: none;
+    }
+
     /* =======================================================
-       REGLA DE PÁGINA E IMPRESIÓN MULTIPÁGINA
+       REGLA DE PÁGINA E IMPRESIÓN COMPATIBLE CHROME Y EDGE
        ======================================================= */
     @page {
       size: 150mm 100mm;
@@ -520,66 +486,65 @@
 
     @media print {
       html, body {
+        display: block !important;
         width: 150mm !important;
-        height: auto !important; /* Permite que el documento crezca a múltiples páginas */
+        height: auto !important;
         margin: 0 !important;
         padding: 0 !important;
         background: #ffffff !important;
-        overflow: visible !important; /* Habilita la paginación de Chrome */
+        overflow: visible !important;
       }
 
-      /* Ocultar elementos de la interfaz */
+      /* Ocultar interfaz visual al imprimir */
       .top-announcement,
       .brand-header,
-      .control-card,
-      .preview-tagline,
-      .preview-dimensions,
-      .zebra-info-box {
+      .main-wrapper {
         display: none !important;
       }
 
-      .main-wrapper,
-      .preview-card,
-      .print-stage {
+      /* Contenedor de impresión visible al imprimir */
+      #print-area {
         display: block !important;
-        width: 100% !important;
-        height: auto !important; /* Permite contener todas las copias */
-        padding: 0 !important;
+        width: 150mm !important;
+        height: auto !important;
         margin: 0 !important;
-        border: none !important;
-        box-shadow: none !important;
-        background: transparent !important;
-        max-width: 100% !important;
+        padding: 0 !important;
       }
 
-      /* Contenedor: 142x92 mm con 4 mm de margen exacto perimetral */
-      .zebra-label {
+      /* Cada etiqueta ocupa exactamente 1 hoja de 150x100 mm */
+      #print-area .zebra-label {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
         width: 142mm !important;
         height: 92mm !important;
         max-width: 142mm !important;
         max-height: 92mm !important;
-        margin: 4mm auto !important; /* 4 mm de margen perimetral */
+        margin: 4mm auto !important;
         padding: 0 !important;
         box-sizing: border-box !important;
         box-shadow: none !important;
         border: none !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: space-between !important;
         gap: 3mm !important;
         overflow: hidden !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
       }
 
-      /* Salto de página entre cada copia (evita hoja en blanco al final) */
-      .zebra-label:not(:last-child) {
+      /* Salto de página para que cada copia sea una hoja nueva */
+      #print-area .zebra-label {
         page-break-after: always !important;
         break-after: page !important;
       }
 
-      /* Recuadro SKU: 30 mm de alto */
-      .box-sku {
+      /* La última copia no genera hoja blanca extra */
+      #print-area .zebra-label:last-child {
+        page-break-after: auto !important;
+        break-after: auto !important;
+      }
+
+      /* Recuadro SKU */
+      #print-area .box-sku {
         border: 3px solid #000000 !important;
         height: 30mm !important;
         display: flex !important;
@@ -590,7 +555,7 @@
         overflow: hidden !important;
       }
 
-      .sku-text {
+      #print-area .sku-text {
         font-size: 42pt !important;
         font-weight: 900 !important;
         color: #000000 !important;
@@ -600,8 +565,8 @@
         white-space: nowrap !important;
       }
 
-      /* Recuadro Nombre: 55 mm de alto */
-      .box-name {
+      /* Recuadro Nombre */
+      #print-area .box-name {
         border: 3px solid #000000 !important;
         height: 55mm !important;
         flex: none !important;
@@ -613,7 +578,7 @@
         overflow: hidden !important;
       }
 
-      .name-text {
+      #print-area .name-text {
         font-size: 18pt !important;
         font-weight: 700 !important;
         color: #000000 !important;
@@ -694,10 +659,9 @@
       </div>
     </section>
 
-    <!-- COLUMNA DERECHA: VISTA PREVIA AL MISMO NIVEL -->
+    <!-- COLUMNA DERECHA: VISTA PREVIA EN PANTALLA -->
     <section class="preview-card">
       <div class="preview-tagline">Vista Previa de Etiqueta</div> 
-      <div class="preview-dimensions">15 x 10 cm (Horizontal)</div>
       <div class="print-stage" id="print-stage">
         <div class="zebra-label">
           <div class="box-sku">
@@ -710,6 +674,9 @@
       </div>
     </section>
   </main>
+
+  <!-- CONTENEDOR EXCLUSIVO PARA IMPRESIÓN (ubicado correctamente al final del body) -->
+  <div id="print-area" style="display: none;"></div>
 
   <script>
     let CATALOGO = [];
@@ -852,31 +819,26 @@
       }
     });
 
-    /* FUNCIÓN DE IMPRESIÓN CORREGIDA */
+    /* FUNCIÓN DE IMPRESIÓN COMPATIBLE CHROME Y EDGE */
     function imprimirEtiquetas() {
       refrescarEtiqueta();
       const cant = parseInt(inputCopies.value) || 1;
-      const stage = document.getElementById('print-stage');
+      const printArea = document.getElementById('print-area');
+      const sourceLabel = document.querySelector('.print-stage .zebra-label');
 
-      // Guardar el molde original
-      const template = stage.firstElementChild.cloneNode(true);
-
-      // Restaurar la vista previa original una vez que se cierra el diálogo de impresión
-      const restaurar = () => {
-        stage.innerHTML = '';
-        stage.appendChild(template);
-        window.removeEventListener('afterprint', restaurar);
-      };
-      window.addEventListener('afterprint', restaurar);
-
-      // Duplicar las etiquetas según la cantidad de copias solicitadas
-      stage.innerHTML = '';
+      // 1. Cargar las copias en el contenedor de impresión
+      printArea.innerHTML = '';
       for (let i = 0; i < cant; i++) {
-        stage.appendChild(template.cloneNode(true));
+        printArea.appendChild(sourceLabel.cloneNode(true));
       }
 
-      // Disparar la impresión
-      window.print();
+      // 2. Forzar recálculo del diseño en Chrome
+      void printArea.offsetHeight;
+
+      // 3. Pausa de 120ms para que Chrome registre todas las páginas antes de abrir la vista previa
+      setTimeout(() => {
+        window.print();
+      }, 120);
     }
 
     function reiniciarCampos() {
