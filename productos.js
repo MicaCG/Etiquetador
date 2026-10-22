@@ -6957,4 +6957,20 @@ const CATALOGO_PRODUCTOS = [
     "sku": "CUT-127",
     "name": "X PROJECT MAGIC CREAM ANESTESIA 20 G 10 U"
   }
+   {
+      "sku": "IDE-137",
+      "name": "ESTACIÓN DE TRABAJO ENCASTRABLE TETINAS (CAJA X 40 UN)"
+   }
+     {
+      "sku": "IDE-138",
+      "name": "ESTACIÓN DE TRABAJO ENCASTRABLE PORTA CARTUCHOS (CAJA X 40 UN)"
+   }
+     {
+      "sku": "IDE-140",
+      "name": "ESTACIÓN DE TRABAJO ENCASTRABLE BANDEJA 7.3 X 5.3 CM (CAJA X 20 UN)"
+   }
+        {
+      "sku": "IDE-139",
+      "name": "ESTACIÓN DE TRABAJO ENCASTRABLE BANDEJA 4.4 X 5.3 CM (CAJA X 40 UN)"
+   }
 ];
