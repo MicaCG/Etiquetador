@@ -6,7 +6,7 @@
   <title>Tomas Oberti® Tattoo Supplies | Generador de Etiquetas</title>
   
   <meta property="og:title" content="Tomas Oberti® Tattoo Supplies | Generador de Etiquetas">
-  <meta property="og:description" content="Sistema de Etiquetado para Depósito">
+  <meta property="og:description" content="Sistema de Etiquetado para Depósito (15x10 cm)">
 
   <!-- Enlace a la base de datos local en la misma carpeta -->
   <script src="productos.js"></script>
@@ -1205,18 +1205,18 @@
       <!-- Datos del Destinatario -->
       <div class="form-grid-2col">
         <div class="field-group">
-          <label class="field-label" for="env-destinatario">Destinatario <span class="req-star">*</span></label>
+          <label class="field-label" for="env-destinatario">Destinatario (Nombre / Razón Social) <span class="req-star">*</span></label>
           <input type="text" id="env-destinatario" class="custom-input" placeholder="Ej: Juan Pérez" required oninput="validarCampoObligatorio(this); actualizarVistaPreviaEnvio()">
         </div>
         <div class="field-group">
-          <label class="field-label" for="env-transporte">Transporte</label>
-          <input type="text" id="env-transporte" class="custom-input" placeholder="Ej: Andesmar" oninput="actualizarVistaPreviaEnvio()">
+          <label class="field-label" for="env-transporte">Transporte / Expreso (Opcional)</label>
+          <input type="text" id="env-transporte" class="custom-input" placeholder="Ej: Andesmar / Andreani / OCA" oninput="actualizarVistaPreviaEnvio()">
         </div>
       </div>
 
       <div class="field-group" style="margin-bottom: 12px;">
-        <label class="field-label" for="env-direccion" id="lbl-env-direccion">Dirección</label>
-        <input type="text" id="env-direccion" class="custom-input" placeholder="Ej: Av. San Martín 1234 " oninput="actualizarVistaPreviaEnvio()">
+        <label class="field-label" for="env-direccion" id="lbl-env-direccion">Dirección de Entrega (Calle, N°, Piso/Depto - Opcional)</label>
+        <input type="text" id="env-direccion" class="custom-input" placeholder="Ej: Av. San Martín 1234 (Opcional)" oninput="actualizarVistaPreviaEnvio()">
       </div>
 
       <div class="form-grid-2col">
@@ -1225,35 +1225,35 @@
           <input type="text" id="env-localidad" class="custom-input" placeholder="Ej: Rosario, Santa Fe" required oninput="validarCampoObligatorio(this); actualizarVistaPreviaEnvio()">
         </div>
         <div class="field-group">
-          <label class="field-label" for="env-cp">CP <span class="req-star">*</span></label>
+          <label class="field-label" for="env-cp">Código Postal <span class="req-star">*</span></label>
           <input type="text" id="env-cp" class="custom-input" placeholder="Ej: 2000" required oninput="validarCampoObligatorio(this); actualizarVistaPreviaEnvio()">
         </div>
       </div>
 
       <div class="form-grid-2col">
         <div class="field-group">
-          <label class="field-label" for="env-telefono">Teléfono</label>
+          <label class="field-label" for="env-telefono">Teléfono Destinatario (Opcional)</label>
           <input type="text" id="env-telefono" class="custom-input" placeholder="Ej: 11 2345-6789" oninput="actualizarVistaPreviaEnvio()">
         </div>
         <div class="field-group">
-          <label class="field-label" for="env-dni">DNI / CUIT </label>
+          <label class="field-label" for="env-dni">DNI / CUIT / N° Pedido (Opcional)</label>
           <input type="text" id="env-dni" class="custom-input" placeholder="Ej: 30111222" oninput="actualizarVistaPreviaEnvio()">
         </div>
       </div>
 
       <div class="field-group" style="margin-bottom: 12px;">
-        <label class="field-label" for="env-obs">Notas</label>
+        <label class="field-label" for="env-obs">Observaciones / Notas (Opcional)</label>
         <input type="text" id="env-obs" class="custom-input" placeholder="Ej: Frágil / Entregar de 9 a 17 hs" oninput="actualizarVistaPreviaEnvio()">
       </div>
 
       <div id="env-error-banner" class="error-msg-banner">
-        Completa los campos obligatorios (*) antes de imprimir: Destinatario, localidad y CP.
+        Por favor completá los campos obligatorios (*) antes de imprimir: Destinatario, Localidad/Provincia y Código Postal.
       </div>
 
       <div class="button-group">
         <button class="btn-main" onclick="imprimirEtiquetasEnvio()">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-          <span id="btn-imprimir-envio-txt">Imprimir</span>
+          <span id="btn-imprimir-envio-txt">Imprimir 1 Etiqueta</span>
         </button>
         <button class="btn-clean" onclick="limpiarCamposEnvio()">
           Borrar
@@ -1283,7 +1283,7 @@
       <div class="print-stage" id="print-stage-envios" style="display: none;">
         <div id="preview-envio-container" style="width: 100%; display: flex; justify-content: center;"></div>
         <div class="bultos-preview-badge" id="bultos-preview-info">
-          Se imprimirá 1 etiqueta (Bulto 1/1)
+          Se imprimirá 1 etiqueta
         </div>
       </div>
     </section>
@@ -1576,13 +1576,13 @@
       if (modo === 'DOMICILIO') {
         btnDom.classList.add('active');
         btnSuc.classList.remove('active');
-        lblDir.textContent = 'Dirección de Entrega (Calle, N°)';
-        inpDir.placeholder = 'Ej: Av. San Martín 1234';
+        lblDir.textContent = 'Dirección de Entrega (Calle, N°, Piso/Depto - Opcional)';
+        inpDir.placeholder = 'Ej: Av. San Martín 1234 (Opcional)';
       } else {
         btnSuc.classList.add('active');
         btnDom.classList.remove('active');
-        lblDir.textContent = 'Sucursal de Destino / Dirección Sucursal ';
-        inpDir.placeholder = 'Ej: ';
+        lblDir.textContent = 'Sucursal de Destino / Dirección Sucursal (Opcional)';
+        inpDir.placeholder = 'Ej: Sucursal Centro (Dejar vacío si no se especifica)';
       }
       actualizarVistaPreviaEnvio();
     }
@@ -1673,7 +1673,6 @@
       `;
     }
 
-
     function actualizarVistaPreviaEnvio() {
       let totalBultos = parseInt(document.getElementById('env-total-bultos').value, 10);
       if (isNaN(totalBultos) || totalBultos < 1) totalBultos = 1;
@@ -1691,21 +1690,6 @@
       } else {
         infoBadge.textContent = `Se imprimirán ${totalBultos} etiquetas`;
         btnPrintTxt.textContent = `Imprimir ${totalBultos} Etiquetas`;
-      }
-    }
-
-      document.getElementById('badge-bultos-top').textContent = `Bultos: ${totalBultos}`;
-      document.getElementById('preview-envio-container').innerHTML = construirHTMLEtiquetaEnvio(1, totalBultos);
-
-      const infoBadge = document.getElementById('bultos-preview-info');
-      const btnPrintTxt = document.getElementById('btn-imprimir-envio-txt');
-
-      if (totalBultos === 1) {
-        infoBadge.textContent = 'Se van a imprimir 1 etiqueta (Bulto 1/1)';
-        btnPrintTxt.textContent = 'Imprimir (1/1)';
-      } else {
-        infoBadge.textContent = `Se van a imprimir ${totalBultos} etiquetas: 1/${totalBultos} hasta ${totalBultos}/${totalBultos}`;
-        btnPrintTxt.textContent = `Imprimir ${totalBultos} Etiquetas (1/${totalBultos} al ${totalBultos}/${totalBultos})`;
       }
     }
 
