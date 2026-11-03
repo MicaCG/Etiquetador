@@ -1673,10 +1673,26 @@
       `;
     }
 
+
     function actualizarVistaPreviaEnvio() {
       let totalBultos = parseInt(document.getElementById('env-total-bultos').value, 10);
       if (isNaN(totalBultos) || totalBultos < 1) totalBultos = 1;
       if (totalBultos > 99) totalBultos = 99;
+
+      document.getElementById('badge-bultos-top').textContent = `Bultos: ${totalBultos}`;
+      document.getElementById('preview-envio-container').innerHTML = construirHTMLEtiquetaEnvio(1, totalBultos);
+
+      const infoBadge = document.getElementById('bultos-preview-info');
+      const btnPrintTxt = document.getElementById('btn-imprimir-envio-txt');
+
+      if (totalBultos === 1) {
+        infoBadge.textContent = 'Se imprimirá 1 etiqueta';
+        btnPrintTxt.textContent = 'Imprimir 1 Etiqueta';
+      } else {
+        infoBadge.textContent = `Se imprimirán ${totalBultos} etiquetas`;
+        btnPrintTxt.textContent = `Imprimir ${totalBultos} Etiquetas`;
+      }
+    }
 
       document.getElementById('badge-bultos-top').textContent = `Bultos: ${totalBultos}`;
       document.getElementById('preview-envio-container').innerHTML = construirHTMLEtiquetaEnvio(1, totalBultos);
