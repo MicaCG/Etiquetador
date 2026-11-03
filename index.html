@@ -6,7 +6,7 @@
   <title>Tomas Oberti® Tattoo Supplies | Generador de Etiquetas</title>
   
   <meta property="og:title" content="Tomas Oberti® Tattoo Supplies | Generador de Etiquetas">
-  <meta property="og:description" content="Sistema de Etiquetado para Depósito (15x10 cm)">
+  <meta property="og:description" content="Sistema de Etiquetado para Depósito">
 
   <!-- Enlace a la base de datos local en la misma carpeta -->
   <script src="productos.js"></script>
@@ -33,11 +33,16 @@
       --to-green-light: #f0fdf4;
       --to-green-border: #86efac;
       --to-green-dark: #14532d;
+      --to-red: #dc2626;
+      --to-red-light: #fef2f2;
     }
 
     * {
       box-sizing: border-box;
       font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
     }
 
     body {
@@ -132,11 +137,62 @@
       font-weight: 900;
     }
 
+    /* BARRA DE PESTAÑAS (INSUMOS vs ENVÍOS MANUALES) */
+    .mode-tabs-bar {
+      width: 100%;
+      max-width: 1120px;
+      padding: 22px 20px 0;
+      display: flex;
+      gap: 12px;
+    }
+
+    .mode-tab {
+      flex: 1;
+      padding: 13px 18px;
+      background: var(--to-white);
+      border: 1.5px solid var(--to-gray-300);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--to-gray-700);
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .mode-tab:hover {
+      border-color: var(--to-black);
+      color: var(--to-black);
+    }
+
+    .mode-tab.active {
+      background: var(--to-black);
+      color: var(--to-white);
+      border-color: var(--to-black);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .tab-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--to-gray-300);
+    }
+
+    .mode-tab.active .tab-dot {
+      background: var(--to-green);
+    }
+
     /* DISTRIBUCIÓN EN 2 COLUMNAS AL MISMO NIVEL */
     .main-wrapper {
       width: 100%;
       max-width: 1120px;
-      padding: 28px 20px 40px;
+      padding: 18px 20px 40px;
       display: grid;
       grid-template-columns: 1fr 1.05fr;
       gap: 24px;
@@ -146,6 +202,9 @@
     @media (max-width: 960px) {
       .main-wrapper {
         grid-template-columns: 1fr;
+      }
+      .mode-tabs-bar {
+        flex-direction: column;
       }
     }
 
@@ -296,6 +355,21 @@
       margin-bottom: 14px;
     }
 
+    .form-grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .form-grid-bultos {
+      background: var(--to-gray-100);
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid var(--to-gray-300);
+      margin-bottom: 14px;
+    }
+
     .field-group {
       display: flex;
       flex-direction: column;
@@ -310,6 +384,12 @@
       margin-bottom: 5px;
     }
 
+    .req-star {
+      color: var(--to-red);
+      font-weight: 900;
+      margin-left: 2px;
+    }
+
     .custom-input {
       padding: 9px 12px;
       font-size: 0.92rem;
@@ -317,17 +397,100 @@
       border: 1.5px solid var(--to-gray-300);
       border-radius: 6px;
       outline: none;
-      transition: border-color 0.2s;
+      background: var(--to-white);
+      transition: all 0.2s;
     }
 
     .custom-input:focus {
       border-color: var(--to-black);
     }
 
+    .custom-input.input-error {
+      border-color: var(--to-red) !important;
+      background-color: var(--to-red-light) !important;
+    }
+
+    .error-msg-banner {
+      display: none;
+      background-color: var(--to-red-light);
+      color: var(--to-red);
+      border: 1px solid #fecaca;
+      border-radius: 6px;
+      padding: 9px 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-top: 10px;
+      text-align: center;
+    }
+
     textarea.custom-input {
       resize: vertical;
       min-height: 54px;
       font-family: inherit;
+    }
+
+    /* REMITENTE FIJO */
+    .sender-box-config {
+      background: var(--to-gray-100);
+      border: 1px dashed var(--to-gray-300);
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+    }
+
+    .sender-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--to-gray-700);
+      text-transform: uppercase;
+    }
+
+    .btn-link-edit {
+      background: none;
+      border: none;
+      color: var(--to-green);
+      font-size: 0.72rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .sender-summary {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--to-dark);
+      margin-top: 4px;
+      line-height: 1.35;
+    }
+
+    /* SELECTOR MODALIDAD (A DOMICILIO / A SUCURSAL) */
+    .delivery-type-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .btn-delivery-opt {
+      padding: 10px 14px;
+      border: 1.5px solid var(--to-gray-300);
+      background: var(--to-white);
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--to-gray-700);
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.15s;
+    }
+
+    .btn-delivery-opt.active {
+      background: var(--to-green-light);
+      border-color: var(--to-green);
+      color: var(--to-green-dark);
     }
 
     /* BOTONES */
@@ -412,7 +575,19 @@
       width: 100%;
     }
 
-    /* Formato horizontal proporcional en pantalla */
+    .bultos-preview-badge {
+      margin-top: 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--to-green-dark);
+      background: var(--to-green-light);
+      border: 1px solid var(--to-green-border);
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    /* Formato horizontal proporcional en pantalla (15x10 cm) */
     .zebra-label {
       background: #ffffff;
       width: 100%;
@@ -425,8 +600,10 @@
       gap: 10px;
       box-sizing: border-box;
       border: 1px solid #cbd5e1;
+      color: #000000;
     }
 
+    /* ESTILOS ETIQUETA DE INSUMOS */
     .box-sku {
       border: 3px solid #000000;
       flex: 0 0 36%;
@@ -471,13 +648,180 @@
       word-break: break-word;
     }
 
+    /* ESTILOS ETIQUETA DE ENVÍOS MANUALES (EN PANTALLA) */
+    .zebra-envio-layout {
+      gap: 8px;
+    }
+
+    .env-top-bar {
+      border: 3px solid #000000;
+      flex: 0 0 25%;
+      display: flex;
+      justify-content: space-between;
+      align-items: stretch;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .env-sender-block {
+      flex: 1;
+      padding: 6px 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size: 11px;
+      line-height: 1.25;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #000000;
+    }
+
+    .env-sender-title {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.3px;
+    }
+
+    .env-bulto-box {
+      background-color: #000000 !important;
+      box-shadow: inset 0 0 0 1000px #000000 !important;
+      color: #ffffff !important;
+      padding: 4px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 115px;
+      text-align: center;
+      border-left: 3px solid #000000;
+    }
+
+    .env-bulto-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #ffffff !important;
+    }
+
+    .env-bulto-number {
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1.05;
+      color: #ffffff !important;
+    }
+
+    .env-badge-row {
+      display: flex;
+      gap: 8px;
+      align-items: stretch;
+      flex: 0 0 13%;
+    }
+
+    .env-mode-badge {
+      background-color: #000000 !important;
+      box-shadow: inset 0 0 0 1000px #000000 !important;
+      color: #ffffff !important;
+      border: 3px solid #000000;
+      font-size: 13px;
+      font-weight: 900;
+      padding: 4px 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+    }
+
+    .env-carrier-badge {
+      border: 3px solid #000000;
+      background-color: #ffffff !important;
+      color: #000000 !important;
+      font-size: 13px;
+      font-weight: 900;
+      padding: 4px 10px;
+      text-transform: uppercase;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .env-dest-box {
+      border: 3px solid #000000;
+      flex: 1;
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3px;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .env-dest-header {
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid #000000;
+      padding-bottom: 3px;
+      margin-bottom: 3px;
+      display: flex;
+      justify-content: space-between;
+      color: #000000;
+    }
+
+    .env-dest-name {
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.15;
+      text-transform: uppercase;
+      word-break: break-word;
+      color: #000000;
+    }
+
+    .env-dest-line {
+      font-size: 14.5px;
+      font-weight: 700;
+      line-height: 1.2;
+      text-transform: uppercase;
+      word-break: break-word;
+      color: #000000;
+    }
+
+    .env-dest-loc {
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.2;
+      text-transform: uppercase;
+      margin-top: 2px;
+      color: #000000;
+    }
+
+    .env-dest-obs {
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.15;
+      text-transform: uppercase;
+      border-top: 1.5px dashed #000000;
+      padding-top: 3px;
+      margin-top: 3px;
+      color: #000000;
+    }
+
     /* OCULTAR EL CONTENEDOR DE IMPRESIÓN EN PANTALLA */
     #print-area {
       display: none;
     }
 
     /* =======================================================
-       REGLA DE PÁGINA E IMPRESIÓN COMPATIBLE CHROME Y EDGE
+       REGLA DE PÁGINA E IMPRESIÓN COMPATIBLE CHROME Y EDGE (150x100 mm)
        ======================================================= */
     @page {
       size: 150mm 100mm;
@@ -485,6 +829,12 @@
     }
 
     @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+
       html, body {
         display: block !important;
         width: 150mm !important;
@@ -498,6 +848,7 @@
       /* Ocultar interfaz visual al imprimir */
       .top-announcement,
       .brand-header,
+      .mode-tabs-bar,
       .main-wrapper {
         display: none !important;
       }
@@ -511,7 +862,7 @@
         padding: 0 !important;
       }
 
-      /* Cada etiqueta ocupa exactamente 1 hoja de 150x100 mm */
+      /* Cada etiqueta ocupa exactamente 1 hoja de 150x100 mm (142x92 mm útiles) */
       #print-area .zebra-label {
         display: flex !important;
         flex-direction: column !important;
@@ -525,14 +876,10 @@
         box-sizing: border-box !important;
         box-shadow: none !important;
         border: none !important;
-        gap: 3mm !important;
+        gap: 2.5mm !important;
         overflow: hidden !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
-      }
-
-      /* Salto de página para que cada copia sea una hoja nueva */
-      #print-area .zebra-label {
         page-break-after: always !important;
         break-after: page !important;
       }
@@ -543,7 +890,7 @@
         break-after: auto !important;
       }
 
-      /* Recuadro SKU */
+      /* --- IMPRESIÓN DE ETIQUETA DE INSUMOS --- */
       #print-area .box-sku {
         border: 3px solid #000000 !important;
         height: 30mm !important;
@@ -565,7 +912,6 @@
         white-space: nowrap !important;
       }
 
-      /* Recuadro Nombre */
       #print-area .box-name {
         border: 3px solid #000000 !important;
         height: 55mm !important;
@@ -588,6 +934,128 @@
         white-space: pre-line !important;
         word-break: break-word !important;
       }
+
+      /* --- IMPRESIÓN DE ETIQUETA DE ENVÍOS MANUALES AL 100% DE LA ZEBRA --- */
+      #print-area .env-top-bar {
+        border: 3px solid #000000 !important;
+        height: 22mm !important;
+        flex: none !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: stretch !important;
+      }
+
+      #print-area .env-sender-block {
+        padding: 2mm 3.5mm !important;
+        font-size: 9.5pt !important;
+        line-height: 1.25 !important;
+        font-weight: 700 !important;
+        color: #000000 !important;
+      }
+
+      #print-area .env-sender-title {
+        font-size: 11.5pt !important;
+        font-weight: 900 !important;
+      }
+
+      #print-area .env-bulto-box {
+        background-color: #000000 !important;
+        box-shadow: inset 0 0 0 1000px #000000 !important;
+        color: #ffffff !important;
+        min-width: 36mm !important;
+        border-left: 3px solid #000000 !important;
+        padding: 1.5mm 3mm !important;
+      }
+
+      #print-area .env-bulto-label {
+        font-size: 8.5pt !important;
+        font-weight: 800 !important;
+        color: #ffffff !important;
+      }
+
+      #print-area .env-bulto-number {
+        font-size: 24pt !important;
+        font-weight: 900 !important;
+        color: #ffffff !important;
+      }
+
+      #print-area .env-badge-row {
+        height: 12mm !important;
+        flex: none !important;
+        display: flex !important;
+        gap: 2.5mm !important;
+        align-items: stretch !important;
+      }
+
+      #print-area .env-mode-badge {
+        background-color: #000000 !important;
+        box-shadow: inset 0 0 0 1000px #000000 !important;
+        color: #ffffff !important;
+        border: 3px solid #000000 !important;
+        font-size: 12pt !important;
+        font-weight: 900 !important;
+        padding: 0 4.5mm !important;
+      }
+
+      #print-area .env-carrier-badge {
+        border: 3px solid #000000 !important;
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        font-size: 12pt !important;
+        font-weight: 900 !important;
+        padding: 0 3mm !important;
+      }
+
+      #print-area .env-dest-box {
+        border: 3px solid #000000 !important;
+        height: 53mm !important;
+        flex: none !important;
+        padding: 3mm 4mm !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        gap: 1.2mm !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+      }
+
+      #print-area .env-dest-header {
+        font-size: 9.5pt !important;
+        font-weight: 800 !important;
+        border-bottom: 2px solid #000000 !important;
+        padding-bottom: 1mm !important;
+        margin-bottom: 1mm !important;
+      }
+
+      #print-area .env-dest-name {
+        font-size: 18pt !important;
+        font-weight: 900 !important;
+        line-height: 1.15 !important;
+        color: #000000 !important;
+      }
+
+      #print-area .env-dest-line {
+        font-size: 13pt !important;
+        font-weight: 700 !important;
+        line-height: 1.2 !important;
+        color: #000000 !important;
+      }
+
+      #print-area .env-dest-loc {
+        font-size: 14pt !important;
+        font-weight: 900 !important;
+        line-height: 1.2 !important;
+        color: #000000 !important;
+      }
+
+      #print-area .env-dest-obs {
+        font-size: 10.5pt !important;
+        font-weight: 700 !important;
+        border-top: 1.5px dashed #000000 !important;
+        padding-top: 1mm !important;
+        margin-top: 1mm !important;
+        color: #000000 !important;
+      }
     }
   </style>
 </head>
@@ -609,9 +1077,23 @@
     </div>
   </header>
 
+  <!-- Selector de Pestañas -->
+  <div class="mode-tabs-bar">
+    <button class="mode-tab active" id="tab-btn-insumos" onclick="cambiarModo('INSUMOS')">
+      <span class="tab-dot"></span>
+      Buscador de Insumos
+    </button>
+    <button class="mode-tab" id="tab-btn-envios" onclick="cambiarModo('ENVIOS')">
+      <span class="tab-dot"></span>
+      Envíos Manuales
+    </button>
+  </div>
+
   <main class="main-wrapper">
-    <!-- COLUMNA IZQUIERDA: INFORMACIÓN Y BÚSQUEDA -->
-    <section class="control-card">
+    <!-- =====================================================================
+         COLUMNA IZQUIERDA MODO 1: INFORMACIÓN Y BÚSQUEDA DE INSUMOS
+         ===================================================================== -->
+    <section class="control-card" id="panel-insumos">
       <div class="card-heading">
         <h2>Buscador de Insumos</h2>
         <span class="counter-pill" id="total-badge">1.738 Productos</span>
@@ -659,11 +1141,135 @@
       </div>
     </section>
 
-    <!-- COLUMNA DERECHA: VISTA PREVIA EN PANTALLA -->
+    <!-- =====================================================================
+         COLUMNA IZQUIERDA MODO 2: ENVÍOS MANUALES
+         ===================================================================== -->
+    <section class="control-card" id="panel-envios" style="display: none;">
+      <div class="card-heading">
+        <h2>Envíos Manuales</h2>
+        <span class="counter-pill" id="badge-bultos-top">Bultos: 1</span>
+      </div>
+
+      <!-- Remitente Fijo con opción de edición -->
+      <div class="sender-box-config">
+        <div class="sender-header">
+          <span>REMITENTE FIJO</span>
+          <button type="button" class="btn-link-edit" onclick="toggleEditarRemitente()" id="btn-edit-rem">Editar remitente</button>
+        </div>
+        <div class="sender-summary" id="remitente-resumen-texto"></div>
+        <div id="remitente-form-fields" style="display: none; margin-top: 10px;">
+          <div class="form-grid-2col">
+            <div class="field-group">
+              <label class="field-label" for="rem-nombre">Nombre / Empresa</label>
+              <input type="text" id="rem-nombre" class="custom-input" oninput="guardarYActualizarRemitente()">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="rem-cuit">CUIT</label>
+              <input type="text" id="rem-cuit" class="custom-input" oninput="guardarYActualizarRemitente()">
+            </div>
+          </div>
+          <div class="form-grid-2col" style="margin-bottom: 0;">
+            <div class="field-group">
+              <label class="field-label" for="rem-tel">Teléfono</label>
+              <input type="text" id="rem-tel" class="custom-input" oninput="guardarYActualizarRemitente()">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="rem-loc">Ciudad y CP</label>
+              <input type="text" id="rem-loc" class="custom-input" oninput="guardarYActualizarRemitente()">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Selector: A Domicilio vs A Sucursal -->
+      <div class="field-group" style="margin-bottom: 6px;">
+        <label class="field-label">Modalidad de Entrega</label>
+      </div>
+      <div class="delivery-type-toggle">
+        <button type="button" class="btn-delivery-opt active" id="btn-modo-domicilio" onclick="seleccionarModalidadEnvio('DOMICILIO')">
+          A Domicilio
+        </button>
+        <button type="button" class="btn-delivery-opt" id="btn-modo-sucursal" onclick="seleccionarModalidadEnvio('SUCURSAL')">
+          A Sucursal
+        </button>
+      </div>
+
+      <!-- Cantidad de Bultos (1/N automático) -->
+      <div class="form-grid-bultos">
+        <div class="field-group">
+          <label class="field-label" for="env-total-bultos">Cantidad de Bultos (Ej: 5 genera secuencia 1/5 al 5/5)</label>
+          <input type="number" id="env-total-bultos" class="custom-input" value="1" min="1" max="99" oninput="actualizarVistaPreviaEnvio()">
+        </div>
+      </div>
+
+      <!-- Datos del Destinatario -->
+      <div class="form-grid-2col">
+        <div class="field-group">
+          <label class="field-label" for="env-destinatario">Destinatario <span class="req-star">*</span></label>
+          <input type="text" id="env-destinatario" class="custom-input" placeholder="Ej: Juan Pérez" required oninput="validarCampoObligatorio(this); actualizarVistaPreviaEnvio()">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="env-transporte">Transporte</label>
+          <input type="text" id="env-transporte" class="custom-input" placeholder="Ej: Andesmar" oninput="actualizarVistaPreviaEnvio()">
+        </div>
+      </div>
+
+      <div class="field-group" style="margin-bottom: 12px;">
+        <label class="field-label" for="env-direccion" id="lbl-env-direccion">Dirección</label>
+        <input type="text" id="env-direccion" class="custom-input" placeholder="Ej: Av. San Martín 1234 " oninput="actualizarVistaPreviaEnvio()">
+      </div>
+
+      <div class="form-grid-2col">
+        <div class="field-group">
+          <label class="field-label" for="env-localidad">Localidad y Provincia <span class="req-star">*</span></label>
+          <input type="text" id="env-localidad" class="custom-input" placeholder="Ej: Rosario, Santa Fe" required oninput="validarCampoObligatorio(this); actualizarVistaPreviaEnvio()">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="env-cp">CP <span class="req-star">*</span></label>
+          <input type="text" id="env-cp" class="custom-input" placeholder="Ej: 2000" required oninput="validarCampoObligatorio(this); actualizarVistaPreviaEnvio()">
+        </div>
+      </div>
+
+      <div class="form-grid-2col">
+        <div class="field-group">
+          <label class="field-label" for="env-telefono">Teléfono</label>
+          <input type="text" id="env-telefono" class="custom-input" placeholder="Ej: 11 2345-6789" oninput="actualizarVistaPreviaEnvio()">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="env-dni">DNI / CUIT </label>
+          <input type="text" id="env-dni" class="custom-input" placeholder="Ej: 30111222" oninput="actualizarVistaPreviaEnvio()">
+        </div>
+      </div>
+
+      <div class="field-group" style="margin-bottom: 12px;">
+        <label class="field-label" for="env-obs">Notas</label>
+        <input type="text" id="env-obs" class="custom-input" placeholder="Ej: Frágil / Entregar de 9 a 17 hs" oninput="actualizarVistaPreviaEnvio()">
+      </div>
+
+      <div id="env-error-banner" class="error-msg-banner">
+        Completa los campos obligatorios (*) antes de imprimir: Destinatario, localidad y CP.
+      </div>
+
+      <div class="button-group">
+        <button class="btn-main" onclick="imprimirEtiquetasEnvio()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          <span id="btn-imprimir-envio-txt">Imprimir (1/1)</span>
+        </button>
+        <button class="btn-clean" onclick="limpiarCamposEnvio()">
+          Borrar
+        </button>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         COLUMNA DERECHA: VISTA PREVIA EN PANTALLA (15x10 CM)
+         ===================================================================== -->
     <section class="preview-card">
       <div class="preview-tagline">Vista Previa de Etiqueta</div> 
+
+      <!-- Vista Previa Modo 1: Insumos -->
       <div class="print-stage" id="print-stage">
-        <div class="zebra-label">
+        <div class="zebra-label" id="molde-insumo">
           <div class="box-sku">
             <div class="sku-text" id="lbl-sku">PMU-056-4</div>
           </div>
@@ -672,13 +1278,57 @@
           </div>
         </div>
       </div>
+
+      <!-- Vista Previa Modo 2: Envíos Manuales -->
+      <div class="print-stage" id="print-stage-envios" style="display: none;">
+        <div id="preview-envio-container" style="width: 100%; display: flex; justify-content: center;"></div>
+        <div class="bultos-preview-badge" id="bultos-preview-info">
+          Se imprimirá 1 etiqueta (Bulto 1/1)
+        </div>
+      </div>
     </section>
   </main>
 
-  <!-- CONTENEDOR EXCLUSIVO PARA IMPRESIÓN (ubicado correctamente al final del body) -->
+  <!-- CONTENEDOR EXCLUSIVO PARA IMPRESIÓN (ubicado al final del body) -->
   <div id="print-area" style="display: none;"></div>
 
   <script>
+    /* ==========================================================================
+       1. ALTERNAR ENTRE BUSCADOR DE INSUMOS Y ENVÍOS MANUALES
+       ========================================================================== */
+    let modoActual = 'INSUMOS';
+    let modalidadEnvio = 'DOMICILIO';
+
+    function cambiarModo(nuevoModo) {
+      modoActual = nuevoModo;
+      const tabInsumos = document.getElementById('tab-btn-insumos');
+      const tabEnvios = document.getElementById('tab-btn-envios');
+      const panelInsumos = document.getElementById('panel-insumos');
+      const panelEnvios = document.getElementById('panel-envios');
+      const stageInsumos = document.getElementById('print-stage');
+      const stageEnvios = document.getElementById('print-stage-envios');
+
+      if (nuevoModo === 'INSUMOS') {
+        tabInsumos.classList.add('active');
+        tabEnvios.classList.remove('active');
+        panelInsumos.style.display = 'block';
+        panelEnvios.style.display = 'none';
+        stageInsumos.style.display = 'flex';
+        stageEnvios.style.display = 'none';
+      } else {
+        tabEnvios.classList.add('active');
+        tabInsumos.classList.remove('active');
+        panelEnvios.style.display = 'block';
+        panelInsumos.style.display = 'none';
+        stageEnvios.style.display = 'flex';
+        stageInsumos.style.display = 'none';
+        actualizarVistaPreviaEnvio();
+      }
+    }
+
+    /* ==========================================================================
+       2. LÓGICA DE ETIQUETAS DE INSUMOS (PRODUCTOS.JS)
+       ========================================================================== */
     let CATALOGO = [];
     if (typeof CATALOGO_PRODUCTOS !== 'undefined' && Array.isArray(CATALOGO_PRODUCTOS)) {
       CATALOGO = CATALOGO_PRODUCTOS;
@@ -795,7 +1445,6 @@
       labelSku.textContent = sku;
       labelName.textContent = name;
 
-      // Auto-escalado de fuente en pantalla para códigos largos
       if (sku.length > 13) {
         labelSku.style.fontSize = '32px';
       } else if (sku.length > 10) {
@@ -819,23 +1468,20 @@
       }
     });
 
-    /* FUNCIÓN DE IMPRESIÓN COMPATIBLE CHROME Y EDGE */
+    /* FUNCIÓN DE IMPRESIÓN DE INSUMOS COMPATIBLE CHROME Y EDGE */
     function imprimirEtiquetas() {
       refrescarEtiqueta();
       const cant = parseInt(inputCopies.value) || 1;
       const printArea = document.getElementById('print-area');
-      const sourceLabel = document.querySelector('.print-stage .zebra-label');
+      const sourceLabel = document.getElementById('molde-insumo');
 
-      // 1. Cargar las copias en el contenedor de impresión
       printArea.innerHTML = '';
       for (let i = 0; i < cant; i++) {
         printArea.appendChild(sourceLabel.cloneNode(true));
       }
 
-      // 2. Forzar recálculo del diseño en Chrome
       void printArea.offsetHeight;
 
-      // 3. Pausa de 120ms para que Chrome registre todas las páginas antes de abrir la vista previa
       setTimeout(() => {
         window.print();
       }, 120);
@@ -851,13 +1497,277 @@
       searchInput.focus();
     }
 
+    /* ==========================================================================
+       3. LÓGICA DE ENVÍOS MANUALES (REMITENTE FIJO + BULTOS 1/N)
+       ========================================================================== */
+    const REMITENTE_DEFAULT = {
+      nombre: 'Tomás Oberti',
+      cuit: '20-31700967-5',
+      tel: '3424673861',
+      loc: 'Santa Fe, 3000'
+    };
+
+    let remitenteFijo = { ...REMITENTE_DEFAULT };
+
+    function cargarRemitenteFijo() {
+      try {
+        const guardado = localStorage.getItem('to_etiquetador_remitente_v3');
+        if (guardado) {
+          const parsed = JSON.parse(guardado);
+          remitenteFijo = {
+            nombre: parsed.nombre !== undefined ? parsed.nombre : REMITENTE_DEFAULT.nombre,
+            cuit: parsed.cuit !== undefined ? parsed.cuit : REMITENTE_DEFAULT.cuit,
+            tel: parsed.tel !== undefined ? parsed.tel : REMITENTE_DEFAULT.tel,
+            loc: parsed.loc !== undefined ? parsed.loc : REMITENTE_DEFAULT.loc
+          };
+        }
+      } catch (e) {
+        remitenteFijo = { ...REMITENTE_DEFAULT };
+      }
+
+      document.getElementById('rem-nombre').value = remitenteFijo.nombre;
+      document.getElementById('rem-cuit').value = remitenteFijo.cuit;
+      document.getElementById('rem-tel').value = remitenteFijo.tel;
+      document.getElementById('rem-loc').value = remitenteFijo.loc;
+      actualizarResumenRemitenteUI();
+    }
+
+    function actualizarResumenRemitenteUI() {
+      const partes = [
+        remitenteFijo.nombre,
+        remitenteFijo.cuit ? `Cuit: ${remitenteFijo.cuit}` : '',
+        remitenteFijo.tel ? `Tel ${remitenteFijo.tel}` : '',
+        remitenteFijo.loc
+      ].filter(Boolean);
+      document.getElementById('remitente-resumen-texto').textContent = partes.join(' • ');
+    }
+
+    function toggleEditarRemitente() {
+      const box = document.getElementById('remitente-form-fields');
+      const btn = document.getElementById('btn-edit-rem');
+      if (box.style.display === 'none') {
+        box.style.display = 'block';
+        btn.textContent = 'Cerrar edición';
+      } else {
+        box.style.display = 'none';
+        btn.textContent = 'Editar remitente';
+      }
+    }
+
+    function guardarYActualizarRemitente() {
+      remitenteFijo.nombre = document.getElementById('rem-nombre').value.trim() || REMITENTE_DEFAULT.nombre;
+      remitenteFijo.cuit = document.getElementById('rem-cuit').value.trim();
+      remitenteFijo.tel = document.getElementById('rem-tel').value.trim();
+      remitenteFijo.loc = document.getElementById('rem-loc').value.trim();
+      try {
+        localStorage.setItem('to_etiquetador_remitente_v3', JSON.stringify(remitenteFijo));
+      } catch (e) {}
+      actualizarResumenRemitenteUI();
+      actualizarVistaPreviaEnvio();
+    }
+
+    function seleccionarModalidadEnvio(modo) {
+      modalidadEnvio = modo;
+      const btnDom = document.getElementById('btn-modo-domicilio');
+      const btnSuc = document.getElementById('btn-modo-sucursal');
+      const lblDir = document.getElementById('lbl-env-direccion');
+      const inpDir = document.getElementById('env-direccion');
+
+      if (modo === 'DOMICILIO') {
+        btnDom.classList.add('active');
+        btnSuc.classList.remove('active');
+        lblDir.textContent = 'Dirección de Entrega (Calle, N°)';
+        inpDir.placeholder = 'Ej: Av. San Martín 1234';
+      } else {
+        btnSuc.classList.add('active');
+        btnDom.classList.remove('active');
+        lblDir.textContent = 'Sucursal de Destino / Dirección Sucursal ';
+        inpDir.placeholder = 'Ej: ';
+      }
+      actualizarVistaPreviaEnvio();
+    }
+
+    function validarCampoObligatorio(inputEl) {
+      if (inputEl.value.trim() !== '') {
+        inputEl.classList.remove('input-error');
+      }
+      const d = document.getElementById('env-destinatario').value.trim();
+      const l = document.getElementById('env-localidad').value.trim();
+      const c = document.getElementById('env-cp').value.trim();
+      if (d && l && c) {
+        document.getElementById('env-error-banner').style.display = 'none';
+      }
+    }
+
+    function construirHTMLEtiquetaEnvio(numBulto, totalBultos) {
+      const dest = document.getElementById('env-destinatario').value.trim();
+      const transporte = document.getElementById('env-transporte').value.trim();
+      const direccion = document.getElementById('env-direccion').value.trim();
+      const localidad = document.getElementById('env-localidad').value.trim();
+      const cp = document.getElementById('env-cp').value.trim();
+      const telefono = document.getElementById('env-telefono').value.trim();
+      const dni = document.getElementById('env-dni').value.trim();
+      const obs = document.getElementById('env-obs').value.trim();
+
+      const esSucursal = (modalidadEnvio === 'SUCURSAL');
+      const textoModalidad = esSucursal ? 'A SUCURSAL' : 'A DOMICILIO';
+
+      let lineaLocCp = '';
+      if (localidad && cp) {
+        lineaLocCp = `${escapar(localidad)} (CP ${escapar(cp)})`;
+      } else if (localidad) {
+        lineaLocCp = escapar(localidad);
+      } else if (cp) {
+        lineaLocCp = `CP ${escapar(cp)}`;
+      }
+
+      let lineaDireccion = '';
+      if (direccion) {
+        lineaDireccion = esSucursal
+          ? `SUC: ${escapar(direccion)}`
+          : `DIR: ${escapar(direccion)}`;
+      }
+
+      const datosContacto = [];
+      if (telefono) datosContacto.push(`TEL: ${escapar(telefono)}`);
+      if (dni) datosContacto.push(escapar(dni));
+      const lineaContacto = datosContacto.join(' | ');
+
+      const nombreMostrar = dest ? escapar(dest) : 'DESTINATARIO';
+
+      const lineaRemCuitTel = [
+        remitenteFijo.cuit ? `CUIT: ${remitenteFijo.cuit}` : '',
+        remitenteFijo.tel ? `TEL: ${remitenteFijo.tel}` : ''
+      ].filter(Boolean).join(' • ');
+
+      return `
+        <div class="zebra-label zebra-envio-layout">
+          <div class="env-top-bar">
+            <div class="env-sender-block">
+              <div class="env-sender-title">REMITE: ${escapar(remitenteFijo.nombre)}</div>
+              ${lineaRemCuitTel ? `<div>${escapar(lineaRemCuitTel)}</div>` : ''}
+              ${remitenteFijo.loc ? `<div>${escapar(remitenteFijo.loc)}</div>` : ''}
+            </div>
+            <div class="env-bulto-box">
+              <span class="env-bulto-label">BULTO</span>
+              <span class="env-bulto-number">${numBulto}/${totalBultos}</span>
+            </div>
+          </div>
+
+          <div class="env-badge-row">
+            <span class="env-mode-badge">${textoModalidad}</span>
+            ${transporte ? `<span class="env-carrier-badge">${escapar(transporte)}</span>` : ''}
+          </div>
+
+          <div class="env-dest-box">
+            <div class="env-dest-header">
+              <span>DESTINATARIO</span>
+              ${lineaContacto ? `<span>${lineaContacto}</span>` : ''}
+            </div>
+            <div class="env-dest-name">${nombreMostrar}</div>
+            ${lineaDireccion ? `<div class="env-dest-line">${lineaDireccion}</div>` : ''}
+            ${lineaLocCp ? `<div class="env-dest-loc">${lineaLocCp}</div>` : ''}
+            ${obs ? `<div class="env-dest-obs">OBS: ${escapar(obs)}</div>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function actualizarVistaPreviaEnvio() {
+      let totalBultos = parseInt(document.getElementById('env-total-bultos').value, 10);
+      if (isNaN(totalBultos) || totalBultos < 1) totalBultos = 1;
+      if (totalBultos > 99) totalBultos = 99;
+
+      document.getElementById('badge-bultos-top').textContent = `Bultos: ${totalBultos}`;
+      document.getElementById('preview-envio-container').innerHTML = construirHTMLEtiquetaEnvio(1, totalBultos);
+
+      const infoBadge = document.getElementById('bultos-preview-info');
+      const btnPrintTxt = document.getElementById('btn-imprimir-envio-txt');
+
+      if (totalBultos === 1) {
+        infoBadge.textContent = 'Se van a imprimir 1 etiqueta (Bulto 1/1)';
+        btnPrintTxt.textContent = 'Imprimir (1/1)';
+      } else {
+        infoBadge.textContent = `Se van a imprimir ${totalBultos} etiquetas: 1/${totalBultos} hasta ${totalBultos}/${totalBultos}`;
+        btnPrintTxt.textContent = `Imprimir ${totalBultos} Etiquetas (1/${totalBultos} al ${totalBultos}/${totalBultos})`;
+      }
+    }
+
+    function imprimirEtiquetasEnvio() {
+      const inpDest = document.getElementById('env-destinatario');
+      const inpLoc = document.getElementById('env-localidad');
+      const inpCp = document.getElementById('env-cp');
+      const bannerError = document.getElementById('env-error-banner');
+
+      const obligatorios = [inpDest, inpLoc, inpCp];
+      let primerVacio = null;
+
+      obligatorios.forEach(campo => {
+        if (campo.value.trim() === '') {
+          campo.classList.add('input-error');
+          if (!primerVacio) primerVacio = campo;
+        } else {
+          campo.classList.remove('input-error');
+        }
+      });
+
+      if (primerVacio) {
+        bannerError.style.display = 'block';
+        primerVacio.focus();
+        return;
+      }
+
+      bannerError.style.display = 'none';
+
+      let totalBultos = parseInt(document.getElementById('env-total-bultos').value, 10);
+      if (isNaN(totalBultos) || totalBultos < 1) totalBultos = 1;
+      if (totalBultos > 99) totalBultos = 99;
+
+      const printArea = document.getElementById('print-area');
+      printArea.innerHTML = '';
+
+      for (let i = 1; i <= totalBultos; i++) {
+        printArea.insertAdjacentHTML('beforeend', construirHTMLEtiquetaEnvio(i, totalBultos));
+      }
+
+      void printArea.offsetHeight;
+
+      setTimeout(() => {
+        window.print();
+      }, 120);
+    }
+
+    function limpiarCamposEnvio() {
+      document.getElementById('env-total-bultos').value = '1';
+      const campos = [
+        'env-destinatario',
+        'env-transporte',
+        'env-direccion',
+        'env-localidad',
+        'env-cp',
+        'env-telefono',
+        'env-dni',
+        'env-obs'
+      ];
+      campos.forEach(id => {
+        const el = document.getElementById(id);
+        el.value = '';
+        el.classList.remove('input-error');
+      });
+      document.getElementById('env-error-banner').style.display = 'none';
+      actualizarVistaPreviaEnvio();
+      document.getElementById('env-destinatario').focus();
+    }
+
     function escapar(t) {
       const d = document.createElement('div');
-      d.textContent = t;
+      d.textContent = t || '';
       return d.innerHTML;
     }
 
+    cargarRemitenteFijo();
     refrescarEtiqueta();
+    actualizarVistaPreviaEnvio();
   </script>
 </body>
 </html>
