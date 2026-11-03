@@ -1205,18 +1205,18 @@
       <!-- Datos del Destinatario -->
       <div class="form-grid-2col">
         <div class="field-group">
-          <label class="field-label" for="env-destinatario">Destinatario (Nombre / Razón Social) <span class="req-star">*</span></label>
+          <label class="field-label" for="env-destinatario">Destinatario <span class="req-star">*</span></label>
           <input type="text" id="env-destinatario" class="custom-input" placeholder="Ej: Juan Pérez" required oninput="validarCampoObligatorio(this); actualizarVistaPreviaEnvio()">
         </div>
         <div class="field-group">
-          <label class="field-label" for="env-transporte">Transporte / Expreso (Opcional)</label>
-          <input type="text" id="env-transporte" class="custom-input" placeholder="Ej: Andesmar / Andreani / OCA" oninput="actualizarVistaPreviaEnvio()">
+          <label class="field-label" for="env-transporte">Transporte</label>
+          <input type="text" id="env-transporte" class="custom-input" placeholder="Ej: Andesmar" oninput="actualizarVistaPreviaEnvio()">
         </div>
       </div>
 
       <div class="field-group" style="margin-bottom: 12px;">
-        <label class="field-label" for="env-direccion" id="lbl-env-direccion">Dirección de Entrega (Calle, N°, Piso/Depto - Opcional)</label>
-        <input type="text" id="env-direccion" class="custom-input" placeholder="Ej: Av. San Martín 1234 (Opcional)" oninput="actualizarVistaPreviaEnvio()">
+        <label class="field-label" for="env-direccion" id="lbl-env-direccion">Dirección de Entrega (Calle, N°)</label>
+        <input type="text" id="env-direccion" class="custom-input" placeholder="Ej: Av. San Martín 1234" oninput="actualizarVistaPreviaEnvio()">
       </div>
 
       <div class="form-grid-2col">
@@ -1225,29 +1225,29 @@
           <input type="text" id="env-localidad" class="custom-input" placeholder="Ej: Rosario, Santa Fe" required oninput="validarCampoObligatorio(this); actualizarVistaPreviaEnvio()">
         </div>
         <div class="field-group">
-          <label class="field-label" for="env-cp">Código Postal <span class="req-star">*</span></label>
+          <label class="field-label" for="env-cp">CP <span class="req-star">*</span></label>
           <input type="text" id="env-cp" class="custom-input" placeholder="Ej: 2000" required oninput="validarCampoObligatorio(this); actualizarVistaPreviaEnvio()">
         </div>
       </div>
 
       <div class="form-grid-2col">
         <div class="field-group">
-          <label class="field-label" for="env-telefono">Teléfono Destinatario (Opcional)</label>
-          <input type="text" id="env-telefono" class="custom-input" placeholder="Ej: 11 2345-6789" oninput="actualizarVistaPreviaEnvio()">
+          <label class="field-label" for="env-telefono">Teléfono</label>
+          <input type="text" id="env-telefono" class="custom-input" placeholder="Ej: 1123456789" oninput="actualizarVistaPreviaEnvio()">
         </div>
         <div class="field-group">
-          <label class="field-label" for="env-dni">DNI / CUIT / N° Pedido (Opcional)</label>
+          <label class="field-label" for="env-dni">DNI/CUIT </label>
           <input type="text" id="env-dni" class="custom-input" placeholder="Ej: 30111222" oninput="actualizarVistaPreviaEnvio()">
         </div>
       </div>
 
       <div class="field-group" style="margin-bottom: 12px;">
-        <label class="field-label" for="env-obs">Observaciones / Notas (Opcional)</label>
-        <input type="text" id="env-obs" class="custom-input" placeholder="Ej: Frágil / Entregar de 9 a 17 hs" oninput="actualizarVistaPreviaEnvio()">
+        <label class="field-label" for="env-obs">Notas </label>
+        <input type="text" id="env-obs" class="custom-input" placeholder="Ej: Frágil/Entregar de 9 a 17 hs" oninput="actualizarVistaPreviaEnvio()">
       </div>
 
       <div id="env-error-banner" class="error-msg-banner">
-        Por favor completá los campos obligatorios (*) antes de imprimir: Destinatario, Localidad/Provincia y Código Postal.
+        Completa los campos obligatorios (*) antes de imprimir
       </div>
 
       <div class="button-group">
