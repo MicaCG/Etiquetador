@@ -1576,8 +1576,8 @@
       if (modo === 'DOMICILIO') {
         btnDom.classList.add('active');
         btnSuc.classList.remove('active');
-        lblDir.textContent = 'Dirección de Entrega (Calle, N°, Piso/Depto - Opcional)';
-        inpDir.placeholder = 'Ej: Av. San Martín 1234 (Opcional)';
+        lblDir.textContent = 'Dirección de Entrega (Calle, N°)';
+        inpDir.placeholder = 'Ej: Av. San Martín 1234 ';
       } else {
         btnSuc.classList.add('active');
         btnDom.classList.remove('active');
@@ -1644,7 +1644,7 @@
         <div class="zebra-label zebra-envio-layout">
           <div class="env-top-bar">
             <div class="env-sender-block">
-              <div class="env-sender-title">REMITE: ${escapar(remitenteFijo.nombre)}</div>
+              <div class="env-sender-title">REMITENTE: ${escapar(remitenteFijo.nombre)}</div>
               ${lineaRemCuitTel ? `<div>${escapar(lineaRemCuitTel)}</div>` : ''}
               ${remitenteFijo.loc ? `<div>${escapar(remitenteFijo.loc)}</div>` : ''}
             </div>
