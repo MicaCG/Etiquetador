@@ -325,6 +325,12 @@
       padding-left: 10px;
     }
 
+    .res-sku-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .res-sku {
       background: var(--to-black);
       color: var(--to-white);
@@ -333,6 +339,18 @@
       font-size: 0.78rem;
       font-weight: 800;
       letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .badge-temp-audit {
+      background: var(--to-green-light);
+      color: var(--to-green-dark);
+      border: 1px solid var(--to-green-border);
+      font-size: 0.63rem;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
       white-space: nowrap;
     }
 
@@ -415,6 +433,19 @@
       background-color: var(--to-red-light);
       color: var(--to-red);
       border: 1px solid #fecaca;
+      border-radius: 6px;
+      padding: 9px 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .success-msg-banner {
+      display: none;
+      background-color: var(--to-green-light);
+      color: var(--to-green-dark);
+      border: 1px solid var(--to-green-border);
       border-radius: 6px;
       padding: 9px 12px;
       font-size: 0.78rem;
@@ -543,6 +574,130 @@
     .btn-clean:hover {
       background-color: var(--to-gray-100);
       color: var(--to-black);
+    }
+
+    /* DESPLEGABLE DEBAJO DE IMPRIMIR: "¿NO ESTÁ EL PRODUCTO? AGREGAR NUEVO:" */
+    .new-prod-section {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1.5px dashed var(--to-gray-300);
+    }
+
+    .new-prod-trigger {
+      width: 100%;
+      background: var(--to-gray-100);
+      border: 1.5px solid var(--to-gray-300);
+      border-radius: 6px;
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .new-prod-trigger:hover {
+      border-color: var(--to-black);
+      background: var(--to-white);
+    }
+
+    .new-prod-trigger-text {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--to-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .audit-counter-badge {
+      background-color: var(--to-black);
+      color: var(--to-white);
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .audit-counter-badge.has-items {
+      background-color: var(--to-green);
+    }
+
+    .new-prod-expand-box {
+      display: none;
+      margin-top: 10px;
+      background: var(--to-gray-100);
+      border: 1px solid var(--to-gray-300);
+      border-radius: 6px;
+      padding: 14px;
+    }
+
+    .btn-save-audit {
+      width: 100%;
+      background: var(--to-green);
+      color: var(--to-white);
+      border: none;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 4px;
+    }
+
+    .btn-save-audit:hover {
+      background: var(--to-green-hover);
+    }
+
+    .audit-list-container {
+      margin-top: 12px;
+      border-top: 1px solid var(--to-gray-300);
+      padding-top: 10px;
+    }
+
+    .audit-list-items {
+      max-height: 160px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .audit-row-item {
+      background: var(--to-white);
+      border: 1px solid var(--to-gray-200);
+      border-radius: 5px;
+      padding: 7px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .audit-row-item:hover {
+      background: var(--to-green-light);
+      border-color: var(--to-green-border);
+    }
+
+    .audit-row-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 600;
+      color: var(--to-gray-800);
+    }
+
+    .audit-row-text strong {
+      color: var(--to-black);
+      font-weight: 900;
+      margin-right: 6px;
     }
 
     /* VISTA PREVIA HORIZONTAL 15x10 CM (PANTALLA) */
@@ -1139,6 +1294,37 @@
           Borrar
         </button>
       </div>
+
+      <!-- DESPLEGABLE DEBAJO DE IMPRIMIR: "¿NO ESTÁ EL PRODUCTO? AGREGAR NUEVO:" -->
+      <div class="new-prod-section">
+        <button type="button" class="new-prod-trigger" onclick="toggleNuevoProductoBox()">
+          <span class="new-prod-trigger-text">¿No está el producto? Agregar nuevo:</span>
+          <span class="audit-counter-badge" id="badge-para-auditar">Para auditar: 0</span>
+        </button>
+
+        <div class="new-prod-expand-box" id="box-nuevo-producto">
+          <div class="form-grid-2col" style="margin-bottom: 8px;">
+            <div class="field-group">
+              <label class="field-label" for="nuevo-sku-audit">SKU</label>
+              <input type="text" id="nuevo-sku-audit" class="custom-input" placeholder="Ej: AGU-610">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="nuevo-nombre-audit">Nombre</label>
+              <input type="text" id="nuevo-nombre-audit" class="custom-input" placeholder="Ej: CARTUCHOS POPU...">
+            </div>
+          </div>
+
+          <button type="button" class="btn-save-audit" onclick="agregarProductoParaAuditar()">
+            Guardar para auditar
+          </button>
+
+          <div id="audit-feedback-msg" class="success-msg-banner"></div>
+
+          <div class="audit-list-container" id="contenedor-lista-auditar" style="display: none;">
+            <div class="audit-list-items" id="lista-items-auditar"></div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- =====================================================================
@@ -1327,15 +1513,31 @@
     }
 
     /* ==========================================================================
-       2. LÓGICA DE ETIQUETAS DE INSUMOS (PRODUCTOS.JS)
+       2. LÓGICA DE ETIQUETAS DE INSUMOS (PRODUCTOS.JS + LISTADO TEMPORAL)
        ========================================================================== */
+    const STORAGE_KEY_AUDITAR = 'to_productos_para_auditar_v1';
+    let CATALOGO_BASE = [];
+    let listaParaAuditar = [];
     let CATALOGO = [];
+
     if (typeof CATALOGO_PRODUCTOS !== 'undefined' && Array.isArray(CATALOGO_PRODUCTOS)) {
-      CATALOGO = CATALOGO_PRODUCTOS;
-      document.getElementById('total-badge').textContent = `${CATALOGO.length} Productos`;
+      CATALOGO_BASE = CATALOGO_PRODUCTOS;
     } else {
       document.getElementById('total-badge').textContent = "Error al cargar productos.js";
       document.getElementById('total-badge').style.color = "#dc2626";
+    }
+
+    function actualizarCatalogoActivo() {
+      const temporales = listaParaAuditar.map(item => ({
+        sku: item.sku,
+        name: item.name,
+        esTemporal: true
+      }));
+      CATALOGO = [...temporales, ...CATALOGO_BASE];
+
+      if (CATALOGO_BASE.length > 0 || temporales.length > 0) {
+        document.getElementById('total-badge').textContent = `${CATALOGO.length} Productos`;
+      }
     }
 
     const searchInput = document.getElementById('search-input');
@@ -1349,7 +1551,7 @@
     let itemActivo = -1;
     let coincidencias = [];
 
-    // Búsqueda en tiempo real por tokens (multi-palabra)
+    // Búsqueda en tiempo real por tokens (incluye los de productos.js y los nuevos sin auditar)
     searchInput.addEventListener('input', function() {
       const q = this.value.trim().toLowerCase();
       if (!q) {
@@ -1368,7 +1570,10 @@
       } else {
         dropdown.innerHTML = coincidencias.map((item, idx) => `
           <div class="result-row ${idx === itemActivo ? 'selected' : ''}" onclick="elegirProducto(${idx})">
-            <span class="res-sku">${escapar(item.sku)}</span>
+            <div class="res-sku-wrap">
+              <span class="res-sku">${escapar(item.sku)}</span>
+              ${item.esTemporal ? '<span class="badge-temp-audit">SIN AUDITAR</span>' : ''}
+            </div>
             <span class="res-name">${escapar(item.name)}</span>
           </div>
         `).join('');
@@ -1423,6 +1628,16 @@
 
       searchInput.value = `${item.sku} - ${item.name}`;
       dropdown.style.display = 'none';
+    }
+
+    function seleccionarItemParaAuditar(idx) {
+      const item = listaParaAuditar[idx];
+      if (!item) return;
+
+      inputSku.value = item.sku;
+      inputName.value = formatoTextoInteligente(item.name);
+      refrescarEtiqueta();
+      searchInput.value = `${item.sku} - ${item.name}`;
     }
 
     function formatoTextoInteligente(str) {
@@ -1495,6 +1710,126 @@
       dropdown.style.display = 'none';
       refrescarEtiqueta();
       searchInput.focus();
+    }
+
+    /* ==========================================================================
+       2B. DESPLEGABLE DE NUEVOS PRODUCTOS PARA AUDITAR
+           (Se buscan e imprimen normal, y desaparecen del listado temporal
+            apenas los agregás a mano en productos.js)
+       ========================================================================== */
+    function cargarListaParaAuditar() {
+      try {
+        const guardado = localStorage.getItem(STORAGE_KEY_AUDITAR);
+        if (guardado) {
+          const parsed = JSON.parse(guardado);
+          if (Array.isArray(parsed)) {
+            const skusEnJSON = new Set(
+              CATALOGO_BASE.map(p => (p.sku || '').trim().toUpperCase())
+            );
+            const nombresEnJSON = new Set(
+              CATALOGO_BASE.map(p => (p.name || '').replace(/\s+/g, ' ').trim().toUpperCase())
+            );
+
+            listaParaAuditar = parsed.filter(item => {
+              if (!item || !item.sku) return false;
+              const skuTemp = item.sku.trim().toUpperCase();
+              const nomTemp = (item.name || '').replace(/\s+/g, ' ').trim().toUpperCase();
+              return !skusEnJSON.has(skuTemp) && !nombresEnJSON.has(nomTemp);
+            });
+
+            localStorage.setItem(STORAGE_KEY_AUDITAR, JSON.stringify(listaParaAuditar));
+          }
+        }
+      } catch (e) {
+        listaParaAuditar = [];
+      }
+      actualizarCatalogoActivo();
+      actualizarUIAuditar();
+    }
+
+    function toggleNuevoProductoBox() {
+      const box = document.getElementById('box-nuevo-producto');
+      if (box.style.display === 'block') {
+        box.style.display = 'none';
+      } else {
+        box.style.display = 'block';
+        document.getElementById('nuevo-sku-audit').focus();
+      }
+    }
+
+    function mostrarAvisoAuditar(texto, esError) {
+      const msg = document.getElementById('audit-feedback-msg');
+      msg.textContent = texto;
+      msg.className = esError ? 'error-msg-banner' : 'success-msg-banner';
+      msg.style.display = 'block';
+      setTimeout(() => {
+        msg.style.display = 'none';
+      }, 3000);
+    }
+
+    function agregarProductoParaAuditar() {
+      const inpSku = document.getElementById('nuevo-sku-audit');
+      const inpNom = document.getElementById('nuevo-nombre-audit');
+      const sku = inpSku.value.trim().toUpperCase();
+      const name = inpNom.value.replace(/\s+/g, ' ').trim().toUpperCase();
+
+      if (!sku || !name) {
+        mostrarAvisoAuditar('Completá el SKU y el Nombre para guardarlo', true);
+        return;
+      }
+
+      const yaExisteEnJSON = CATALOGO_BASE.some(
+        p => (p.sku || '').trim().toUpperCase() === sku
+      );
+      if (yaExisteEnJSON) {
+        mostrarAvisoAuditar('Ese SKU ya está cargado en productos.js', true);
+        return;
+      }
+
+      const idxExistente = listaParaAuditar.findIndex(
+        p => p.sku.trim().toUpperCase() === sku
+      );
+      if (idxExistente >= 0) {
+        listaParaAuditar[idxExistente].name = name;
+      } else {
+        listaParaAuditar.push({ sku, name });
+      }
+
+      try {
+        localStorage.setItem(STORAGE_KEY_AUDITAR, JSON.stringify(listaParaAuditar));
+      } catch (e) {}
+
+      // Ya queda cargado en la etiqueta actual y disponible en el buscador
+      inputSku.value = sku;
+      inputName.value = formatoTextoInteligente(name);
+      refrescarEtiqueta();
+
+      inpSku.value = '';
+      inpNom.value = '';
+      actualizarCatalogoActivo();
+      actualizarUIAuditar();
+      mostrarAvisoAuditar(`Guardado: ya podés buscarlo e imprimir etiquetas`, false);
+    }
+
+    function actualizarUIAuditar() {
+      const badge = document.getElementById('badge-para-auditar');
+      const contenedorLista = document.getElementById('contenedor-lista-auditar');
+      const listaEl = document.getElementById('lista-items-auditar');
+
+      badge.textContent = `Para auditar: ${listaParaAuditar.length}`;
+      if (listaParaAuditar.length > 0) {
+        badge.classList.add('has-items');
+        contenedorLista.style.display = 'block';
+        listaEl.innerHTML = listaParaAuditar.map((item, idx) => `
+          <div class="audit-row-item" onclick="seleccionarItemParaAuditar(${idx})" title="Clic para cargar e imprimir">
+            <span class="audit-row-text"><strong>${escapar(item.sku)}</strong>${escapar(item.name)}</span>
+          </div>
+        `).join('');
+      } else {
+        badge.classList.remove('has-items');
+        contenedorLista.style.display = 'none';
+        listaEl.innerHTML = '';
+      }
     }
 
     /* ==========================================================================
@@ -1765,6 +2100,7 @@
       return d.innerHTML;
     }
 
+    cargarListaParaAuditar();
     cargarRemitenteFijo();
     refrescarEtiqueta();
     actualizarVistaPreviaEnvio();
