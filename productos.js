@@ -6972,5 +6972,13 @@ const CATALOGO_PRODUCTOS = [
         {
       "sku": "IDE-139",
       "name": "ESTACIÓN DE TRABAJO ENCASTRABLE BANDEJA 4.4 X 5.3 CM (CAJA X 40 UN)"
-   }
+   },
+       {
+      "sku": "IST-079",
+      "name": "PAPEL HECTOGRÁFICO Y229-1 THERMAL ROSA 1 HOJA"
+   },
+       {
+      "sku": " IST-080",
+      "name": "PAPEL HECTOGRÁFICO Y229-1 THERMAL ROSA 100 HOJAS"
+   },
 ];
