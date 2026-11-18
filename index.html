@@ -1472,6 +1472,32 @@
       color: var(--to-white);
     }
 
+    .stock-conexion {
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+    .stock-conexion.ok { color: #4ade80; }
+    .stock-conexion.no { color: #fbbf24; }
+
+    .rubro-select {
+      appearance: none;
+      -webkit-appearance: none;
+      background: var(--to-white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23404040' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 12px center;
+      border: 1.5px solid var(--to-gray-300);
+      border-radius: 8px;
+      padding: 9px 34px 9px 12px;
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--to-gray-800);
+      cursor: pointer;
+      max-width: 260px;
+      text-overflow: ellipsis;
+    }
+
+    .rubro-select:hover { border-color: var(--to-black); }
+    .rubro-select.activo { border-color: var(--to-black); box-shadow: 0 0 0 1px var(--to-black); }
+
     .tab-corto { display: none; }
     .stock-lista-movil { display: none; }
 
@@ -1542,6 +1568,7 @@
 
       .stock-ajustes { gap: 10px; font-size: 0.66rem; }
       .dep-selector { display: flex !important; width: 100%; }
+      .rubro-select { width: 100%; max-width: none; font-size: 16px; padding: 11px 36px 11px 12px; }
       .dep-selector button { flex: 1; padding: 9px 6px; font-size: 0.74rem; }
       .stock-filtro-activo { margin-left: 0; width: 100%; }
 
@@ -2138,6 +2165,7 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
           <span id="stock-btn-cargar-txt">Cargar Excel nuevo</span>
         </button>
+        <div class="stock-conexion" id="stock-conexion"></div>
         <div style="display: flex; gap: 14px;">
           <button class="btn-link-edit" style="color: #999;" onclick="descargarStockJSON()">Descargar stock.json</button>
           <button class="btn-link-edit" style="color: #999;" onclick="descargarExcelPublicado()">Descargar Excel</button>
@@ -2224,6 +2252,7 @@
 
       <div class="stock-ajustes">
         <div id="cfg-deposito-wrap" class="dep-selector" style="display: none;"></div>
+        <select id="cfg-rubro" class="rubro-select" style="display: none;" aria-label="Filtrar por rubro"></select>
         <label>Stock bajo si es ≤ <input type="number" id="cfg-umbral" class="custom-input" min="0"></label>
         <label id="cfg-dias-wrap">Por vencer en ≤ <input type="number" id="cfg-dias" class="custom-input" min="1"> días</label>
         <span class="stock-filtro-activo" id="stock-filtro-activo"></span>
@@ -3022,6 +3051,7 @@ let stockDatos = null;      // { archivo, hoja, cargadoEn, archivoModificado, co
 let stockNotas = [];        // [{ id, sku, name, stockExcel, contado, texto, autor, fecha, estado }]
 let stockCfg = { umbral: 3, dias: 60, mapeo: null, autor: '' };
 let stockFiltro = 'TODOS';
+let stockRubro = '';        // '' = todos los rubros
 let stockOrden = { campo: null, asc: true };
 let stockLimite = STOCK_POR_PAGINA;
 let stockPendiente = null;  // Excel leído esperando que se elijan columnas a mano
@@ -3139,7 +3169,8 @@ const STOCK_CAMPOS = [
   { id: 'stock', label: 'Stock actual', requerido: true },
   { id: 'min', label: 'Stock mínimo (opcional)', requerido: false },
   { id: 'venc', label: 'Vencimiento (opcional)', requerido: false },
-  { id: 'dep', label: 'Depósito (opcional)', requerido: false }
+  { id: 'dep', label: 'Depósito (opcional)', requerido: false },
+  { id: 'rubro', label: 'Rubro (opcional)', requerido: false }
 ];
 
 const STOCK_SINONIMOS = {
@@ -3151,6 +3182,7 @@ const STOCK_SINONIMOS = {
           'cant', 'cant.', 'unidades', 'stock fisico', 'stock real', 'saldo'],
   min: ['stock minimo', 'minimo', 'stock min', 'stock min.', 'min', 'min.', 'punto de pedido'],
   dep: ['deposito', 'depositos', 'almacen', 'sucursal'],
+  rubro: ['rubro', 'categoria', 'familia'],
   venc: ['vencimiento', 'fecha vencimiento', 'fecha de vencimiento', 'vence', 'vto', 'vto.', 'f. venc',
          'fecha venc', 'fecha vto', 'caducidad', 'fecha de caducidad']
 };
@@ -3162,14 +3194,15 @@ const STOCK_PARECIDOS = {
   stock: h => (h.includes('stock') || h.includes('existencia')) && !h.includes('min') && !h.includes('valor'),
   min: h => h.includes('minimo') || h.includes('stock min'),
   venc: h => h.includes('venc') || h.includes('vto') || h.includes('caduc'),
-  dep: h => h.startsWith('deposito')
+  dep: h => h.startsWith('deposito'),
+  rubro: h => (h.startsWith('rubro') || h.startsWith('categoria')) && !h.includes('sub')
 };
 
 function mapearColumnas(fila) {
   const headers = (fila || []).map(normStock);
   const mapa = {};
   const usadas = new Set();
-  const orden = ['sku', 'stock', 'min', 'venc', 'dep', 'name'];
+  const orden = ['sku', 'stock', 'min', 'venc', 'dep', 'rubro', 'name'];
 
   // 1) Coincidencia exacta
   orden.forEach(campo => {
@@ -3332,6 +3365,10 @@ function parsearProductosStock(origen, soloDeposito) {
       p.min = isNaN(mn) ? null : mn;
     }
     if (mapa.venc !== undefined) p.venc = parseFechaStock(f[mapa.venc]);
+    if (mapa.rubro !== undefined) {
+      const rb = String(f[mapa.rubro] ?? '').replace(/\s+/g, ' ').trim();
+      if (rb) p.rubro = rb;
+    }
     productos.push(p);
   }
   return productos;
@@ -3374,6 +3411,7 @@ function combinarLotesStock(lotes) {
     if (!porClave.has(k)) porClave.set(k, { sku: p.sku, name: p.name, dep: {}, minDep: {}, vencs: [] });
     const r = porClave.get(k);
     if (!r.name && p.name) r.name = p.name;
+    if (!r.rubro && p.rubro) r.rubro = p.rubro;
     r.dep[dep] = valor;
     if (minDep !== undefined && minDep !== null) r.minDep[dep] = minDep;
     if (vencDep) r.vencs.push(vencDep);
@@ -3401,6 +3439,7 @@ function combinarLotesStock(lotes) {
       stock: valores.length ? valores.reduce((a, b) => a + b, 0) : null,
       dep: r.dep
     };
+    if (r.rubro) p.rubro = r.rubro;
     if (mins.length) { p.minDep = r.minDep; p.min = mins.reduce((a, b) => a + b, 0); }
     if (r.vencs.length) p.venc = r.vencs.sort()[0]; // el vencimiento más próximo
     return p;
@@ -3432,7 +3471,10 @@ function combinarLotesStock(lotes) {
     publicarStock();
   } else {
     descargarStockJSON();
-    mostrarMsgStock(`Listo (${resumen}). Se descargó stock.json: subilo al repositorio de GitHub (Add file → Upload files) reemplazando el anterior.`, false);
+    mostrarMsgStock(`Listo (${resumen}). Este navegador no tiene el token guardado, por eso NO se publicó: se descargó stock.json. ` +
+      (location.protocol === 'file:'
+        ? 'Estás usando el archivo de tu PC: abrí micacg.github.io/Etiquetador, que es donde guardaste el token.'
+        : 'Entrá con #admin al final de la dirección, pegá el token y tocá Guardar y probar.'), true);
   }
 }
 
@@ -3578,6 +3620,17 @@ function aplicarModoAdmin() {
     stockGh.token ? 'Cargar Excel y publicar' : 'Convertir Excel a stock.json';
   // El botón para cargar el Excel solo se ve en las PC con token (las tuyas). En el depósito no aparece.
   document.getElementById('stock-admin-acciones').style.display = admin ? 'flex' : 'none';
+  // Muestra si esta página puede publicar o no (para no llevarse sorpresas)
+  const con = document.getElementById('stock-conexion');
+  if (stockGh.token) {
+    con.className = 'stock-conexion ok';
+    con.textContent = `● Conectado a GitHub (${stockGh.owner}/${stockGh.repo}): publica solo`;
+  } else {
+    con.className = 'stock-conexion no';
+    con.textContent = location.protocol === 'file:'
+      ? '● Archivo abierto desde la PC: no publica. Usá micacg.github.io/Etiquetador'
+      : '● Sin token en este navegador: no publica, descarga stock.json';
+  }
   if (!admin) document.getElementById('stock-pub-panel').style.display = 'none';
 }
 
@@ -3817,14 +3870,36 @@ function mostrarMsgStock(texto, esError) {
   el.className = 'stock-msg ' + (esError ? 'error' : 'ok');
 }
 
+function productosDelRubro() {
+  if (!stockDatos) return [];
+  if (!stockRubro) return stockDatos.productos;
+  return stockDatos.productos.filter(p => p.rubro === stockRubro);
+}
+
+function renderSelectorRubro() {
+  const sel = document.getElementById('cfg-rubro');
+  const conteo = new Map();
+  (stockDatos ? stockDatos.productos : []).forEach(p => {
+    if (p.rubro) conteo.set(p.rubro, (conteo.get(p.rubro) || 0) + 1);
+  });
+  sel.style.display = conteo.size ? '' : 'none';
+  if (stockRubro && !conteo.has(stockRubro)) stockRubro = '';
+  const rubros = [...conteo.keys()].sort((a, b) => a.localeCompare(b, 'es'));
+  sel.innerHTML = '<option value="">Todos los rubros</option>' +
+    rubros.map(r => `<option value="${escStock(r)}">${escStock(r)} (${conteo.get(r)})</option>`).join('');
+  sel.value = stockRubro;
+  sel.classList.toggle('activo', !!stockRubro);
+}
+
 function productosFiltrados() {
   if (!stockDatos) return [];
   const q = normStock(document.getElementById('stock-search').value);
   const palabras = q ? q.split(' ') : [];
 
-  let lista = stockDatos.productos.filter(p => {
+  let lista = productosDelRubro().filter(p => {
     if (palabras.length) {
-      const texto = normStock(p.sku + ' ' + p.name);
+      // También busca en el rubro: "octopus" o "descartables" encuentran todo ese rubro
+      const texto = normStock(p.sku + ' ' + p.name + ' ' + (p.rubro || ''));
       if (!palabras.every(w => texto.includes(w))) return false;
     }
     if (stockFiltro === 'BAJO') return esStockBajo(p);
@@ -3871,8 +3946,9 @@ function renderStock() {
   badge.textContent = dias <= 0 ? 'Actualizado hoy' : dias === 1 ? 'Actualizado ayer' : `Hace ${dias} días`;
   badge.classList.toggle('vieja', dias >= 1);
 
-  // Tarjetas
-  const prods = stockDatos.productos;
+  // Tarjetas (respetan el rubro elegido)
+  renderSelectorRubro();
+  const prods = productosDelRubro();
   const skusUnicos = new Set(prods.map(p => p.sku)).size;
   const bajos = prods.filter(esStockBajo);
   const sinStock = prods.filter(p => { const v = valorStock(p); return v !== null && v <= 0; }).length;
@@ -3880,8 +3956,9 @@ function renderStock() {
   const depAct = depositoActivo();
   const enDep = depAct === 'todos' ? '' : ` en ${nombreDeposito(depAct)}`;
   document.getElementById('card-total').textContent = prods.length.toLocaleString('es-AR');
-  document.getElementById('card-total-sub').textContent =
-    skusUnicos !== prods.length ? `${skusUnicos.toLocaleString('es-AR')} SKUs distintos` : 'en el stock';
+  document.getElementById('card-total-sub').textContent = stockRubro
+    ? `en ${stockRubro}`
+    : (skusUnicos !== prods.length ? `${skusUnicos.toLocaleString('es-AR')} SKUs distintos` : 'en el stock');
   document.getElementById('card-bajo').textContent = bajos.length.toLocaleString('es-AR');
   document.getElementById('card-bajo-sub').textContent =
     (stockDatos.tieneMin ? 'según stock mínimo' : `≤ ${stockCfg.umbral} u.`) + ` · ${sinStock} sin stock${enDep}`;
@@ -3908,8 +3985,11 @@ function renderStock() {
   });
 
   const nombresFiltro = { BAJO: 'stock bajo', VENCE: 'por vencer', NOTAS: 'con notas' };
-  document.getElementById('stock-filtro-activo').innerHTML = stockFiltro === 'TODOS' ? '' :
-    `Mostrando solo <strong>${nombresFiltro[stockFiltro]}</strong> · <button onclick="filtrarStock('TODOS')">ver todos</button>`;
+  const partesFiltro = [];
+  if (stockFiltro !== 'TODOS') partesFiltro.push(`<strong>${nombresFiltro[stockFiltro]}</strong>`);
+  if (stockRubro) partesFiltro.push(`rubro <strong>${escStock(stockRubro)}</strong>`);
+  document.getElementById('stock-filtro-activo').innerHTML = !partesFiltro.length ? '' :
+    `Mostrando solo ${partesFiltro.join(' · ')} · <button onclick="limpiarFiltrosStock()">ver todos</button>`;
 
   renderTablaStock();
   renderNotasStock();
@@ -4033,6 +4113,13 @@ function renderSelectorDeposito() {
 function elegirDepositoStock(id) {
   stockCfg.deposito = id;
   stockGuardarLS(STOCK_LS_CFG, stockCfg);
+  stockLimite = STOCK_POR_PAGINA;
+  renderStock();
+}
+
+function limpiarFiltrosStock() {
+  stockFiltro = 'TODOS';
+  stockRubro = '';
   stockLimite = STOCK_POR_PAGINA;
   renderStock();
 }
@@ -4215,6 +4302,11 @@ function renderNotasStock() {
     const v = parseInt(e.target.value, 10);
     stockCfg.umbral = isNaN(v) || v < 0 ? 3 : v;
     stockGuardarLS(STOCK_LS_CFG, stockCfg);
+    renderStock();
+  });
+  document.getElementById('cfg-rubro').addEventListener('change', e => {
+    stockRubro = e.target.value;
+    stockLimite = STOCK_POR_PAGINA;
     renderStock();
   });
   document.getElementById('cfg-dias').addEventListener('change', e => {
