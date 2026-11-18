@@ -1,7 +1,7 @@
 /* ==========================================================================
    BASE DE DATOS LOCAL DE PRODUCTOS
-   Generado a partir de lista_productos_to.xlsx
-   Total de productos: 1738
+   Generado a partir de Productos_71062_20261117.xlsx (Contabilium)
+   Total de productos: 1812
    ========================================================================== */
 
 const CATALOGO_PRODUCTOS = [
@@ -220,6 +220,174 @@ const CATALOGO_PRODUCTOS = [
   {
     "sku": "AGU-139",
     "name": "AGUJAS STANDARD CAJA 50 UN RS 1215RS"
+  },
+  {
+    "sku": "ALI-025",
+    "name": "ALICE ASH BROWN 0.5 OZ"
+  },
+  {
+    "sku": "ALI-026",
+    "name": "ALICE ASH COFFEE 0.5 OZ"
+  },
+  {
+    "sku": "ALI-001",
+    "name": "ALICE BEIGE 0.5 OZ"
+  },
+  {
+    "sku": "ALI-022",
+    "name": "ALICE BLACK 0.5 OZ"
+  },
+  {
+    "sku": "ALI-042",
+    "name": "ALICE BLOOD RED 0.5 OZ"
+  },
+  {
+    "sku": "ALI-024",
+    "name": "ALICE BRICK RED 0.5 OZ"
+  },
+  {
+    "sku": "ALI-035",
+    "name": "ALICE BRIGHT CORAL 0.5 OZ"
+  },
+  {
+    "sku": "ALI-034",
+    "name": "ALICE BRIGHT ORANGE 0.5 OZ"
+  },
+  {
+    "sku": "ALI-010",
+    "name": "ALICE BROWN 0.5 OZ"
+  },
+  {
+    "sku": "ALI-014",
+    "name": "ALICE BRUNETTE 0.5 OZ"
+  },
+  {
+    "sku": "ALI-030",
+    "name": "ALICE BUBBLEGUM PINK 0.5 OZ"
+  },
+  {
+    "sku": "ALI-021",
+    "name": "ALICE CHERRY 0.5 OZ"
+  },
+  {
+    "sku": "ALI-020",
+    "name": "ALICE CHESTNUT 0.5 OZ"
+  },
+  {
+    "sku": "ALI-002",
+    "name": "ALICE COCO 0.5 OZ"
+  },
+  {
+    "sku": "ALI-029",
+    "name": "ALICE CORAL PINK 0.5 OZ"
+  },
+  {
+    "sku": "ALI-033",
+    "name": "ALICE DARK CHOCOLATE 0.5 OZ"
+  },
+  {
+    "sku": "ALI-027",
+    "name": "ALICE DARK MAHOGANY 0.5 OZ"
+  },
+  {
+    "sku": "ALI-041",
+    "name": "ALICE DARK RED 0.5 OZ"
+  },
+  {
+    "sku": "ALI-039",
+    "name": "ALICE DEEP BROWN 0.5 OZ"
+  },
+  {
+    "sku": "ALI-005",
+    "name": "ALICE FUSCHIA 0.5 OZ"
+  },
+  {
+    "sku": "ALI-006",
+    "name": "ALICE GINGERBREAD 0.5 OZ"
+  },
+  {
+    "sku": "ALI-036",
+    "name": "ALICE GOLDEN BROWN 0.5 OZ"
+  },
+  {
+    "sku": "ALI-028",
+    "name": "ALICE GOLDEN CARAMEL 0.5 OZ"
+  },
+  {
+    "sku": "ALI-040",
+    "name": "ALICE MEDIUM COFFEE 0.5 OZ"
+  },
+  {
+    "sku": "ALI-007",
+    "name": "ALICE NUTMEG 0.5 OZ"
+  },
+  {
+    "sku": "ALI-003",
+    "name": "ALICE OLIVE 0.5 OZ"
+  },
+  {
+    "sku": "ALI-013",
+    "name": "ALICE ORANGE 0.5 OZ"
+  },
+  {
+    "sku": "ALI-017",
+    "name": "ALICE PAPAYA 0.5 OZ"
+  },
+  {
+    "sku": "ALI-009",
+    "name": "ALICE PEACH 0.5 OZ"
+  },
+  {
+    "sku": "ALI-004",
+    "name": "ALICE PEANUT 0.5 OZ"
+  },
+  {
+    "sku": "ALI-023",
+    "name": "ALICE PORCELAINE PINK 0.5 OZ"
+  },
+  {
+    "sku": "ALI-038",
+    "name": "ALICE RICH BROWN 0.5 OZ"
+  },
+  {
+    "sku": "ALI-016",
+    "name": "ALICE ROSE 0.5 OZ"
+  },
+  {
+    "sku": "ALI-031",
+    "name": "ALICE ROYAL RED 0.5 OZ"
+  },
+  {
+    "sku": "ALI-037",
+    "name": "ALICE SCARLET RED 0.5 OZ"
+  },
+  {
+    "sku": "ALI-019",
+    "name": "ALICE TANGERINE 0.5 OZ"
+  },
+  {
+    "sku": "ALI-008",
+    "name": "ALICE TERRA 0.5 OZ"
+  },
+  {
+    "sku": "ALI-011",
+    "name": "ALICE THICKENER 0.5 OZ"
+  },
+  {
+    "sku": "ALI-015",
+    "name": "ALICE THINNER 0.5 OZ"
+  },
+  {
+    "sku": "ALI-012",
+    "name": "ALICE TOBACCO 0.5 OZ"
+  },
+  {
+    "sku": "ALI-018",
+    "name": "ALICE WHITE 0.5 OZ"
+  },
+  {
+    "sku": "ALI-032",
+    "name": "ALICE YELLOW OCHRE 0.5 OZ"
   },
   {
     "sku": "ARM-041",
@@ -1470,12 +1638,16 @@ const CATALOGO_PRODUCTOS = [
     "name": "CARTUCHOS POPU CLOVER (PMU) X 20 UN RL 0801RL"
   },
   {
+    "sku": "AGU-608",
+    "name": "CARTUCHOS POPU CLOVER (PMU) X 20 UN RL 0801RLLT"
+  },
+  {
     "sku": "AGU-400",
     "name": "CARTUCHOS POPU CLOVER (PMU) X 20 UN RL 0803RL"
   },
   {
     "sku": "AGU-401",
-    "name": "CARTUCHOS POPU CLOVER (PMU) X 20 UN RL 1001RL"
+    "name": "CARTUCHOS POPU CLOVER (PMU) X 20 UN RL 1001RLLT"
   },
   {
     "sku": "AGU-402",
@@ -1519,19 +1691,19 @@ const CATALOGO_PRODUCTOS = [
   },
   {
     "sku": "AGU-566",
-    "name": "CARTUCHOS POPU OMNI V2 X 16 UN RL 0601RL"
+    "name": "CARTUCHOS POPU OMNI V2 X 16 UN RL 0601RLMT"
   },
   {
     "sku": "AGU-567",
-    "name": "CARTUCHOS POPU OMNI V2 X 16 UN RL 0603RL"
+    "name": "CARTUCHOS POPU OMNI V2 X 16 UN RL 0603RLMT"
   },
   {
     "sku": "AGU-568",
-    "name": "CARTUCHOS POPU OMNI V2 X 16 UN RL 0801RL"
+    "name": "CARTUCHOS POPU OMNI V2 X 16 UN RL 0801RLLT"
   },
   {
     "sku": "AGU-569",
-    "name": "CARTUCHOS POPU OMNI V2 X 16 UN RL 0803RL"
+    "name": "CARTUCHOS POPU OMNI V2 X 16 UN RL 0803RLLT"
   },
   {
     "sku": "AGU-570",
@@ -1539,7 +1711,7 @@ const CATALOGO_PRODUCTOS = [
   },
   {
     "sku": "AGU-571",
-    "name": "CARTUCHOS POPU OMNI V2 X 16 UN RL 1003RL"
+    "name": "CARTUCHOS POPU OMNI V2 X 16 UN RL 1003RLLT"
   },
   {
     "sku": "AGU-572",
@@ -1547,7 +1719,7 @@ const CATALOGO_PRODUCTOS = [
   },
   {
     "sku": "AGU-573",
-    "name": "CARTUCHOS POPU OMNI V2 X 16 UN RL 1203RL"
+    "name": "CARTUCHOS POPU OMNI V2 X 16 UN RL 1203RLLT"
   },
   {
     "sku": "AGU-574",
@@ -1878,6 +2050,94 @@ const CATALOGO_PRODUCTOS = [
     "name": "CARTUCHOS WJX ULTRA X 20 UN RS 1209RS"
   },
   {
+    "sku": "AGU-626",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN M1 1207M1"
+  },
+  {
+    "sku": "AGU-627",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN M1 1209M1"
+  },
+  {
+    "sku": "AGU-628",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN M1 1211M1"
+  },
+  {
+    "sku": "AGU-629",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN M1 1213M1"
+  },
+  {
+    "sku": "AGU-630",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN M1 1215M1"
+  },
+  {
+    "sku": "AGU-609",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN RL 0803RL"
+  },
+  {
+    "sku": "AGU-610",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN RL 1003RL"
+  },
+  {
+    "sku": "AGU-611",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN RL 1005RL"
+  },
+  {
+    "sku": "AGU-612",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN RL 1201RL"
+  },
+  {
+    "sku": "AGU-613",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN RL 1203RL"
+  },
+  {
+    "sku": "AGU-614",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN RL 1205RL"
+  },
+  {
+    "sku": "AGU-615",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN RL 1207RL"
+  },
+  {
+    "sku": "AGU-616",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN RL 1209RL"
+  },
+  {
+    "sku": "AGU-617",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN RL 1211RL"
+  },
+  {
+    "sku": "AGU-621",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN RM 1207RM"
+  },
+  {
+    "sku": "AGU-622",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN RM 1209RM"
+  },
+  {
+    "sku": "AGU-623",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN RM 1211RM"
+  },
+  {
+    "sku": "AGU-624",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN RM 1213RM"
+  },
+  {
+    "sku": "AGU-625",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN RM 1215RM"
+  },
+  {
+    "sku": "AGU-618",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN RS 1205RS"
+  },
+  {
+    "sku": "AGU-619",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN RS 1207RS"
+  },
+  {
+    "sku": "AGU-620",
+    "name": "CARTUCHOS YELLOW DRAGONFLY PRO X 10 UN RS 1209RS"
+  },
+  {
     "sku": "AGU-096",
     "name": "CARTUCHOS YELLOW DRAGONFLY X 20 UN M1 1205M1"
   },
@@ -2042,10 +2302,6 @@ const CATALOGO_PRODUCTOS = [
     "name": "CHEYENNE HAWK PEN SILVER"
   },
   {
-    "sku": "MIM-002",
-    "name": "CHEYENNE HAWK SPIRIT DRIVE CON GRIP"
-  },
-  {
     "sku": "PYT-146",
     "name": "CINTA CUBRE GRIP 5 CM AZUL 1 U"
   },
@@ -2076,6 +2332,14 @@ const CATALOGO_PRODUCTOS = [
   {
     "sku": "PYT-168",
     "name": "CINTA CUBRE GRIP 5 CM CAMUFLADA NIEVE 12 U"
+  },
+  {
+    "sku": "PYT-175",
+    "name": "CINTA CUBRE GRIP 5 CM CAMUFLADA ROSA 1 U"
+  },
+  {
+    "sku": "PYT-176",
+    "name": "CINTA CUBRE GRIP 5 CM CAMUFLADA ROSA 12 U"
   },
   {
     "sku": "PYT-151",
@@ -2239,27 +2503,27 @@ const CATALOGO_PRODUCTOS = [
   },
   {
     "sku": "IDE-090",
-    "name": "COMPRESAS AMARILLO  100 UNIDADES"
+    "name": "COMPRESAS AMARILLO 100 UNIDADES"
   },
   {
     "sku": "IDE-095",
-    "name": "COMPRESAS AMARILLO  50 UNIDADES"
+    "name": "COMPRESAS AMARILLO 50 UNIDADES"
   },
   {
     "sku": "IDE-089",
-    "name": "COMPRESAS BLANCO  100 UNIDADES"
+    "name": "COMPRESAS BLANCO 100 UNIDADES"
   },
   {
     "sku": "IDE-094",
-    "name": "COMPRESAS BLANCO  50 UNIDADES"
+    "name": "COMPRESAS BLANCO 50 UNIDADES"
   },
   {
     "sku": "IDE-008",
-    "name": "COMPRESAS CELESTE  100 UNIDADES"
+    "name": "COMPRESAS CELESTE 100 UNIDADES"
   },
   {
     "sku": "IDE-093",
-    "name": "COMPRESAS CELESTE  50 UNIDADES"
+    "name": "COMPRESAS CELESTE 50 UNIDADES"
   },
   {
     "sku": "IDE-114",
@@ -2275,19 +2539,19 @@ const CATALOGO_PRODUCTOS = [
   },
   {
     "sku": "IDE-092",
-    "name": "COMPRESAS ROSA  100 UNIDADES"
+    "name": "COMPRESAS ROSA 100 UNIDADES"
   },
   {
     "sku": "IDE-097",
-    "name": "COMPRESAS ROSA  50 UNIDADES"
+    "name": "COMPRESAS ROSA 50 UNIDADES"
   },
   {
     "sku": "IDE-091",
-    "name": "COMPRESAS VERDE  100 UNIDADES"
+    "name": "COMPRESAS VERDE 100 UNIDADES"
   },
   {
     "sku": "IDE-096",
-    "name": "COMPRESAS VERDE  50 UNIDADES"
+    "name": "COMPRESAS VERDE 50 UNIDADES"
   },
   {
     "sku": "EMB-001",
@@ -2296,10 +2560,6 @@ const CATALOGO_PRODUCTOS = [
   {
     "sku": "CUT-087",
     "name": "CREMA ANESTESICA BLESSED 30 GR 1 U"
-  },
-  {
-    "sku": "CUT-119",
-    "name": "CREMA ANESTESICA BLESSED 30 GR 10 U"
   },
   {
     "sku": "CUT-041",
@@ -2464,6 +2724,22 @@ const CATALOGO_PRODUCTOS = [
   {
     "sku": "IDE-070",
     "name": "ESPONJA LIMPIADORA DE CARTUCHO BEETATTOO® X 18 UN"
+  },
+  {
+    "sku": "IDE-139",
+    "name": "ESTACIÓN DE TRABAJO ENCASTRABLE BANDEJA 4.4 X 5.3 CM (CAJA X 40 UN)"
+  },
+  {
+    "sku": "IDE-140",
+    "name": "ESTACIÓN DE TRABAJO ENCASTRABLE BANDEJA 7.3 X 5.3 CM (CAJA X 20 UN)"
+  },
+  {
+    "sku": "IDE-138",
+    "name": "ESTACIÓN DE TRABAJO ENCASTRABLE PORTA CARTUCHOS (CAJA X 40 UN)"
+  },
+  {
+    "sku": "IDE-137",
+    "name": "ESTACIÓN DE TRABAJO ENCASTRABLE TETINAS (CAJA X 40 UN)"
   },
   {
     "sku": "AVS-065",
@@ -3040,6 +3316,10 @@ const CATALOGO_PRODUCTOS = [
   {
     "sku": "IDE-085",
     "name": "GUANTES LATEX X 100 UN XL"
+  },
+  {
+    "sku": "IDE-136",
+    "name": "GUANTES LATEX X 100 UN XS"
   },
   {
     "sku": "IDE-053",
@@ -3658,40 +3938,12 @@ const CATALOGO_PRODUCTOS = [
     "name": "MAQUINA PEN BEETATTOO® 0162-2"
   },
   {
-    "sku": "MIM-048",
-    "name": "MAQUINA PEN Y0698 CHAMPAGNE"
-  },
-  {
-    "sku": "MIM-040",
-    "name": "MAQUINA PEN Y0698 NEGRO"
-  },
-  {
     "sku": "MIM-047",
     "name": "MAQUINA PEN Y0698 PLATA"
   },
   {
-    "sku": "MIM-046",
-    "name": "MAQUINA PEN Y0698 ROJO"
-  },
-  {
-    "sku": "MIM-036",
-    "name": "MAQUINA PEN Y2333-5 NEGRA"
-  },
-  {
     "sku": "MIM-037",
-    "name": "MAQUINA PEN Y2335-3 NEGRA DC"
-  },
-  {
-    "sku": "MIM-246",
     "name": "MAQUINA PEN Y2335-3 NEGRA RCA"
-  },
-  {
-    "sku": "MIM-039",
-    "name": "MAQUINA PEN Y2338-4 NEGRA"
-  },
-  {
-    "sku": "MIM-038",
-    "name": "MAQUINA PEN Y2339-1 NEGRA"
   },
   {
     "sku": "MIM-092",
@@ -3994,12 +4246,8 @@ const CATALOGO_PRODUCTOS = [
     "name": "NIPPLE X 100 UN"
   },
   {
-    "sku": "OCT-012",
-    "name": "OCTOPUS 1RO ARGENTINA 1 OZ"
-  },
-  {
     "sku": "OCT-013",
-    "name": "OCTOPUS 2DO FRANCIA 1 OZ"
+    "name": "OCTOPUS 4TO FRANCIA 1 OZ"
   },
   {
     "sku": "OCT-028",
@@ -4042,6 +4290,10 @@ const CATALOGO_PRODUCTOS = [
     "name": "OCTOPUS CALABAZA 1 OZ"
   },
   {
+    "sku": "OCT-012",
+    "name": "OCTOPUS CAMPEONES 22 1 OZ"
+  },
+  {
     "sku": "OCT-019",
     "name": "OCTOPUS COFFIN 1 OZ"
   },
@@ -4062,12 +4314,28 @@ const CATALOGO_PRODUCTOS = [
     "name": "OCTOPUS FLAMA RED 1 OZ"
   },
   {
+    "sku": "OCT-051",
+    "name": "OCTOPUS FRANKIE 1 OZ"
+  },
+  {
     "sku": "OCT-038",
     "name": "OCTOPUS FRUTILLA 1 OZ"
   },
   {
     "sku": "OCT-033",
     "name": "OCTOPUS GHOST 1 OZ"
+  },
+  {
+    "sku": "OCT-050",
+    "name": "OCTOPUS GLOOMY 1 OZ"
+  },
+  {
+    "sku": "OCT-049",
+    "name": "OCTOPUS GOLDUST 1 OZ"
+  },
+  {
+    "sku": "OCT-048",
+    "name": "OCTOPUS MAGENTA 1 OZ"
   },
   {
     "sku": "OCT-042",
@@ -4092,6 +4360,18 @@ const CATALOGO_PRODUCTOS = [
   {
     "sku": "OCT-035",
     "name": "OCTOPUS NEON YELLOW 1 OZ"
+  },
+  {
+    "sku": "OCT-054",
+    "name": "OCTOPUS NUDE LIGHT 1 OZ"
+  },
+  {
+    "sku": "OCT-053",
+    "name": "OCTOPUS NUDE ROSE 1 OZ"
+  },
+  {
+    "sku": "OCT-052",
+    "name": "OCTOPUS NUDE TAN 1 OZ"
   },
   {
     "sku": "OCT-045",
@@ -4348,6 +4628,14 @@ const CATALOGO_PRODUCTOS = [
   {
     "sku": "IST-076",
     "name": "PAPEL HECTOGRAFICO U-20 MAGISTERIO 100 HOJAS"
+  },
+  {
+    "sku": "IST-079",
+    "name": "PAPEL HECTOGRÁFICO Y229-1 THERMAL ROSA 1 HOJA"
+  },
+  {
+    "sku": "IST-080",
+    "name": "PAPEL HECTOGRÁFICO Y229-1 THERMAL ROSA 100 HOJAS"
   },
   {
     "sku": "IST-058",
@@ -4859,15 +5147,15 @@ const CATALOGO_PRODUCTOS = [
   },
   {
     "sku": "MIM-264",
-    "name": "PEN CON BATERIA POPU MINI DIVA PRO (PMU) BLACK"
+    "name": "PEN CON BATERIA POPU MINI DIVA PRO (PMU) PEN BLACK + BATERIA EXTRA"
   },
   {
     "sku": "MIM-262",
-    "name": "PEN CON BATERIA POPU MINI DIVA PRO (PMU) CRYSTAL BLUE"
+    "name": "PEN CON BATERIA POPU MINI DIVA PRO (PMU) PEN CRYSTAL BLUE + BATERIA EXTRA"
   },
   {
     "sku": "MIM-263",
-    "name": "PEN CON BATERIA POPU MINI DIVA PRO (PMU) LAVANDER PURPLE"
+    "name": "PEN CON BATERIA POPU MINI DIVA PRO (PMU) PEN LAVANDER PURPLE + BATERIA EXTRA"
   },
   {
     "sku": "MIM-088",
@@ -5288,6 +5576,14 @@ const CATALOGO_PRODUCTOS = [
   {
     "sku": "PMU-059",
     "name": "PORTATETINAS DESCARTABLE POPU PMU"
+  },
+  {
+    "sku": "CUT-035",
+    "name": "POTE DE VASELINA 500 G"
+  },
+  {
+    "sku": "CUT-036",
+    "name": "POTE DE VASELINA 900 G"
   },
   {
     "sku": "ARM-037",
@@ -6956,29 +7252,5 @@ const CATALOGO_PRODUCTOS = [
   {
     "sku": "CUT-127",
     "name": "X PROJECT MAGIC CREAM ANESTESIA 20 G 10 U"
-  },
-  {
-      "sku": "IDE-137",
-      "name": "ESTACIÓN DE TRABAJO ENCASTRABLE TETINAS (CAJA X 40 UN)"
-   },
-  {
-      "sku": "IDE-138",
-      "name": "ESTACIÓN DE TRABAJO ENCASTRABLE PORTA CARTUCHOS (CAJA X 40 UN)"
-   },
-     {
-      "sku": "IDE-140",
-      "name": "ESTACIÓN DE TRABAJO ENCASTRABLE BANDEJA 7.3 X 5.3 CM (CAJA X 20 UN)"
-   },
-        {
-      "sku": "IDE-139",
-      "name": "ESTACIÓN DE TRABAJO ENCASTRABLE BANDEJA 4.4 X 5.3 CM (CAJA X 40 UN)"
-   },
-       {
-      "sku": "IST-079",
-      "name": "PAPEL HECTOGRÁFICO Y229-1 THERMAL ROSA 1 HOJA"
-   },
-       {
-      "sku": " IST-080",
-      "name": "PAPEL HECTOGRÁFICO Y229-1 THERMAL ROSA 100 HOJAS"
-   },
+  }
 ];

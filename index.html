@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tomas Oberti® Tattoo Supplies | Generador de Etiquetas</title>
   
-  <meta property="og:title" content="Tomas Oberti® Tattoo Supplies | Generador de Etiquetas">
-  <meta property="og:description" content="Sistema de Etiquetado para Depósito (15x10 cm)">
+  <meta property="og:title" content="Tomas Oberti® Tattoo Supplies | Depósito">
+  <meta property="og:description" content="Sistema para Depósito (15x10 cm)">
 
   <!-- Enlace a la base de datos local en la misma carpeta -->
   <script src="productos.js"></script>
@@ -585,6 +585,7 @@
 
     .new-prod-trigger {
       width: 100%;
+      box-sizing: border-box;
       background: var(--to-gray-100);
       border: 1.5px solid var(--to-gray-300);
       border-radius: 6px;
@@ -592,12 +593,21 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 12px;
+      text-align: left;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background 0.2s, border-color 0.2s;
     }
 
     .new-prod-trigger:hover {
       border-color: var(--to-black);
+      background: var(--to-white);
+    }
+
+    /* Abierto: el título y el formulario forman una sola caja */
+    .new-prod-trigger.abierto {
+      border-radius: 6px 6px 0 0;
+      border-bottom-color: var(--to-gray-200);
       background: var(--to-white);
     }
 
@@ -607,29 +617,49 @@
       color: var(--to-dark);
       text-transform: uppercase;
       letter-spacing: 0.4px;
+      line-height: 1;
+    }
+
+    .new-prod-trigger-right {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+      color: var(--to-gray-700);
+    }
+
+    .new-prod-chevron {
+      transition: transform 0.2s;
+    }
+
+    .new-prod-trigger.abierto .new-prod-chevron {
+      transform: rotate(180deg);
     }
 
     .audit-counter-badge {
-      background-color: var(--to-black);
-      color: var(--to-white);
-      font-size: 0.7rem;
+      background-color: var(--to-gray-200);
+      color: var(--to-gray-700);
+      font-size: 0.68rem;
       font-weight: 800;
-      padding: 3px 9px;
+      padding: 4px 10px;
       border-radius: 20px;
       text-transform: uppercase;
       letter-spacing: 0.4px;
+      line-height: 1;
+      white-space: nowrap;
     }
 
     .audit-counter-badge.has-items {
       background-color: var(--to-green);
+      color: var(--to-white);
     }
 
     .new-prod-expand-box {
       display: none;
-      margin-top: 10px;
-      background: var(--to-gray-100);
-      border: 1px solid var(--to-gray-300);
-      border-radius: 6px;
+      background: var(--to-white);
+      border: 1.5px solid var(--to-gray-300);
+      border-top: none;
+      border-radius: 0 0 6px 6px;
       padding: 14px;
     }
 
@@ -970,6 +1000,611 @@
       color: #000000;
     }
 
+    /* =======================================================
+       PESTAÑA 3: STOCK DEPÓSITO (DASHBOARD DESDE EXCEL)
+       ======================================================= */
+    .stock-wrapper {
+      width: 100%;
+      max-width: 1120px;
+      padding: 18px 20px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .stock-topbar {
+      background: var(--to-black);
+      color: var(--to-white);
+      border-radius: 8px;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .stock-topbar-label {
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #999;
+    }
+
+    .stock-topbar-fecha {
+      font-size: 1.15rem;
+      font-weight: 900;
+      letter-spacing: 0.3px;
+      margin-top: 2px;
+    }
+
+
+    .stock-antiguedad {
+      display: inline-block;
+      margin-left: 8px;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: var(--to-green);
+      color: var(--to-white);
+      vertical-align: middle;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .stock-antiguedad.vieja {
+      background: #f59e0b;
+      color: #000;
+    }
+
+    .btn-cargar-excel {
+      background: var(--to-green);
+      color: var(--to-white);
+      border: none;
+      border-radius: 6px;
+      padding: 11px 18px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+
+    .btn-cargar-excel:hover {
+      background: var(--to-green-hover);
+    }
+
+    .stock-dropzone {
+      background: var(--to-white);
+      border: 2px dashed var(--to-gray-300);
+      border-radius: 8px;
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .stock-dropzone:hover, .stock-dropzone.drag {
+      border-color: var(--to-green);
+      background: var(--to-green-light);
+    }
+
+    .stock-dropzone h3 {
+      margin: 10px 0 4px;
+      font-size: 1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .stock-dropzone p {
+      margin: 0;
+      font-size: 0.8rem;
+      color: var(--to-gray-700);
+      font-weight: 500;
+    }
+
+    .stock-msg {
+      display: none;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .stock-msg.ok { display: block; background: var(--to-green-light); color: var(--to-green-dark); border: 1px solid var(--to-green-border); }
+    .stock-msg.error { display: block; background: var(--to-red-light); color: var(--to-red); border: 1px solid #fecaca; }
+
+    /* Mapeo manual de columnas (solo si no se detectan solas) */
+    .stock-mapeo {
+      display: none;
+      background: var(--to-white);
+      border: 1.5px solid #f59e0b;
+      border-radius: 8px;
+      padding: 16px 18px;
+    }
+
+    .stock-mapeo h3 {
+      margin: 0 0 4px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .stock-mapeo p {
+      margin: 0 0 12px;
+      font-size: 0.78rem;
+      color: var(--to-gray-700);
+    }
+
+    .stock-mapeo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .stock-search .search-input {
+      background: var(--to-white);
+      border: 1.5px solid var(--to-gray-300);
+      font-size: 1rem;
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+
+    .stock-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .stock-card {
+      background: var(--to-white);
+      border: 1.5px solid var(--to-gray-200);
+      border-radius: 8px;
+      padding: 14px 16px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      border-top: 4px solid var(--to-gray-300);
+    }
+
+    .stock-card:hover { border-color: var(--to-black); }
+    .stock-card.activa { border-color: var(--to-black); box-shadow: 0 0 0 2px var(--to-black); }
+    .stock-card.c-total { border-top-color: var(--to-black); }
+    .stock-card.c-bajo { border-top-color: var(--to-red); }
+    .stock-card.c-venc { border-top-color: #f59e0b; }
+    .stock-card.c-notas { border-top-color: var(--to-green); }
+
+    .stock-card-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--to-gray-700);
+    }
+
+    .stock-card-num {
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1.1;
+      margin: 4px 0 2px;
+      color: var(--to-black);
+    }
+
+    .stock-card-sub {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #777;
+    }
+
+    .stock-ajustes {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--to-gray-700);
+      text-transform: uppercase;
+    }
+
+    .stock-ajustes input {
+      width: 64px;
+      padding: 5px 8px;
+      font-size: 0.85rem;
+      margin-left: 6px;
+    }
+
+    .stock-filtro-activo {
+      margin-left: auto;
+      text-transform: none;
+      font-weight: 600;
+    }
+
+    .stock-filtro-activo button {
+      background: none;
+      border: none;
+      color: var(--to-green);
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 0.74rem;
+    }
+
+    .stock-table-card {
+      background: var(--to-white);
+      border: 1px solid var(--to-gray-200);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      overflow: hidden;
+    }
+
+    .stock-table-scroll {
+      max-height: 560px;
+      overflow-y: auto;
+    }
+
+    .stock-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+
+    .stock-table th {
+      background: var(--to-gray-100);
+      text-align: left;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--to-gray-700);
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--to-gray-200);
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+    }
+
+    .stock-table th.num, .stock-table td.num { text-align: right; }
+
+    .stock-table td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--to-gray-100);
+      vertical-align: middle;
+    }
+
+    .stock-table tr:hover td { background: #fafafa; }
+
+    .stock-table .t-sku {
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .stock-table .t-name {
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--to-gray-800);
+    }
+
+    .t-stock {
+      font-weight: 900;
+      font-size: 0.95rem;
+    }
+
+    .t-stock.bajo { color: var(--to-red); }
+    .t-stock.cero { color: #fff; background: var(--to-red); padding: 2px 8px; border-radius: 4px; }
+
+    .t-venc.pronto { color: #b45309; font-weight: 800; }
+    .t-venc.vencido { color: var(--to-red); font-weight: 800; }
+
+    .t-acciones {
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .btn-mini {
+      background: var(--to-white);
+      border: 1.5px solid var(--to-gray-300);
+      border-radius: 5px;
+      padding: 5px 9px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: var(--to-gray-800);
+      transition: all 0.15s;
+    }
+
+    .btn-mini:hover { border-color: var(--to-black); color: var(--to-black); }
+    .btn-mini.tiene-nota { background: var(--to-green-light); border-color: var(--to-green); color: var(--to-green-dark); }
+
+    .stock-mas {
+      padding: 12px;
+      text-align: center;
+      border-top: 1px solid var(--to-gray-100);
+      font-size: 0.78rem;
+      color: var(--to-gray-700);
+    }
+
+    .stock-vacio {
+      padding: 30px;
+      text-align: center;
+      color: #888;
+      font-size: 0.85rem;
+    }
+
+    /* NOTAS PARA VERIFICAR */
+    .notas-card {
+      background: var(--to-white);
+      border: 1px solid var(--to-gray-200);
+      border-radius: 8px;
+      padding: 18px 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .notas-acciones {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nota-item {
+      border: 1px solid var(--to-gray-200);
+      border-left: 4px solid var(--to-green);
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .nota-item.revisada { border-left-color: var(--to-gray-300); opacity: 0.6; }
+
+    .nota-head {
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .nota-texto {
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-top: 3px;
+      white-space: pre-line;
+    }
+
+    .nota-meta {
+      font-size: 0.7rem;
+      color: #777;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .nota-diff {
+      display: inline-block;
+      background: #fef3c7;
+      color: #92400e;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-left: 6px;
+    }
+
+    /* MODAL DE NOTA */
+    .modal-fondo {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-caja {
+      background: var(--to-white);
+      border-radius: 10px;
+      width: 100%;
+      max-width: 460px;
+      padding: 22px 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    }
+
+    .modal-caja h3 {
+      margin: 0 0 4px;
+      font-size: 1rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .modal-caja .custom-input {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .modal-prod {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--to-gray-700);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    /* Selector de depósito (Todos / Brasil / Perú) */
+    .dep-selector {
+      display: inline-flex;
+      background: var(--to-white);
+      border: 1.5px solid var(--to-gray-300);
+      border-radius: 8px;
+      padding: 3px;
+      gap: 3px;
+    }
+
+    .dep-selector button {
+      border: none;
+      background: transparent;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--to-gray-700);
+      cursor: pointer;
+    }
+
+    .dep-selector button.activo {
+      background: var(--to-black);
+      color: var(--to-white);
+    }
+
+    .tab-corto { display: none; }
+    .stock-lista-movil { display: none; }
+
+    /* =======================================================
+       CELULAR
+       ======================================================= */
+    @media (max-width: 700px) {
+      .top-announcement { display: none; }
+
+      .brand-header { padding: 10px 14px; }
+      .brand-title { font-size: 1.05rem; letter-spacing: 1px; }
+      .brand-subtitle { font-size: 0.56rem; letter-spacing: 1.5px; }
+      .store-tag { font-size: 0.62rem; padding: 4px 8px; }
+
+      /* Pestañas en una sola fila, con texto corto */
+      .mode-tabs-bar {
+        flex-direction: row;
+        padding: 10px 10px 0;
+        gap: 6px;
+      }
+      .mode-tab {
+        padding: 10px 4px;
+        font-size: 0.72rem;
+        letter-spacing: 0.3px;
+        gap: 5px;
+        border-radius: 7px;
+      }
+      .tab-largo { display: none; }
+      .tab-corto { display: inline; }
+
+      .main-wrapper { padding: 10px 10px 30px; gap: 14px; }
+      .main-wrapper > * { min-width: 0; }
+      .form-grid { grid-template-columns: minmax(0, 1fr) 84px; gap: 10px; }
+      .form-grid-2col { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+      .custom-input { min-width: 0; width: 100%; box-sizing: border-box; }
+      .control-card { padding: 16px 14px; }
+      .preview-card { position: static; padding: 16px 10px; }
+
+      /* Evita que el celular haga zoom al tocar un campo */
+      .search-input, .custom-input, select.custom-input, textarea.custom-input { font-size: 16px; }
+
+      /* ---------- Stock ---------- */
+      .stock-wrapper { padding: 10px 10px 30px; gap: 10px; }
+
+      .stock-topbar { padding: 10px 14px; border-radius: 8px; gap: 10px; }
+      .stock-topbar-label { font-size: 0.6rem; }
+      .stock-topbar-fecha { font-size: 1rem; }
+      .stock-antiguedad { font-size: 0.6rem; margin-left: 6px; }
+      #stock-admin-acciones { width: 100%; align-items: stretch !important; }
+      #stock-admin-acciones .btn-cargar-excel { justify-content: center; }
+
+      /* Buscador fijo arriba mientras se recorre la lista */
+      .stock-search {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        background: var(--to-gray-100);
+        padding: 6px 0;
+        margin: -6px 0;
+      }
+      .stock-search .search-input { padding-top: 12px; padding-bottom: 12px; }
+
+      .stock-cards { grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 8px; }
+      .stock-card { padding: 9px 10px; border-top-width: 3px; }
+      .stock-card-label { font-size: 0.56rem; letter-spacing: 0.3px; line-height: 1.2; }
+      .stock-card-num { font-size: 1.35rem; margin: 3px 0 1px; }
+      .stock-card-sub { font-size: 0.58rem; line-height: 1.25; }
+
+      .stock-ajustes { gap: 10px; font-size: 0.66rem; }
+      .dep-selector { display: flex !important; width: 100%; }
+      .dep-selector button { flex: 1; padding: 9px 6px; font-size: 0.74rem; }
+      .stock-filtro-activo { margin-left: 0; width: 100%; }
+
+      /* Listado en tarjetas */
+      .stock-table-scroll { display: none; }
+      .stock-lista-movil { display: block; }
+      .m-item {
+        padding: 11px 12px;
+        border-bottom: 1px solid var(--to-gray-100);
+      }
+      .m-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+      }
+      .m-sku { font-weight: 900; font-size: 0.88rem; }
+      .m-name {
+        font-size: 0.76rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--to-gray-800);
+        margin: 3px 0 8px;
+        line-height: 1.3;
+      }
+      .m-stocks { display: flex; gap: 6px; }
+      .m-st {
+        flex: 1;
+        background: var(--to-gray-100);
+        border: 1.5px solid transparent;
+        border-radius: 6px;
+        padding: 5px 8px;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+      .m-st.activa { border-color: var(--to-black); background: var(--to-white); }
+      .m-st span {
+        font-size: 0.56rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        color: var(--to-gray-700);
+      }
+      .m-st strong { font-size: 1rem; font-weight: 900; }
+      .m-st strong.bajo { color: var(--to-red); }
+      .m-st strong.cero { color: var(--to-red); }
+
+      .notas-card { padding: 14px; }
+      .notas-card .card-heading h2 { font-size: 0.85rem; }
+      .nota-item { flex-direction: column; }
+
+      /* Ventanas emergentes abiertas desde abajo */
+      .modal-fondo { align-items: flex-end; padding: 0; }
+      .modal-caja {
+        max-width: none;
+        border-radius: 14px 14px 0 0;
+        padding: 18px 16px 22px;
+        max-height: 92vh;
+        overflow-y: auto;
+      }
+    }
+
     /* OCULTAR EL CONTENEDOR DE IMPRESIÓN EN PANTALLA */
     #print-area {
       display: none;
@@ -1004,7 +1639,9 @@
       .top-announcement,
       .brand-header,
       .mode-tabs-bar,
-      .main-wrapper {
+      .main-wrapper,
+      .stock-wrapper,
+      .modal-fondo {
         display: none !important;
       }
 
@@ -1223,7 +1860,7 @@
   <header class="brand-header">
     <div class="brand-container">
       <div class="brand-logo-wrap">
-        <h1 class="brand-title">TOMAS OBERTI<span>®</span></h1>
+        <h1 class="brand-title">TOMAS OBERTI<span id="admin-trigger">®</span></h1>
         <div class="brand-subtitle">• Tattoo Supplies • </div>
       </div>
       <div class="store-tag">
@@ -1236,11 +1873,15 @@
   <div class="mode-tabs-bar">
     <button class="mode-tab active" id="tab-btn-insumos" onclick="cambiarModo('INSUMOS')">
       <span class="tab-dot"></span>
-      Buscador de Insumos
+      <span class="tab-largo">Buscador de Insumos</span><span class="tab-corto">Etiquetas</span>
     </button>
     <button class="mode-tab" id="tab-btn-envios" onclick="cambiarModo('ENVIOS')">
       <span class="tab-dot"></span>
-      Envíos Manuales
+      <span class="tab-largo">Envíos Manuales</span><span class="tab-corto">Envíos</span>
+    </button>
+    <button class="mode-tab" id="tab-btn-stock" onclick="cambiarModo('STOCK')">
+      <span class="tab-dot"></span>
+      <span class="tab-largo">Stock Depósito</span><span class="tab-corto">Stock</span>
     </button>
   </div>
 
@@ -1251,7 +1892,7 @@
     <section class="control-card" id="panel-insumos">
       <div class="card-heading">
         <h2>Buscador de Insumos</h2>
-        <span class="counter-pill" id="total-badge">1.738 Productos</span>
+        <span class="counter-pill" id="total-badge">1.812 Productos</span>
       </div>
 
       <div class="search-section">
@@ -1297,9 +1938,12 @@
 
       <!-- DESPLEGABLE DEBAJO DE IMPRIMIR: "¿NO ESTÁ EL PRODUCTO? AGREGAR NUEVO:" -->
       <div class="new-prod-section">
-        <button type="button" class="new-prod-trigger" onclick="toggleNuevoProductoBox()">
-          <span class="new-prod-trigger-text">¿No está el producto? Agregar nuevo:</span>
-          <span class="audit-counter-badge" id="badge-para-auditar">Para auditar: 0</span>
+        <button type="button" class="new-prod-trigger" id="new-prod-trigger" onclick="toggleNuevoProductoBox()">
+          <span class="new-prod-trigger-text">Agregar nuevo producto:</span>
+          <span class="new-prod-trigger-right">
+            <span class="audit-counter-badge" id="badge-para-auditar">Revisar: 0</span>
+            <svg class="new-prod-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </span>
         </button>
 
         <div class="new-prod-expand-box" id="box-nuevo-producto">
@@ -1315,7 +1959,7 @@
           </div>
 
           <button type="button" class="btn-save-audit" onclick="agregarProductoParaAuditar()">
-            Guardar para auditar
+            Guardar para revisar
           </button>
 
           <div id="audit-feedback-msg" class="success-msg-banner"></div>
@@ -1475,6 +2119,185 @@
     </section>
   </main>
 
+  <!-- =====================================================================
+       PESTAÑA 3: STOCK DEPÓSITO (DASHBOARD DESDE EXCEL) — lógica en stock.js
+       ===================================================================== -->
+  <main class="stock-wrapper" id="panel-stock" style="display: none;">
+
+    <input type="file" id="stock-file" accept=".xlsx,.xls,.csv" multiple style="display: none;">
+
+    <!-- Fecha y hora de la última carga -->
+    <div class="stock-topbar" id="stock-topbar" style="display: none;">
+      <div>
+        <div class="stock-topbar-label">Última actualización del stock</div>
+        <div class="stock-topbar-fecha"><span id="stock-fecha-carga">—</span><span class="stock-antiguedad" id="stock-antiguedad"></span></div>
+      </div>
+      <!-- Solo se ve en la PC de administración (con token) -->
+      <div id="stock-admin-acciones" style="display: none; flex-direction: column; align-items: flex-end; gap: 6px;">
+        <button class="btn-cargar-excel" onclick="document.getElementById('stock-file').click()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          <span id="stock-btn-cargar-txt">Cargar Excel nuevo</span>
+        </button>
+        <div style="display: flex; gap: 14px;">
+          <button class="btn-link-edit" style="color: #999;" onclick="descargarStockJSON()">Descargar stock.json</button>
+          <button class="btn-link-edit" style="color: #999;" onclick="descargarExcelPublicado()">Descargar Excel</button>
+          <button class="btn-link-edit" style="color: #999;" onclick="togglePanelPublicacion()">Configurar publicación</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Configuración de publicación en GitHub (solo se usa en la PC de administración) -->
+    <div class="stock-mapeo" id="stock-pub-panel" style="border-color: var(--to-gray-300);">
+      <h3>Publicar el stock en la página</h3>
+      <p>Pegá acá el token de GitHub <strong>solo en tu PC</strong>. Con el token, cada Excel que cargues se sube al repositorio y el depósito lo ve en 1 o 2 minutos. Sin token, el Excel queda solo en esta PC.</p>
+      <div class="stock-mapeo-grid">
+        <div class="field-group" style="grid-column: 1 / -1;">
+          <label class="field-label" for="gh-token">Token de GitHub (permiso Contents: Read and write)</label>
+          <input type="password" id="gh-token" class="custom-input" placeholder="github_pat_..." autocomplete="off">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="gh-owner">Usuario</label>
+          <input type="text" id="gh-owner" class="custom-input">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="gh-repo">Repositorio</label>
+          <input type="text" id="gh-repo" class="custom-input">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="gh-branch">Rama</label>
+          <input type="text" id="gh-branch" class="custom-input">
+        </div>
+      </div>
+      <div class="button-group" style="margin-top: 0;">
+        <button class="btn-main" onclick="guardarConfigPublicacion()">Guardar y probar</button>
+        <button class="btn-clean" onclick="quitarTokenPublicacion()">Quitar token de esta PC</button>
+      </div>
+    </div>
+
+    <!-- Zona para soltar el Excel (se ve cuando todavía no hay datos) -->
+    <div class="stock-dropzone" id="stock-dropzone" onclick="document.getElementById('stock-file').click()">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#00a650" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><polyline points="9 15 12 12 15 15"></polyline></svg>
+      <h3>Convertir Excel de stock</h3>
+      <p>Hacé clic o arrastrá acá el Excel de stock de Contabilium (el que trae la columna Depósito).</p>
+    </div>
+
+    <div class="stock-msg" id="stock-msg"></div>
+
+    <!-- Mapeo manual: solo aparece si no se reconocen las columnas -->
+    <div class="stock-mapeo" id="stock-mapeo">
+      <h3>¿Qué columna es cada dato?</h3>
+      <p>No pude reconocer todas las columnas del Excel solo. Elegilas una vez y la próxima carga se recuerdan.</p>
+      <div class="stock-mapeo-grid" id="stock-mapeo-grid"></div>
+      <button class="btn-main" style="flex: none; width: 100%;" onclick="confirmarMapeoStock()">Usar estas columnas</button>
+    </div>
+
+    <div id="stock-contenido" style="display: none; flex-direction: column; gap: 16px;">
+      <!-- Buscador (misma lógica que el etiquetador) -->
+      <div class="stock-search search-bar-wrapper">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="stock-search" class="search-input" placeholder="Buscar SKU o producto..." autocomplete="off">
+      </div>
+
+      <!-- Tarjetas (también funcionan como filtro al hacer clic) -->
+      <div class="stock-cards">
+        <button class="stock-card c-total" data-filtro="TODOS" onclick="filtrarStock('TODOS')">
+          <div class="stock-card-label">Productos</div>
+          <div class="stock-card-num" id="card-total">0</div>
+          <div class="stock-card-sub" id="card-total-sub">en el Excel</div>
+        </button>
+        <button class="stock-card c-bajo" data-filtro="BAJO" onclick="filtrarStock('BAJO')">
+          <div class="stock-card-label">Stock bajo</div>
+          <div class="stock-card-num" id="card-bajo">0</div>
+          <div class="stock-card-sub" id="card-bajo-sub">—</div>
+        </button>
+        <button class="stock-card c-venc" id="card-venc-wrap" data-filtro="VENCE" onclick="filtrarStock('VENCE')">
+          <div class="stock-card-label">Por vencer</div>
+          <div class="stock-card-num" id="card-venc">0</div>
+          <div class="stock-card-sub" id="card-venc-sub">—</div>
+        </button>
+        <button class="stock-card c-notas" data-filtro="NOTAS" onclick="filtrarStock('NOTAS')">
+          <div class="stock-card-label">Notas</div>
+          <div class="stock-card-num" id="card-notas">0</div>
+          <div class="stock-card-sub">a verificar</div>
+        </button>
+      </div>
+
+      <div class="stock-ajustes">
+        <div id="cfg-deposito-wrap" class="dep-selector" style="display: none;"></div>
+        <label>Stock bajo si es ≤ <input type="number" id="cfg-umbral" class="custom-input" min="0"></label>
+        <label id="cfg-dias-wrap">Por vencer en ≤ <input type="number" id="cfg-dias" class="custom-input" min="1"> días</label>
+        <span class="stock-filtro-activo" id="stock-filtro-activo"></span>
+      </div>
+
+      <!-- Listado completo -->
+      <div class="stock-table-card">
+        <div class="stock-table-scroll">
+        <table class="stock-table">
+          <thead>
+            <tr id="stock-thead"></tr>
+          </thead>
+          <tbody id="stock-tbody"></tbody>
+        </table>
+        </div>
+        <div class="stock-lista-movil" id="stock-lista-movil"></div>
+        <div id="stock-mas"></div>
+      </div>
+
+      <!-- Notas que deja el depósito -->
+      <div class="notas-card">
+        <div class="card-heading" style="margin-bottom: 8px;">
+          <h2>Notas para verificar stock</h2>
+        </div>
+        <div style="font-size: 0.78rem; color: #666;">Si el stock del Excel no coincide con lo que hay en la estantería, tocá <strong>Nota</strong> en el producto y contá qué ves.</div>
+        <div id="notas-lista"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL: ¿DE QUÉ DEPÓSITO ES ESTE EXCEL? (solo si no se reconoce solo) -->
+  <div class="modal-fondo" id="modal-deposito">
+    <div class="modal-caja">
+      <h3>¿De qué depósito es este Excel?</h3>
+      <div class="modal-prod" id="modal-deposito-archivo"></div>
+      <div class="button-group" id="modal-deposito-botones"></div>
+    </div>
+  </div>
+
+  <!-- MODAL PARA DEJAR NOTA A UN SKU -->
+  <div class="modal-fondo" id="modal-nota" onclick="if (event.target === this) cerrarModalNota()">
+    <div class="modal-caja">
+      <h3>Nota sobre el stock</h3>
+      <div class="modal-prod" id="modal-nota-prod"></div>
+      <div class="form-grid-2col">
+        <div class="field-group" id="modal-nota-deposito-wrap" style="grid-column: 1 / -1;">
+          <label class="field-label" for="modal-nota-deposito">Depósito</label>
+          <select id="modal-nota-deposito" class="custom-input"></select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Stock en Excel</label>
+          <input type="text" id="modal-nota-excel" class="custom-input" disabled>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="modal-nota-contado">Stock contado (opcional)</label>
+          <input type="number" id="modal-nota-contado" class="custom-input" min="0" placeholder="Ej: 4">
+        </div>
+      </div>
+      <div class="field-group" style="margin-bottom: 12px;">
+        <label class="field-label" for="modal-nota-texto">Nota <span class="req-star">*</span></label>
+        <textarea id="modal-nota-texto" class="custom-input" placeholder="Ej: En la estantería hay 4, no 12. Faltan las de color rojo."></textarea>
+      </div>
+      <div class="field-group" style="margin-bottom: 4px;">
+        <label class="field-label" for="modal-nota-autor">Quién la deja</label>
+        <input type="text" id="modal-nota-autor" class="custom-input" placeholder="Tu nombre">
+      </div>
+      <div id="modal-nota-error" class="error-msg-banner">Escribí la nota antes de guardar</div>
+      <div class="button-group">
+        <button class="btn-main" onclick="guardarNotaStock()">Guardar nota</button>
+        <button class="btn-clean" onclick="cerrarModalNota()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
   <!-- CONTENEDOR EXCLUSIVO PARA IMPRESIÓN (ubicado al final del body) -->
   <div id="print-area" style="display: none;"></div>
 
@@ -1489,10 +2312,33 @@
       modoActual = nuevoModo;
       const tabInsumos = document.getElementById('tab-btn-insumos');
       const tabEnvios = document.getElementById('tab-btn-envios');
+      const tabStock = document.getElementById('tab-btn-stock');
       const panelInsumos = document.getElementById('panel-insumos');
       const panelEnvios = document.getElementById('panel-envios');
       const stageInsumos = document.getElementById('print-stage');
       const stageEnvios = document.getElementById('print-stage-envios');
+      const mainEtiquetas = document.querySelector('.main-wrapper');
+      const panelStock = document.getElementById('panel-stock');
+
+      // La pestaña de stock ocupa todo el ancho: oculta las 2 columnas del etiquetador
+      tabStock.classList.toggle('active', nuevoModo === 'STOCK');
+      if (nuevoModo === 'STOCK') {
+        tabInsumos.classList.remove('active');
+        tabEnvios.classList.remove('active');
+        mainEtiquetas.style.display = 'none';
+        panelStock.style.display = 'flex';
+        if (typeof renderStock === 'function') {
+          renderStock();
+        } else {
+          const msg = document.getElementById('stock-msg');
+          msg.className = 'stock-msg error';
+          msg.textContent = 'No se pudo iniciar la pestaña de stock. Recargá la página.';
+          document.getElementById('stock-dropzone').style.display = 'none';
+        }
+        return;
+      }
+      mainEtiquetas.style.display = '';
+      panelStock.style.display = 'none';
 
       if (nuevoModo === 'INSUMOS') {
         tabInsumos.classList.add('active');
@@ -1533,7 +2379,11 @@
         name: item.name,
         esTemporal: true
       }));
-      CATALOGO = [...temporales, ...CATALOGO_BASE];
+      // Productos que vienen en el último Excel de stock y todavía no están en productos.js
+      const delExcel = (typeof stockProductosExtra === 'function')
+        ? stockProductosExtra(CATALOGO_BASE, temporales)
+        : [];
+      CATALOGO = [...temporales, ...CATALOGO_BASE, ...delExcel];
 
       if (CATALOGO_BASE.length > 0 || temporales.length > 0) {
         document.getElementById('total-badge').textContent = `${CATALOGO.length} Productos`;
@@ -1559,9 +2409,10 @@
         return;
       }
 
-      const palabras = q.split(/\s+/);
+      // Sin tildes: "hectografico" encuentra "HECTOGRÁFICO"
+      const palabras = sinTildes(q).split(/\s+/);
       coincidencias = CATALOGO.filter(p => {
-        const texto = (p.sku + " " + p.name).toLowerCase();
+        const texto = sinTildes(p.sku + " " + p.name);
         return palabras.every(palabra => texto.includes(palabra));
       }).slice(0, 25);
 
@@ -1572,7 +2423,9 @@
           <div class="result-row ${idx === itemActivo ? 'selected' : ''}" onclick="elegirProducto(${idx})">
             <div class="res-sku-wrap">
               <span class="res-sku">${escapar(item.sku)}</span>
-              ${item.esTemporal ? '<span class="badge-temp-audit">SIN AUDITAR</span>' : ''}
+              ${item.esTemporal ? '<span class="badge-temp-audit">A REVISAR</span>' : ''}
+              ${item.delExcel ? '<span class="badge-temp-audit">DEL EXCEL</span>' : ''}
+              ${badgeStockBuscador(item.sku)}
             </div>
             <span class="res-name">${escapar(item.name)}</span>
           </div>
@@ -1628,6 +2481,31 @@
 
       searchInput.value = `${item.sku} - ${item.name}`;
       dropdown.style.display = 'none';
+
+      // Salta a "Copias": se escribe la cantidad y Enter imprime
+      inputCopies.focus();
+      inputCopies.select();
+    }
+
+    inputCopies.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        imprimirEtiquetas();
+      }
+    });
+
+    function sinTildes(t) {
+      return (t || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    }
+
+    // Muestra el stock del último Excel al lado del SKU en el buscador
+    function badgeStockBuscador(sku) {
+      if (typeof stockDeSku !== 'function') return '';
+      const s = stockDeSku(sku);
+      if (s === null) return '';
+      const color = s <= 0 ? '#dc2626' : '#404040';
+      const texto = (typeof textoStockDeSku === 'function' && textoStockDeSku(sku)) || `STOCK: ${s}`;
+      return `<span style="font-size:0.66rem;font-weight:800;color:${color};white-space:nowrap;">${escapar(texto)}</span>`;
     }
 
     function seleccionarItemParaAuditar(idx) {
@@ -1749,12 +2627,11 @@
 
     function toggleNuevoProductoBox() {
       const box = document.getElementById('box-nuevo-producto');
-      if (box.style.display === 'block') {
-        box.style.display = 'none';
-      } else {
-        box.style.display = 'block';
-        document.getElementById('nuevo-sku-audit').focus();
-      }
+      const trigger = document.getElementById('new-prod-trigger');
+      const abrir = box.style.display !== 'block';
+      box.style.display = abrir ? 'block' : 'none';
+      trigger.classList.toggle('abierto', abrir);
+      if (abrir) document.getElementById('nuevo-sku-audit').focus();
     }
 
     function mostrarAvisoAuditar(texto, esError) {
@@ -1816,7 +2693,7 @@
       const contenedorLista = document.getElementById('contenedor-lista-auditar');
       const listaEl = document.getElementById('lista-items-auditar');
 
-      badge.textContent = `Para auditar: ${listaParaAuditar.length}`;
+      badge.textContent = `Revisar: ${listaParaAuditar.length}`;
       if (listaParaAuditar.length > 0) {
         badge.classList.add('has-items');
         contenedorLista.style.display = 'block';
@@ -2104,6 +2981,1281 @@
     cargarRemitenteFijo();
     refrescarEtiqueta();
     actualizarVistaPreviaEnvio();
+  </script>
+
+  <!-- =====================================================================
+       PESTAÑA STOCK DEPÓSITO (Excel + dashboard + notas + publicación)
+       ===================================================================== -->
+  <script>
+/* ==========================================================================
+   PESTAÑA "STOCK DEPÓSITO"
+   - Carga un Excel (.xlsx / .xls / .csv) y arma un dashboard
+   - Buscador con la misma lógica que el etiquetador (por palabras, sin tildes)
+   - Tarjetas: total, stock bajo, por vencer, notas (al hacer clic filtran)
+   - Notas por SKU para avisar cuando el stock del Excel no es real
+   Todo se guarda en el navegador (localStorage) de la PC donde se usa.
+   ========================================================================== */
+
+// Cada carpeta publicada (la real y /prueba/) guarda sus datos por separado en el navegador
+const STOCK_NS = carpetaEnRepo().replace(/\//g, '_');
+const STOCK_LS_DATOS = 'to_stock_excel_v1' + STOCK_NS;
+const STOCK_LS_NOTAS = 'to_stock_notas_v1' + STOCK_NS;
+const STOCK_LS_CFG = 'to_stock_config_v1' + STOCK_NS;
+
+// Lector de Excel (SheetJS). Se descarga solo la primera vez que se carga un archivo.
+const SHEETJS_URL = 'https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js';
+
+// Celular: listado en tarjetas en vez de tabla
+const STOCK_MQ_MOVIL = window.matchMedia('(max-width: 700px)');
+const esMovilStock = () => STOCK_MQ_MOVIL.matches;
+const STOCK_POR_PAGINA = esMovilStock() ? 60 : 200;
+
+// Publicación: el Excel se convierte en stock.json dentro del repo y la página publicada lo lee
+const STOCK_LS_GH = 'to_stock_github_v1';
+const STOCK_ARCHIVO_PUBLICADO = 'stock.json';
+const STOCK_REVISAR_CADA_MIN = 10; // la página abierta en el depósito busca datos nuevos cada 10 min
+
+let stockGh = { token: '', owner: '', repo: '', branch: 'main' };
+let stockPubEstado = null; // { tipo: 'ok' | 'warn' | 'error', texto, reintentar }
+
+let stockDatos = null;      // { archivo, hoja, cargadoEn, archivoModificado, columnas, productos: [...] }
+let stockNotas = [];        // [{ id, sku, name, stockExcel, contado, texto, autor, fecha, estado }]
+let stockCfg = { umbral: 3, dias: 60, mapeo: null, autor: '' };
+let stockFiltro = 'TODOS';
+let stockOrden = { campo: null, asc: true };
+let stockLimite = STOCK_POR_PAGINA;
+let stockPendiente = null;  // Excel leído esperando que se elijan columnas a mano
+let stockNotaSku = null;    // SKU del modal abierto
+
+/* --------------------------------------------------------------------------
+   Persistencia
+   -------------------------------------------------------------------------- */
+function stockLeerLS(clave, porDefecto) {
+  try {
+    const v = localStorage.getItem(clave);
+    return v ? JSON.parse(v) : porDefecto;
+  } catch (e) {
+    return porDefecto;
+  }
+}
+
+function stockGuardarLS(clave, valor) {
+  try {
+    localStorage.setItem(clave, JSON.stringify(valor));
+    return true;
+  } catch (e) {
+    mostrarMsgStock('No se pudo guardar en este navegador (memoria llena o modo incógnito).', true);
+    return false;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Utilidades
+   -------------------------------------------------------------------------- */
+function normStock(t) {
+  return String(t == null ? '' : t)
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase().replace(/\s+/g, ' ').trim();
+}
+
+function escStock(t) {
+  return (typeof escapar === 'function') ? escapar(String(t == null ? '' : t)) : String(t);
+}
+
+// Acepta 12 | "12" | "1.234" | "1.234,5" | "12,5"
+function parseNumeroStock(v) {
+  if (typeof v === 'number') return v;
+  if (v == null) return NaN;
+  let s = String(v).replace(/\s/g, '').replace(/[^\d.,-]/g, '');
+  if (!s) return NaN;
+  if (s.includes(',') && s.includes('.')) {
+    s = s.replace(/\./g, '').replace(',', '.');
+  } else if (s.includes(',')) {
+    s = s.replace(',', '.');
+  } else if (/^-?\d{1,3}(\.\d{3})+$/.test(s)) {
+    s = s.replace(/\./g, ''); // 1.234 = mil doscientos treinta y cuatro
+  }
+  return Number(s);
+}
+
+function isoLocal(d) {
+  const p = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+}
+
+// Devuelve 'YYYY-MM-DD' o null
+function parseFechaStock(v) {
+  if (v == null || v === '') return null;
+  if (v instanceof Date && !isNaN(v)) {
+    return isoLocal(new Date(v.getTime() + 12 * 3600e3)); // corrige desfasajes de zona horaria
+  }
+  if (typeof v === 'number' && v > 20000 && v < 80000) { // fecha serial de Excel
+    const d = new Date(Math.round((v - 25569) * 864e5));
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`;
+  }
+  const s = String(v).trim();
+  let m = s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2,4})/); // dd/mm/aaaa
+  if (m) {
+    let a = Number(m[3]);
+    if (a < 100) a += 2000;
+    return `${a}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
+  }
+  m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/); // aaaa-mm-dd
+  if (m) return `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`;
+  m = s.match(/^(\d{1,2})[\/\-.](\d{4})$/); // mm/aaaa → último día del mes
+  if (m) {
+    const d = new Date(Number(m[2]), Number(m[1]), 0);
+    return isoLocal(d);
+  }
+  return null;
+}
+
+function fechaHoraAR(iso) {
+  const d = new Date(iso);
+  if (isNaN(d)) return '—';
+  const p = n => String(n).padStart(2, '0');
+  return `${p(d.getDate())}/${p(d.getMonth() + 1)}/${d.getFullYear()} ${p(d.getHours())}:${p(d.getMinutes())} hs`;
+}
+
+function fechaCortaAR(isoFecha) {
+  if (!isoFecha) return '';
+  const [a, m, d] = isoFecha.split('-');
+  return `${d}/${m}/${a}`;
+}
+
+function diasHasta(isoFecha) {
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  const [a, m, d] = isoFecha.split('-').map(Number);
+  return Math.round((new Date(a, m - 1, d) - hoy) / 864e5);
+}
+
+/* --------------------------------------------------------------------------
+   Detección de columnas
+   -------------------------------------------------------------------------- */
+const STOCK_CAMPOS = [
+  { id: 'sku', label: 'SKU / Código', requerido: true },
+  { id: 'name', label: 'Nombre / Producto', requerido: true },
+  { id: 'stock', label: 'Stock actual', requerido: true },
+  { id: 'min', label: 'Stock mínimo (opcional)', requerido: false },
+  { id: 'venc', label: 'Vencimiento (opcional)', requerido: false },
+  { id: 'dep', label: 'Depósito (opcional)', requerido: false }
+];
+
+const STOCK_SINONIMOS = {
+  sku: ['sku', 'codigo', 'cod', 'cod.', 'codigo sku', 'codigo producto', 'cod producto', 'cod. producto',
+        'codigo interno', 'codigo articulo', 'referencia', 'ref', 'ref.'],
+  name: ['nombre', 'producto', 'descripcion', 'nombre producto', 'nombre del producto', 'detalle',
+         'articulo', 'descripcion producto', 'titulo'],
+  stock: ['stock actual', 'stock', 'cantidad', 'existencia', 'existencias', 'disponible', 'stock disponible',
+          'cant', 'cant.', 'unidades', 'stock fisico', 'stock real', 'saldo'],
+  min: ['stock minimo', 'minimo', 'stock min', 'stock min.', 'min', 'min.', 'punto de pedido'],
+  dep: ['deposito', 'depositos', 'almacen', 'sucursal'],
+  venc: ['vencimiento', 'fecha vencimiento', 'fecha de vencimiento', 'vence', 'vto', 'vto.', 'f. venc',
+         'fecha venc', 'fecha vto', 'caducidad', 'fecha de caducidad']
+};
+
+// Coincidencias "aproximadas" si no hay una exacta
+const STOCK_PARECIDOS = {
+  sku: h => h.includes('sku') || h.startsWith('codigo') || h.startsWith('cod '),
+  name: h => h.includes('nombre') || h.includes('descripcion'),
+  stock: h => (h.includes('stock') || h.includes('existencia')) && !h.includes('min') && !h.includes('valor'),
+  min: h => h.includes('minimo') || h.includes('stock min'),
+  venc: h => h.includes('venc') || h.includes('vto') || h.includes('caduc'),
+  dep: h => h.startsWith('deposito')
+};
+
+function mapearColumnas(fila) {
+  const headers = (fila || []).map(normStock);
+  const mapa = {};
+  const usadas = new Set();
+  const orden = ['sku', 'stock', 'min', 'venc', 'dep', 'name'];
+
+  // 1) Coincidencia exacta
+  orden.forEach(campo => {
+    const idx = headers.findIndex((h, i) => h && !usadas.has(i) && STOCK_SINONIMOS[campo].includes(h));
+    if (idx >= 0) { mapa[campo] = idx; usadas.add(idx); }
+  });
+  // 2) Coincidencia aproximada
+  orden.forEach(campo => {
+    if (mapa[campo] !== undefined) return;
+    const idx = headers.findIndex((h, i) => h && !usadas.has(i) && STOCK_PARECIDOS[campo](h));
+    if (idx >= 0) { mapa[campo] = idx; usadas.add(idx); }
+  });
+  return mapa;
+}
+
+// Si antes se eligieron columnas a mano, se intentan reutilizar por nombre de encabezado
+function mapearConGuardado(fila) {
+  const g = stockCfg.mapeo;
+  if (!g) return null;
+  const headers = (fila || []).map(normStock);
+  const mapa = {};
+  for (const campo of Object.keys(g)) {
+    const idx = headers.indexOf(g[campo]);
+    if (idx < 0) return null;
+    mapa[campo] = idx;
+  }
+  return mapa;
+}
+
+function mapaCompleto(m) {
+  return m && m.sku !== undefined && m.name !== undefined && m.stock !== undefined;
+}
+
+/* --------------------------------------------------------------------------
+   Lectura del Excel
+   -------------------------------------------------------------------------- */
+function cargarSheetJS() {
+  if (window.XLSX) return Promise.resolve();
+  return new Promise((ok, fallo) => {
+    const s = document.createElement('script');
+    s.src = SHEETJS_URL;
+    s.onload = () => ok();
+    s.onerror = () => fallo(new Error('No se pudo descargar el lector de Excel. Revisá la conexión a internet.'));
+    document.head.appendChild(s);
+  });
+}
+
+// Depósitos de Contabilium. Cada uno se exporta en un Excel aparte.
+const STOCK_DEPOSITOS = [
+  { id: 'brasil', nombre: 'Brasil' },
+  { id: 'peru', nombre: 'Perú' }
+];
+
+function nombreDeposito(id) {
+  const d = STOCK_DEPOSITOS.find(x => x.id === id);
+  return d ? d.nombre : id;
+}
+
+// Se pueden elegir los dos Excel juntos (o uno solo: el otro depósito queda con su último dato)
+async function procesarArchivosStock(lista) {
+  const files = Array.from(lista || []);
+  if (!files.length || !esAdminStock()) return;
+  if (modoActual !== 'STOCK') cambiarModo('STOCK');
+  try {
+    await cargarSheetJS();
+    const lotes = [];
+    for (const file of files) {
+      mostrarMsgStock(`Leyendo "${file.name}"...`, false);
+      const origen = await leerArchivoStock(file);
+      if (!origen) return;
+
+      // Formato de Contabilium: un solo Excel con columna "Deposito" (Local, Peru, Brasil, FULL...).
+      // Se toman solo los depósitos físicos configurados (Brasil y Perú); el resto se descarta.
+      if (origen.mapa.dep !== undefined) {
+        const enArchivo = new Set(origen.filas.slice(origen.headerIdx + 1).map(f => normStock(f[origen.mapa.dep])).filter(Boolean));
+        const usados = STOCK_DEPOSITOS.filter(d => enArchivo.has(normStock(d.nombre)));
+        if (!usados.length) {
+          mostrarMsgStock(`"${file.name}" no tiene filas de ${STOCK_DEPOSITOS.map(d => d.nombre).join(' ni ')} en la columna Depósito.`, true);
+          return;
+        }
+        usados.forEach(d => {
+          lotes.push({
+            dep: d.id,
+            archivo: file.name,
+            productos: parsearProductosStock(origen, d.nombre),
+            tieneMin: origen.mapa.min !== undefined,
+            tieneVenc: origen.mapa.venc !== undefined
+          });
+        });
+        continue;
+      }
+
+      const productos = parsearProductosStock(origen);
+      if (!productos.length) {
+        mostrarMsgStock(`No encontré productos en "${file.name}". ¿Es el Excel correcto?`, true);
+        return;
+      }
+      let dep = detectarDeposito(file.name, origen);
+      if (!dep || lotes.some(l => l.dep === dep)) dep = await preguntarDeposito(file.name, lotes.map(l => l.dep));
+      if (!dep) { mostrarMsgStock('Carga cancelada.', true); return; }
+      lotes.push({ dep, archivo: file.name, productos, tieneMin: origen.mapa.min !== undefined, tieneVenc: origen.mapa.venc !== undefined });
+    }
+    combinarLotesStock(lotes);
+  } catch (err) {
+    console.error(err);
+    mostrarMsgStock(err.message || 'No se pudo leer el archivo.', true);
+  } finally {
+    document.getElementById('stock-file').value = '';
+  }
+}
+
+async function leerArchivoStock(file) {
+  const buf = await file.arrayBuffer();
+  const libro = XLSX.read(buf, { type: 'array', cellDates: true });
+
+  // Busca la primera hoja donde se reconozcan las columnas (Contabilium suele
+  // poner títulos o filas vacías arriba del encabezado)
+  let respaldo = null;
+  for (const nombreHoja of libro.SheetNames) {
+    const filas = XLSX.utils.sheet_to_json(libro.Sheets[nombreHoja], { header: 1, raw: true, defval: '' });
+    if (!filas.length) continue;
+    const limite = Math.min(filas.length, 30);
+    let mejorFila = 0, mejorTextos = -1;
+    for (let i = 0; i < limite; i++) {
+      const mapa = mapearConGuardado(filas[i]) || mapearColumnas(filas[i]);
+      if (mapaCompleto(mapa)) return { hoja: nombreHoja, filas, headerIdx: i, mapa };
+      const textos = filas[i].filter(c => typeof c === 'string' && c.trim()).length;
+      if (textos > mejorTextos) { mejorTextos = textos; mejorFila = i; }
+    }
+    if (!respaldo) respaldo = { hoja: nombreHoja, filas, headerIdx: mejorFila, mapa: mapearColumnas(filas[mejorFila]) };
+  }
+  if (!respaldo) {
+    mostrarMsgStock(`"${file.name}" está vacío.`, true);
+    return null;
+  }
+  // No se reconocieron las columnas: se eligen a mano y se recuerdan para la próxima
+  mostrarMsgStock(`Revisá qué columna corresponde a cada dato en "${file.name}".`, true);
+  const mapa = await new Promise(ok => {
+    stockPendiente = { ...respaldo, resolver: ok };
+    mostrarMapeoStock();
+  });
+  return { ...respaldo, mapa };
+}
+
+// soloDeposito: si el Excel trae una columna "Depósito", se queda solo con las filas de ese depósito
+function parsearProductosStock(origen, soloDeposito) {
+  const { filas, headerIdx, mapa } = origen;
+  const productos = [];
+  for (let i = headerIdx + 1; i < filas.length; i++) {
+    const f = filas[i];
+    if (soloDeposito && normStock(f[mapa.dep]) !== normStock(soloDeposito)) continue;
+    const sku = String(f[mapa.sku] ?? '').trim().toUpperCase();
+    const name = String(f[mapa.name] ?? '').replace(/\s+/g, ' ').trim();
+    if (!sku && !name) continue;
+    if (!sku && /^total/i.test(name)) continue; // fila de totales
+    const stock = parseNumeroStock(f[mapa.stock]);
+    const p = { sku, name, stock: isNaN(stock) ? null : stock };
+    if (mapa.min !== undefined) {
+      const mn = parseNumeroStock(f[mapa.min]);
+      p.min = isNaN(mn) ? null : mn;
+    }
+    if (mapa.venc !== undefined) p.venc = parseFechaStock(f[mapa.venc]);
+    productos.push(p);
+  }
+  return productos;
+}
+
+// Reconoce el depósito por el nombre del archivo, la hoja o los títulos de arriba del Excel
+function detectarDeposito(nombreArchivo, origen) {
+  const arriba = (origen.filas || []).slice(0, Math.max(origen.headerIdx, 0) + 1).flat().join(' ');
+  const texto = normStock(`${nombreArchivo} ${origen.hoja || ''} ${arriba}`);
+  const encontrados = STOCK_DEPOSITOS.filter(d => texto.includes(normStock(d.nombre)));
+  return encontrados.length === 1 ? encontrados[0].id : null;
+}
+
+function preguntarDeposito(nombreArchivo, yaUsados) {
+  return new Promise(ok => {
+    const modal = document.getElementById('modal-deposito');
+    document.getElementById('modal-deposito-archivo').textContent = nombreArchivo;
+    document.getElementById('modal-deposito-botones').innerHTML = STOCK_DEPOSITOS.map(d => `
+      <button class="btn-main" style="flex: 1;" data-dep="${d.id}">${escStock(d.nombre)}${yaUsados.includes(d.id) ? ' (reemplaza)' : ''}</button>
+    `).join('') + '<button class="btn-clean" data-dep="">Cancelar</button>';
+    modal.querySelectorAll('[data-dep]').forEach(b => b.onclick = () => {
+      modal.style.display = 'none';
+      ok(b.dataset.dep || null);
+    });
+    modal.style.display = 'flex';
+  });
+}
+
+// Junta los Excel de cada depósito en un solo listado: stock por depósito + total
+function combinarLotesStock(lotes) {
+  const ahora = new Date().toISOString();
+  const previo = (stockDatos && stockDatos.depositos) ? stockDatos : null;
+  const depositos = previo ? { ...previo.depositos } : {};
+  lotes.forEach(l => { depositos[l.dep] = { archivo: l.archivo, cargadoEn: ahora }; });
+
+  const porClave = new Map();
+  const clave = p => p.sku || ('#' + normStock(p.name));
+  const tomar = (p, dep, valor, minDep, vencDep) => {
+    const k = clave(p);
+    if (!porClave.has(k)) porClave.set(k, { sku: p.sku, name: p.name, dep: {}, minDep: {}, vencs: [] });
+    const r = porClave.get(k);
+    if (!r.name && p.name) r.name = p.name;
+    r.dep[dep] = valor;
+    if (minDep !== undefined && minDep !== null) r.minDep[dep] = minDep;
+    if (vencDep) r.vencs.push(vencDep);
+  };
+
+  // Primero los Excel nuevos (manda su orden); después, los depósitos que no se cargaron
+  // ahora mantienen lo que tenían
+  const nuevos = new Set(lotes.map(l => l.dep));
+  lotes.forEach(l => l.productos.forEach(p => tomar(p, l.dep, p.stock, p.min, p.venc)));
+  if (previo) {
+    previo.productos.forEach(p => {
+      Object.keys(p.dep || {}).forEach(dep => {
+        if (!nuevos.has(dep)) tomar(p, dep, p.dep[dep], p.minDep ? p.minDep[dep] : undefined, null);
+      });
+    });
+  }
+
+  const idsDep = Object.keys(depositos);
+  const productos = [...porClave.values()].map(r => {
+    const valores = idsDep.map(d => r.dep[d]).filter(v => v !== null && v !== undefined);
+    const mins = Object.values(r.minDep);
+    const p = {
+      sku: r.sku,
+      name: r.name,
+      stock: valores.length ? valores.reduce((a, b) => a + b, 0) : null,
+      dep: r.dep
+    };
+    if (mins.length) { p.minDep = r.minDep; p.min = mins.reduce((a, b) => a + b, 0); }
+    if (r.vencs.length) p.venc = r.vencs.sort()[0]; // el vencimiento más próximo
+    return p;
+  });
+
+  // La fecha que se muestra es la del depósito actualizado hace más tiempo
+  const fechas = Object.values(depositos).map(d => d.cargadoEn).sort();
+  stockDatos = {
+    cargadoEn: fechas[0],
+    depositos,
+    tieneMin: lotes.some(l => l.tieneMin) || !!(previo && previo.tieneMin),
+    tieneVenc: lotes.some(l => l.tieneVenc) || !!(previo && previo.tieneVenc),
+    productos,
+    publicado: false
+  };
+  if (!stockGuardarLS(STOCK_LS_DATOS, stockDatos)) return;
+
+  stockPendiente = null;
+  document.getElementById('stock-mapeo').style.display = 'none';
+  stockFiltro = 'TODOS';
+  stockLimite = STOCK_POR_PAGINA;
+  const resumen = lotes.map(l => `${nombreDeposito(l.dep)}: ${l.productos.length}`).join(' · ');
+  const faltan = STOCK_DEPOSITOS.filter(d => !depositos[d.id]).map(d => d.nombre);
+  mostrarMsgStock(`Listo (${resumen}).` + (faltan.length ? ` Falta cargar: ${faltan.join(', ')}.` : ''), false);
+  stockPubEstado = null;
+  if (typeof actualizarCatalogoActivo === 'function') actualizarCatalogoActivo();
+  renderStock();
+  if (stockGh.token) {
+    publicarStock();
+  } else {
+    descargarStockJSON();
+    mostrarMsgStock(`Listo (${resumen}). Se descargó stock.json: subilo al repositorio de GitHub (Add file → Upload files) reemplazando el anterior.`, false);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Publicación en GitHub (stock.json en el repo → GitHub Pages)
+   -------------------------------------------------------------------------- */
+function base64Utf8(texto) {
+  const bytes = new TextEncoder().encode(texto);
+  let bin = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) {
+    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+  }
+  return btoa(bin);
+}
+
+// Genera el archivo stock.json para subirlo a mano al repositorio
+function descargarStockJSON() {
+  if (!stockDatos) return;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(datosParaPublicar())], { type: 'application/json' }));
+  a.download = STOCK_ARCHIVO_PUBLICADO;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+function datosParaPublicar() {
+  const { publicado, ...resto } = stockDatos;
+  return { version: 1, ...resto };
+}
+
+function errorGitHub(status) {
+  if (status === 401) return 'El token no es válido o se venció.';
+  if (status === 403) return 'El token no tiene permiso para escribir en el repositorio.';
+  if (status === 404) return 'No encuentro el repositorio: revisá usuario, nombre y que el token tenga acceso a ese repo.';
+  return `GitHub respondió con error ${status}.`;
+}
+
+async function publicarStock() {
+  if (!stockDatos || !stockGh.token) return;
+  const { token, owner, repo, branch } = stockGh;
+  const url = `https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/contents/${carpetaEnRepo()}${STOCK_ARCHIVO_PUBLICADO}`;
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28'
+  };
+
+  stockPubEstado = { tipo: 'warn', texto: 'Publicando en la página...' };
+  renderEstadoPublicacion();
+
+  const contenido = base64Utf8(JSON.stringify(datosParaPublicar()));
+  try {
+    for (let intento = 0; intento < 2; intento++) {
+      // Para reemplazar el archivo, GitHub pide el "sha" de la versión actual
+      let sha;
+      const r = await fetch(`${url}?ref=${encodeURIComponent(branch)}&t=${Date.now()}`, { headers, cache: 'no-store' });
+      if (r.ok) sha = (await r.json()).sha;
+      else if (r.status !== 404) throw new Error(errorGitHub(r.status));
+
+      const put = await fetch(url, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify({
+          message: `Stock actualizado ${fechaHoraAR(stockDatos.cargadoEn)} (${stockDatos.archivo})`,
+          content: contenido,
+          branch,
+          ...(sha ? { sha } : {})
+        })
+      });
+      if (put.ok) {
+        stockDatos.publicado = true;
+        stockGuardarLS(STOCK_LS_DATOS, stockDatos);
+        stockPubEstado = { tipo: 'ok', texto: 'Publicado en la página · el depósito lo ve en 1 o 2 minutos' };
+        renderEstadoPublicacion();
+        return;
+      }
+      if ((put.status === 409 || put.status === 422) && intento === 0) continue; // cambió en el medio: reintenta
+      if (put.status === 404 && sha === undefined) throw new Error(errorGitHub(403));
+      throw new Error(errorGitHub(put.status));
+    }
+  } catch (err) {
+    const texto = err instanceof TypeError ? 'Sin conexión con GitHub.' : err.message;
+    stockPubEstado = { tipo: 'error', texto: `No se publicó: ${texto}`, reintentar: true };
+    renderEstadoPublicacion();
+  }
+}
+
+// Lee el stock.json publicado. Si es más nuevo que lo que hay en esta PC, lo usa.
+async function cargarStockPublicado() {
+  // 1) Directo del repositorio (se ve apenas se actualiza, sin esperar a GitHub Pages)
+  // 2) Si falla, el stock.json publicado junto a esta página
+  const fuentes = [];
+  if (location.hostname.endsWith('.github.io')) {
+    const { owner, repo, branch } = { ...valoresGhPorDefecto(), ...stockGh };
+    fuentes.push(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${carpetaEnRepo()}${STOCK_ARCHIVO_PUBLICADO}`);
+  }
+  fuentes.push(STOCK_ARCHIVO_PUBLICADO);
+
+  let remoto = null;
+  for (const url of fuentes) {
+    try {
+      const r = await fetch(`${url}?t=${Date.now()}`, { cache: 'no-store' });
+      if (!r.ok) continue;
+      const j = await r.json();
+      if (!remoto || new Date(j.cargadoEn) > new Date(remoto.cargadoEn)) remoto = j;
+    } catch (e) {
+      // abierto como archivo local o sin conexión: queda lo guardado en esta PC
+    }
+  }
+  if (!remoto || !Array.isArray(remoto.productos) || !remoto.cargadoEn) return;
+
+  const local = stockDatos;
+  if (local && local.cargadoEn === remoto.cargadoEn) {
+    if (!local.publicado) {
+      local.publicado = true;
+      stockGuardarLS(STOCK_LS_DATOS, local);
+      renderEstadoPublicacion();
+    }
+    return;
+  }
+  if (local && new Date(local.cargadoEn) > new Date(remoto.cargadoEn)) return; // lo local es más nuevo
+
+  const { version, ...datos } = remoto;
+  stockDatos = { ...datos, publicado: true };
+  stockGuardarLS(STOCK_LS_DATOS, stockDatos);
+  if (typeof actualizarCatalogoActivo === 'function') actualizarCatalogoActivo();
+  renderStock();
+}
+
+/* --------------------------------------------------------------------------
+   Modo administración
+   Solo puede cargar Excel el navegador que tiene el token guardado (tu PC).
+   Para entrar la primera vez: abrir la página con #admin al final de la dirección.
+   Abierto como archivo local (doble clic) también se puede cargar, para probar.
+   -------------------------------------------------------------------------- */
+function esAdminStock() {
+  return !!stockGh.token || location.protocol === 'file:' || location.hash === '#admin';
+}
+
+function aplicarModoAdmin() {
+  const admin = esAdminStock();
+  document.getElementById('stock-btn-cargar-txt').textContent =
+    stockGh.token ? 'Cargar Excel y publicar' : 'Convertir Excel a stock.json';
+  // El botón para cargar el Excel solo se ve en las PC con token (las tuyas). En el depósito no aparece.
+  document.getElementById('stock-admin-acciones').style.display = admin ? 'flex' : 'none';
+  if (!admin) document.getElementById('stock-pub-panel').style.display = 'none';
+}
+
+async function descargarExcelPublicado() {
+  if (!stockDatos) return;
+  try {
+    await cargarSheetJS();
+    const filas = stockDatos.productos.map(p => {
+      const f = { SKU: p.sku, Nombre: p.name };
+      if (stockDatos.depositos && p.dep) {
+        STOCK_DEPOSITOS.filter(d => stockDatos.depositos[d.id]).forEach(d => { f[d.nombre] = p.dep[d.id] ?? ''; });
+        f['Total'] = p.stock;
+      } else {
+        f['Stock actual'] = p.stock;
+      }
+      if (stockDatos.tieneMin) f['Stock mínimo'] = p.min;
+      if (stockDatos.tieneVenc) f['Vencimiento'] = p.venc ? fechaCortaAR(p.venc) : '';
+      return f;
+    });
+    const hoja = XLSX.utils.json_to_sheet(filas);
+    const libro = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(libro, hoja, 'Stock');
+    XLSX.writeFile(libro, `stock_publicado_${isoLocal(new Date(stockDatos.cargadoEn))}.xlsx`);
+  } catch (err) {
+    mostrarMsgStock(err.message || 'No se pudo descargar.', true);
+  }
+}
+
+function renderEstadoPublicacion() {
+  aplicarModoAdmin();
+  // Solo administración ve cómo salió la publicación (el depósito solo ve la fecha)
+  if (stockPubEstado && esAdminStock()) {
+    mostrarMsgStock(stockPubEstado.texto, stockPubEstado.tipo === 'error');
+    stockPubEstado = null;
+  }
+}
+
+// Carpeta del repo donde está esta página: '' en la principal, 'prueba/' si se abre .../Etiquetador/prueba/
+// Así una copia de prueba publica su propio stock.json sin tocar el de la página real.
+function carpetaEnRepo(ruta = location.pathname) {
+  if (!location.hostname.endsWith('.github.io')) return '';
+  const partes = ruta.split('/').filter(Boolean).slice(1); // saca el nombre del repo
+  if (partes.length && partes[partes.length - 1].includes('.')) partes.pop(); // saca index.html
+  return partes.length ? partes.join('/') + '/' : '';
+}
+
+function valoresGhPorDefecto() {
+  // En GitHub Pages la dirección es usuario.github.io/Repositorio
+  const host = location.hostname;
+  const enPages = host.endsWith('.github.io');
+  return {
+    owner: enPages ? host.split('.')[0] : 'MicaCG',
+    repo: enPages ? (location.pathname.split('/')[1] || 'Etiquetador') : 'Etiquetador',
+    branch: 'main'
+  };
+}
+
+function togglePanelPublicacion() {
+  const panel = document.getElementById('stock-pub-panel');
+  const abrir = panel.style.display !== 'block';
+  panel.style.display = abrir ? 'block' : 'none';
+  if (abrir) {
+    document.getElementById('gh-token').value = stockGh.token;
+    document.getElementById('gh-owner').value = stockGh.owner;
+    document.getElementById('gh-repo').value = stockGh.repo;
+    document.getElementById('gh-branch').value = stockGh.branch;
+  }
+}
+
+async function guardarConfigPublicacion() {
+  const def = valoresGhPorDefecto();
+  stockGh = {
+    token: document.getElementById('gh-token').value.trim(),
+    owner: document.getElementById('gh-owner').value.trim() || def.owner,
+    repo: document.getElementById('gh-repo').value.trim() || def.repo,
+    branch: document.getElementById('gh-branch').value.trim() || def.branch
+  };
+  stockGuardarLS(STOCK_LS_GH, stockGh);
+  if (!stockGh.token) {
+    mostrarMsgStock('Sin token: los Excel que cargues quedan solo en esta PC.', true);
+    renderEstadoPublicacion();
+    return;
+  }
+  try {
+    const r = await fetch(`https://api.github.com/repos/${encodeURIComponent(stockGh.owner)}/${encodeURIComponent(stockGh.repo)}`, {
+      headers: { 'Authorization': `Bearer ${stockGh.token}`, 'Accept': 'application/vnd.github+json' }
+    });
+    if (!r.ok) throw new Error(errorGitHub(r.status));
+    mostrarMsgStock(`Conectado con ${stockGh.owner}/${stockGh.repo}. Desde ahora cada Excel que cargues se publica solo.`, false);
+    document.getElementById('stock-pub-panel').style.display = 'none';
+    if (stockDatos && !stockDatos.publicado) publicarStock();
+  } catch (err) {
+    mostrarMsgStock(err instanceof TypeError ? 'Sin conexión con GitHub.' : err.message, true);
+  }
+  renderEstadoPublicacion();
+}
+
+function quitarTokenPublicacion() {
+  stockGh.token = '';
+  stockGuardarLS(STOCK_LS_GH, stockGh);
+  document.getElementById('gh-token').value = '';
+  stockPubEstado = null;
+  mostrarMsgStock('Token borrado de esta PC.', false);
+  renderEstadoPublicacion();
+}
+
+/* --------------------------------------------------------------------------
+   Mapeo manual de columnas
+   -------------------------------------------------------------------------- */
+function mostrarMapeoStock() {
+  const { filas, headerIdx, mapa } = stockPendiente;
+  const encabezados = filas[headerIdx] || [];
+  const opciones = encabezados.map((h, i) => {
+    const texto = String(h ?? '').trim() || `Columna ${i + 1}`;
+    return `<option value="${i}">${escStock(texto)}</option>`;
+  }).join('');
+
+  document.getElementById('stock-mapeo-grid').innerHTML = STOCK_CAMPOS.map(c => `
+    <div class="field-group">
+      <label class="field-label">${c.label}${c.requerido ? ' <span class="req-star">*</span>' : ''}</label>
+      <select class="custom-input" id="map-${c.id}">
+        <option value="">${c.requerido ? '— Elegir —' : '— No tiene —'}</option>
+        ${opciones}
+      </select>
+    </div>
+  `).join('');
+
+  STOCK_CAMPOS.forEach(c => {
+    if (mapa[c.id] !== undefined) document.getElementById(`map-${c.id}`).value = String(mapa[c.id]);
+  });
+  document.getElementById('stock-mapeo').style.display = 'block';
+}
+
+function confirmarMapeoStock() {
+  if (!stockPendiente) return;
+  const mapa = {};
+  for (const c of STOCK_CAMPOS) {
+    const v = document.getElementById(`map-${c.id}`).value;
+    if (v === '') {
+      if (c.requerido) { mostrarMsgStock(`Falta elegir la columna "${c.label}".`, true); return; }
+      continue;
+    }
+    mapa[c.id] = Number(v);
+  }
+  const encabezados = stockPendiente.filas[stockPendiente.headerIdx] || [];
+  stockCfg.mapeo = Object.fromEntries(Object.entries(mapa).map(([k, idx]) => [k, normStock(encabezados[idx])]));
+  stockGuardarLS(STOCK_LS_CFG, stockCfg);
+  document.getElementById('stock-mapeo').style.display = 'none';
+  const resolver = stockPendiente.resolver;
+  stockPendiente = null;
+  if (resolver) resolver(mapa);
+}
+
+/* --------------------------------------------------------------------------
+   Reglas de negocio
+   -------------------------------------------------------------------------- */
+// Depósito elegido en el selector ('todos' = suma de los dos). Cada PC recuerda el suyo.
+function depositoActivo() {
+  const d = stockCfg.deposito;
+  return (d && stockDatos && stockDatos.depositos && stockDatos.depositos[d]) ? d : 'todos';
+}
+
+function valorStock(p) {
+  const d = depositoActivo();
+  if (d === 'todos') return p.stock;
+  const v = p.dep ? p.dep[d] : undefined;
+  return v === undefined ? null : v;
+}
+
+function minStock(p) {
+  const d = depositoActivo();
+  if (d === 'todos') return p.min ?? null;
+  return (p.minDep && p.minDep[d] !== undefined) ? p.minDep[d] : null;
+}
+
+function esStockBajo(p) {
+  const v = valorStock(p);
+  if (v === null) return false;
+  const mn = minStock(p);
+  if (mn !== null && mn > 0) return v <= mn;
+  return v <= stockCfg.umbral;
+}
+
+function estadoVenc(p) {
+  if (!p.venc) return null;
+  const d = diasHasta(p.venc);
+  if (d < 0) return 'vencido';
+  if (d <= stockCfg.dias) return 'pronto';
+  return null;
+}
+
+function notasPendientesDe(sku) {
+  return stockNotas.filter(n => n.sku === sku && n.estado !== 'revisada');
+}
+
+// Usadas por el buscador del etiquetador (index.html)
+function stockDeSku(sku) {
+  if (!stockDatos) return null;
+  const k = String(sku || '').trim().toUpperCase();
+  let total = null;
+  stockDatos.productos.forEach(p => {
+    if (p.sku === k && p.stock !== null) total = (total || 0) + p.stock;
+  });
+  return total;
+}
+
+// Texto corto para el buscador del etiquetador: "BRASIL 3 · PERÚ 5"
+function textoStockDeSku(sku) {
+  if (!stockDatos) return null;
+  const k = String(sku || '').trim().toUpperCase();
+  const p = stockDatos.productos.find(x => x.sku === k);
+  if (!p) return null;
+  if (!stockDatos.depositos || !p.dep) return p.stock === null ? null : `STOCK: ${p.stock}`;
+  return Object.keys(stockDatos.depositos)
+    .map(d => `${nombreDeposito(d).toUpperCase()} ${p.dep[d] ?? '—'}`).join(' · ');
+}
+
+function stockProductosExtra(base, temporales) {
+  if (!stockDatos) return [];
+  const ya = new Set([...base, ...temporales].map(p => String(p.sku || '').trim().toUpperCase()));
+  const extra = [];
+  stockDatos.productos.forEach(p => {
+    if (p.sku && p.name && !ya.has(p.sku)) {
+      ya.add(p.sku);
+      extra.push({ sku: p.sku, name: p.name.toUpperCase(), delExcel: true });
+    }
+  });
+  return extra;
+}
+
+/* --------------------------------------------------------------------------
+   Render del dashboard
+   -------------------------------------------------------------------------- */
+function mostrarMsgStock(texto, esError) {
+  const el = document.getElementById('stock-msg');
+  el.textContent = texto;
+  el.className = 'stock-msg ' + (esError ? 'error' : 'ok');
+}
+
+function productosFiltrados() {
+  if (!stockDatos) return [];
+  const q = normStock(document.getElementById('stock-search').value);
+  const palabras = q ? q.split(' ') : [];
+
+  let lista = stockDatos.productos.filter(p => {
+    if (palabras.length) {
+      const texto = normStock(p.sku + ' ' + p.name);
+      if (!palabras.every(w => texto.includes(w))) return false;
+    }
+    if (stockFiltro === 'BAJO') return esStockBajo(p);
+    if (stockFiltro === 'VENCE') return estadoVenc(p) !== null;
+    if (stockFiltro === 'NOTAS') return notasPendientesDe(p.sku).length > 0;
+    return true;
+  });
+
+  if (stockOrden.campo) {
+    const c = stockOrden.campo;
+    const dir = stockOrden.asc ? 1 : -1;
+    lista = [...lista].sort((a, b) => {
+      const leer = x => c.startsWith('dep:') ? (x.dep ? x.dep[c.slice(4)] : null) : (c === 'min' ? minStock(x) : x[c]);
+      const va = leer(a), vb = leer(b);
+      if (va === null || va === undefined) return 1;
+      if (vb === null || vb === undefined) return -1;
+      if (typeof va === 'number') return (va - vb) * dir;
+      return String(va).localeCompare(String(vb), 'es', { numeric: true }) * dir;
+    });
+  } else if (stockFiltro === 'VENCE') {
+    lista = [...lista].sort((a, b) => a.venc.localeCompare(b.venc)); // lo más urgente primero
+  }
+  return lista;
+}
+
+function renderStock() {
+  const hay = !!stockDatos;
+  document.getElementById('stock-topbar').style.display = hay ? 'flex' : 'none';
+  document.getElementById('stock-dropzone').style.display = (hay || !esAdminStock()) ? 'none' : 'block';
+  if (!esAdminStock()) {
+    if (hay) { if (!esAdminStock()) document.getElementById('stock-msg').className = 'stock-msg'; } // oculta avisos viejos
+    else mostrarMsgStock('Todavía no se publicó el stock. Lo carga administración desde la oficina.', true);
+  }
+  aplicarModoAdmin();
+  document.getElementById('stock-contenido').style.display = hay ? 'flex' : 'none';
+  document.getElementById('cfg-umbral').value = stockCfg.umbral;
+  document.getElementById('cfg-dias').value = stockCfg.dias;
+  if (!hay) return;
+
+  // Fecha y hora de la última actualización + si es de hoy, de ayer o más vieja
+  document.getElementById('stock-fecha-carga').textContent = fechaHoraAR(stockDatos.cargadoEn);
+  const dias = -diasHasta(isoLocal(new Date(stockDatos.cargadoEn))); // días de calendario
+  const badge = document.getElementById('stock-antiguedad');
+  badge.textContent = dias <= 0 ? 'Actualizado hoy' : dias === 1 ? 'Actualizado ayer' : `Hace ${dias} días`;
+  badge.classList.toggle('vieja', dias >= 1);
+
+  // Tarjetas
+  const prods = stockDatos.productos;
+  const skusUnicos = new Set(prods.map(p => p.sku)).size;
+  const bajos = prods.filter(esStockBajo);
+  const sinStock = prods.filter(p => { const v = valorStock(p); return v !== null && v <= 0; }).length;
+  renderSelectorDeposito();
+  const depAct = depositoActivo();
+  const enDep = depAct === 'todos' ? '' : ` en ${nombreDeposito(depAct)}`;
+  document.getElementById('card-total').textContent = prods.length.toLocaleString('es-AR');
+  document.getElementById('card-total-sub').textContent =
+    skusUnicos !== prods.length ? `${skusUnicos.toLocaleString('es-AR')} SKUs distintos` : 'en el stock';
+  document.getElementById('card-bajo').textContent = bajos.length.toLocaleString('es-AR');
+  document.getElementById('card-bajo-sub').textContent =
+    (stockDatos.tieneMin ? 'según stock mínimo' : `≤ ${stockCfg.umbral} u.`) + ` · ${sinStock} sin stock${enDep}`;
+
+  document.getElementById('card-venc-wrap').style.display = stockDatos.tieneVenc ? '' : 'none';
+  document.getElementById('cfg-dias-wrap').style.display = stockDatos.tieneVenc ? '' : 'none';
+  if (stockDatos.tieneVenc) {
+    const porVencer = prods.filter(p => estadoVenc(p) !== null);
+    const vencidos = porVencer.filter(p => estadoVenc(p) === 'vencido').length;
+    document.getElementById('card-venc').textContent = porVencer.length.toLocaleString('es-AR');
+    document.getElementById('card-venc-sub').textContent = `próx. ${stockCfg.dias} días · ${vencidos} vencidos`;
+  } else {
+    document.getElementById('card-venc').textContent = '—';
+    document.getElementById('card-venc-sub').textContent = 'sin datos de vencimiento';
+  }
+
+  renderEstadoPublicacion();
+
+  const pendientes = stockNotas.filter(n => n.estado !== 'revisada');
+  document.getElementById('card-notas').textContent = new Set(pendientes.map(n => n.sku)).size;
+
+  document.querySelectorAll('.stock-card').forEach(c => {
+    c.classList.toggle('activa', c.dataset.filtro === stockFiltro && stockFiltro !== 'TODOS');
+  });
+
+  const nombresFiltro = { BAJO: 'stock bajo', VENCE: 'por vencer', NOTAS: 'con notas' };
+  document.getElementById('stock-filtro-activo').innerHTML = stockFiltro === 'TODOS' ? '' :
+    `Mostrando solo <strong>${nombresFiltro[stockFiltro]}</strong> · <button onclick="filtrarStock('TODOS')">ver todos</button>`;
+
+  renderTablaStock();
+  renderNotasStock();
+}
+
+function renderTablaStock() {
+  const depAct = depositoActivo();
+  const deps = stockDatos.depositos ? STOCK_DEPOSITOS.filter(d => stockDatos.depositos[d.id]).map(d => d.id) : [];
+  const cols = [
+    { campo: 'sku', titulo: 'SKU' },
+    { campo: 'name', titulo: 'Nombre' }
+  ];
+  // Una columna por depósito + total. La que usa el selector va resaltada.
+  deps.forEach(d => cols.push({ campo: 'dep:' + d, titulo: nombreDeposito(d), num: true, activa: depAct === d }));
+  cols.push({ campo: 'stock', titulo: deps.length ? 'Total' : 'Stock actual', num: true, activa: depAct === 'todos' });
+  if (stockDatos.tieneMin) cols.push({ campo: 'min', titulo: 'Mínimo', num: true });
+  if (stockDatos.tieneVenc) cols.push({ campo: 'venc', titulo: 'Vence' });
+
+  document.getElementById('stock-thead').innerHTML = cols.map(c => {
+    const flecha = stockOrden.campo === c.campo ? (stockOrden.asc ? ' ▲' : ' ▼') : '';
+    const marca = (c.activa && deps.length) ? ' style="color: var(--to-black);"' : '';
+    return `<th class="${c.num ? 'num' : ''}"${marca} onclick="ordenarStock('${c.campo}')">${(c.activa && deps.length) ? '● ' : ''}${c.titulo}${flecha}</th>`;
+  }).join('') + '<th style="cursor: default;"></th>';
+
+  const lista = productosFiltrados();
+  const visibles = lista.slice(0, stockLimite);
+  const tbody = document.getElementById('stock-tbody');
+  const listaMovil = document.getElementById('stock-lista-movil');
+
+  if (esMovilStock()) {
+    tbody.innerHTML = '';
+    listaMovil.innerHTML = !lista.length
+      ? '<div class="stock-vacio">No hay productos que coincidan</div>'
+      : visibles.map(p => {
+        const idx = stockDatos.productos.indexOf(p);
+        const tieneNota = notasPendientesDe(p.sku).length > 0;
+        const chip = (titulo, v, activa) => {
+          let clase = '';
+          if (v !== null && v !== undefined && v <= 0) clase = 'cero';
+          else if (activa && esStockBajo(p)) clase = 'bajo';
+          const txt = (v === null || v === undefined) ? '—' : v.toLocaleString('es-AR');
+          return `<div class="m-st ${activa ? 'activa' : ''}"><span>${titulo}</span><strong class="${clase}">${txt}</strong></div>`;
+        };
+        let chips = deps.map(d => chip(nombreDeposito(d), p.dep ? p.dep[d] : null, depAct === d)).join('');
+        chips += chip(deps.length ? 'Total' : 'Stock', p.stock, depAct === 'todos');
+        if (stockDatos.tieneVenc && p.venc) {
+          const ev = estadoVenc(p);
+          chips += `<div class="m-st"><span>Vence</span><strong class="${ev === 'vencido' ? 'cero' : ev === 'pronto' ? 'bajo' : ''}">${fechaCortaAR(p.venc)}</strong></div>`;
+        }
+        return `
+          <div class="m-item">
+            <div class="m-top">
+              <span class="m-sku">${escStock(p.sku)}</span>
+              <button class="btn-mini ${tieneNota ? 'tiene-nota' : ''}" onclick="abrirModalNota(${idx})">${tieneNota ? '✓ Nota' : 'Nota'}</button>
+            </div>
+            <div class="m-name">${escStock(p.name)}</div>
+            <div class="m-stocks">${chips}</div>
+          </div>`;
+      }).join('');
+    const mas = document.getElementById('stock-mas');
+    mas.innerHTML = lista.length > visibles.length
+      ? `<div class="stock-mas"><button class="btn-mini" style="width: 100%; padding: 10px;" onclick="stockLimite += ${STOCK_POR_PAGINA}; renderTablaStock();">Mostrar más (${visibles.length} de ${lista.length})</button></div>`
+      : (lista.length ? `<div class="stock-mas">${lista.length} productos</div>` : '');
+    return;
+  }
+  listaMovil.innerHTML = '';
+
+  if (!lista.length) {
+    tbody.innerHTML = `<tr><td colspan="${cols.length + 1}" class="stock-vacio">No hay productos que coincidan</td></tr>`;
+  } else {
+    tbody.innerHTML = visibles.map(p => {
+      const idx = stockDatos.productos.indexOf(p);
+      const tieneNota = notasPendientesDe(p.sku).length > 0;
+      const celdaStock = (v, activa) => {
+        let clase = '';
+        if (v !== null && v !== undefined && v <= 0) clase = activa ? 'cero' : 'bajo';
+        else if (activa && esStockBajo(p)) clase = 'bajo';
+        const txt = (v === null || v === undefined) ? '—' : v.toLocaleString('es-AR');
+        return `<td class="num"><span class="t-stock ${clase}" style="${activa || !deps.length ? '' : 'font-weight: 600; font-size: 0.85rem;'}">${txt}</span></td>`;
+      };
+
+      let celdas = `
+        <td class="t-sku">${escStock(p.sku)}</td>
+        <td class="t-name">${escStock(p.name)}</td>`;
+      deps.forEach(d => { celdas += celdaStock(p.dep ? p.dep[d] : null, depAct === d); });
+      celdas += celdaStock(p.stock, depAct === 'todos');
+      if (stockDatos.tieneMin) celdas += `<td class="num">${minStock(p) ?? '—'}</td>`;
+      if (stockDatos.tieneVenc) {
+        const ev = estadoVenc(p);
+        celdas += `<td class="t-venc ${ev || ''}">${p.venc ? fechaCortaAR(p.venc) : '—'}${ev === 'vencido' ? ' (vencido)' : ''}</td>`;
+      }
+      celdas += `
+        <td class="t-acciones">
+          <button class="btn-mini ${tieneNota ? 'tiene-nota' : ''}" onclick="abrirModalNota(${idx})">${tieneNota ? '✓ Nota' : 'Nota'}</button>
+          <button class="btn-mini" onclick="etiquetaDesdeStock(${idx})" title="Abrir en el etiquetador">Etiqueta</button>
+        </td>`;
+      return `<tr>${celdas}</tr>`;
+    }).join('');
+  }
+
+  const mas = document.getElementById('stock-mas');
+  if (lista.length > visibles.length) {
+    mas.innerHTML = `<div class="stock-mas">Mostrando ${visibles.length} de ${lista.length} ·
+      <button class="btn-mini" onclick="stockLimite += ${STOCK_POR_PAGINA}; renderTablaStock();">Mostrar más</button></div>`;
+  } else {
+    mas.innerHTML = lista.length ? `<div class="stock-mas">${lista.length} productos</div>` : '';
+  }
+}
+
+function renderSelectorDeposito() {
+  const wrap = document.getElementById('cfg-deposito-wrap');
+  const deps = (stockDatos && stockDatos.depositos) ? STOCK_DEPOSITOS.filter(d => stockDatos.depositos[d.id]) : [];
+  wrap.style.display = deps.length ? '' : 'none';
+  const act = depositoActivo();
+  const opciones = [{ id: 'todos', nombre: 'Todos' }, ...deps];
+  wrap.innerHTML = opciones.map(d =>
+    `<button type="button" class="${act === d.id ? 'activo' : ''}" onclick="elegirDepositoStock('${d.id}')">${escStock(d.nombre)}</button>`
+  ).join('');
+}
+
+function elegirDepositoStock(id) {
+  stockCfg.deposito = id;
+  stockGuardarLS(STOCK_LS_CFG, stockCfg);
+  stockLimite = STOCK_POR_PAGINA;
+  renderStock();
+}
+
+function filtrarStock(f) {
+  stockFiltro = (stockFiltro === f) ? 'TODOS' : f; // segundo clic en la misma tarjeta = quitar filtro
+  stockLimite = STOCK_POR_PAGINA;
+  renderStock();
+}
+
+function ordenarStock(campo) {
+  if (stockOrden.campo === campo) {
+    if (stockOrden.asc) stockOrden.asc = false;
+    else stockOrden = { campo: null, asc: true }; // tercer clic = orden original del Excel
+  } else {
+    stockOrden = { campo, asc: true };
+  }
+  renderTablaStock();
+}
+
+// Pasa el producto al etiquetador listo para imprimir
+function etiquetaDesdeStock(idx) {
+  const p = stockDatos.productos[idx];
+  if (!p) return;
+  cambiarModo('INSUMOS');
+  inputSku.value = p.sku;
+  inputName.value = formatoTextoInteligente(p.name);
+  refrescarEtiqueta();
+  searchInput.value = `${p.sku} - ${p.name}`;
+  inputCopies.focus();
+  inputCopies.select();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* --------------------------------------------------------------------------
+   Notas del depósito
+   -------------------------------------------------------------------------- */
+function abrirModalNota(idx) {
+  const p = stockDatos.productos[idx];
+  if (!p) return;
+  stockNotaSku = idx;
+  document.getElementById('modal-nota-prod').textContent = `${p.sku} · ${p.name}`;
+  // Depósito de la nota: por defecto el elegido en el selector
+  const deps = stockDatos.depositos ? STOCK_DEPOSITOS.filter(d => stockDatos.depositos[d.id]) : [];
+  const selDep = document.getElementById('modal-nota-deposito');
+  document.getElementById('modal-nota-deposito-wrap').style.display = deps.length ? '' : 'none';
+  selDep.innerHTML = deps.map(d => `<option value="${d.id}">${escStock(d.nombre)}</option>`).join('');
+  if (deps.length) selDep.value = depositoActivo() !== 'todos' ? depositoActivo() : deps[0].id;
+  const mostrarExcel = () => {
+    const v = deps.length ? (p.dep ? p.dep[selDep.value] : null) : p.stock;
+    document.getElementById('modal-nota-excel').value = (v === null || v === undefined) ? '—' : v;
+  };
+  selDep.onchange = mostrarExcel;
+  mostrarExcel();
+  document.getElementById('modal-nota-contado').value = '';
+  document.getElementById('modal-nota-texto').value = '';
+  document.getElementById('modal-nota-autor').value = stockCfg.autor || '';
+  document.getElementById('modal-nota-error').style.display = 'none';
+  document.getElementById('modal-nota').style.display = 'flex';
+  document.getElementById('modal-nota-contado').focus();
+}
+
+function cerrarModalNota() {
+  document.getElementById('modal-nota').style.display = 'none';
+  stockNotaSku = null;
+}
+
+function guardarNotaStock() {
+  const p = stockDatos && stockDatos.productos[stockNotaSku];
+  if (!p) return;
+  const texto = document.getElementById('modal-nota-texto').value.trim();
+  const contadoTxt = document.getElementById('modal-nota-contado').value.trim();
+  const autor = document.getElementById('modal-nota-autor').value.trim();
+  if (!texto && contadoTxt === '') {
+    document.getElementById('modal-nota-error').style.display = 'block';
+    return;
+  }
+  const conDeps = !!(stockDatos.depositos && p.dep);
+  const deposito = conDeps ? document.getElementById('modal-nota-deposito').value : null;
+  const enExcel = deposito ? (p.dep[deposito] ?? null) : p.stock;
+  stockNotas.unshift({
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    sku: p.sku,
+    name: p.name,
+    deposito,
+    stockExcel: enExcel,
+    contado: contadoTxt === '' ? null : Number(contadoTxt),
+    texto,
+    autor,
+    fecha: new Date().toISOString(),
+    estado: 'pendiente'
+  });
+  stockCfg.autor = autor;
+  stockGuardarLS(STOCK_LS_CFG, stockCfg);
+  stockGuardarLS(STOCK_LS_NOTAS, stockNotas);
+  cerrarModalNota();
+  renderStock();
+}
+
+function marcarNotaRevisada(id) {
+  const n = stockNotas.find(x => x.id === id);
+  if (!n) return;
+  n.estado = n.estado === 'revisada' ? 'pendiente' : 'revisada';
+  stockGuardarLS(STOCK_LS_NOTAS, stockNotas);
+  renderStock();
+}
+
+function borrarNotaStock(id) {
+  if (!confirm('¿Borrar esta nota?')) return;
+  stockNotas = stockNotas.filter(x => x.id !== id);
+  stockGuardarLS(STOCK_LS_NOTAS, stockNotas);
+  renderStock();
+}
+
+function renderNotasStock() {
+  const cont = document.getElementById('notas-lista');
+  if (!stockNotas.length) {
+    cont.innerHTML = '<div class="stock-vacio" style="padding: 18px;">Todavía no hay notas</div>';
+    return;
+  }
+  const ordenadas = [
+    ...stockNotas.filter(n => n.estado !== 'revisada'),
+    ...stockNotas.filter(n => n.estado === 'revisada').slice(0, 15)
+  ];
+  cont.innerHTML = ordenadas.map(n => {
+    const prod = stockDatos ? stockDatos.productos.find(x => x.sku === n.sku) : null;
+    const ahora = (n.deposito && prod && prod.dep) ? (prod.dep[n.deposito] ?? null) : stockDeSku(n.sku);
+    let detalle = `Excel: ${n.stockExcel ?? '—'}`;
+    if (n.contado !== null) detalle += ` · Contado: ${n.contado}`;
+    const diff = (n.contado !== null && n.stockExcel !== null) ? n.contado - n.stockExcel : null;
+    const cambio = (ahora !== null && ahora !== n.stockExcel) ? ` · Excel actual: ${ahora}` : '';
+    return `
+      <div class="nota-item ${n.estado === 'revisada' ? 'revisada' : ''}">
+        <div>
+          <div class="nota-head">${escStock(n.sku)} · ${escStock(n.name)}${n.deposito ? ` · <span style="color: var(--to-green-dark);">${escStock(nombreDeposito(n.deposito))}</span>` : ''}
+            ${diff ? `<span class="nota-diff">${diff > 0 ? '+' : ''}${diff}</span>` : ''}
+          </div>
+          ${n.texto ? `<div class="nota-texto">${escStock(n.texto)}</div>` : ''}
+          <div class="nota-meta">${escStock(detalle + cambio)} · ${escStock(n.autor || 'Depósito')} · ${fechaHoraAR(n.fecha)}</div>
+        </div>
+        <div style="display: flex; gap: 6px; flex-shrink: 0;">
+          <button class="btn-mini" onclick="marcarNotaRevisada('${n.id}')">${n.estado === 'revisada' ? 'Reabrir' : 'Revisada'}</button>
+          <button class="btn-mini" onclick="borrarNotaStock('${n.id}')">Borrar</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+
+
+/* --------------------------------------------------------------------------
+   Inicio
+   -------------------------------------------------------------------------- */
+(function iniciarStock() {
+  stockDatos = stockLeerLS(STOCK_LS_DATOS, null);
+  stockNotas = stockLeerLS(STOCK_LS_NOTAS, []);
+  stockCfg = { ...stockCfg, ...stockLeerLS(STOCK_LS_CFG, {}) };
+  stockGh = { ...stockGh, ...valoresGhPorDefecto(), ...stockLeerLS(STOCK_LS_GH, {}) };
+
+  document.getElementById('stock-file').addEventListener('change', e => procesarArchivosStock(e.target.files));
+
+  // Arrastrar y soltar el Excel en cualquier parte de la pestaña
+  const panel = document.getElementById('panel-stock');
+  const zona = document.getElementById('stock-dropzone');
+  panel.addEventListener('dragover', e => { e.preventDefault(); zona.classList.add('drag'); });
+  panel.addEventListener('dragleave', () => zona.classList.remove('drag'));
+  panel.addEventListener('drop', e => {
+    e.preventDefault();
+    zona.classList.remove('drag');
+    if (e.dataTransfer.files.length) procesarArchivosStock(e.dataTransfer.files);
+  });
+
+  let espera;
+  document.getElementById('stock-search').addEventListener('input', () => {
+    clearTimeout(espera);
+    espera = setTimeout(() => { stockLimite = STOCK_POR_PAGINA; renderTablaStock(); }, 120);
+  });
+
+  document.getElementById('cfg-umbral').addEventListener('change', e => {
+    const v = parseInt(e.target.value, 10);
+    stockCfg.umbral = isNaN(v) || v < 0 ? 3 : v;
+    stockGuardarLS(STOCK_LS_CFG, stockCfg);
+    renderStock();
+  });
+  document.getElementById('cfg-dias').addEventListener('change', e => {
+    const v = parseInt(e.target.value, 10);
+    stockCfg.dias = isNaN(v) || v < 1 ? 60 : v;
+    stockGuardarLS(STOCK_LS_CFG, stockCfg);
+    renderStock();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.getElementById('modal-nota').style.display === 'flex') cerrarModalNota();
+  });
+
+  // Suma al buscador del etiquetador los productos nuevos que vienen en el Excel
+  if (typeof actualizarCatalogoActivo === 'function') actualizarCatalogoActivo();
+  renderStock();
+
+  // Botón invisible: el ® del encabezado abre el selector de Excel, solo en la PC de administración
+  document.getElementById('admin-trigger').addEventListener('click', () => {
+    if (esAdminStock()) document.getElementById('stock-file').click();
+  });
+
+  // Entrada oculta: .../Etiquetador/#admin abre la pestaña de stock con la configuración
+  STOCK_MQ_MOVIL.addEventListener('change', () => { if (stockDatos) renderTablaStock(); });
+
+  if (location.hash === '#stock' || (esMovilStock() && location.hash !== '#admin')) {
+    cambiarModo('STOCK');
+  }
+  if (location.hash === '#admin') {
+    cambiarModo('STOCK');
+    if (!stockGh.token) togglePanelPublicacion();
+  }
+
+  // Trae el último stock publicado, y lo vuelve a revisar cada tanto o al volver a la pestaña
+  cargarStockPublicado();
+  setInterval(cargarStockPublicado, STOCK_REVISAR_CADA_MIN * 60 * 1000);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') cargarStockPublicado();
+  });
+})();
+
   </script>
 </body>
 </html>
